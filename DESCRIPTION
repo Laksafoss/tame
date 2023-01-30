@@ -1,0 +1,37 @@
+Package: tame
+Title: Timing and ATC Based Medication Clustering
+Version: 0.0.1
+Authors@R: 
+    person("Anna", "Laksafoss", , "adls@ssi.dk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9898-2924"))
+Description: Analysis and illustration tools for Timing and ATC base medication 
+    clustering.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Imports: 
+    dplyr,
+    forcats,
+    fuzzyjoin,
+    ggplot2,
+    ggtext,
+    glue,
+    magrittr,
+    purrr,
+    Rfast,
+    rlang,
+    scales,
+    stats,
+    stringr,
+    tibble,
+    tidyr,
+    tidyselect,
+    Rcpp (>= 1.0.8)
+Suggests: rmarkdown, knitr, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 4.2.1)
+LazyData: true
+VignetteBuilder: knitr
+LinkingTo: Rcpp
