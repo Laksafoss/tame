@@ -220,7 +220,7 @@ key_constructor <- function(data, id, base_clustering, atc, timing) {
 #'
 #' @param keys list of keys from `key_constructor`
 #' @noRd
-lookup_constructor <- function(keys, clustering_parameters) {
+lookup_constructor <- function(keys, parameters) {
 
   # atc lookup
   if (!is.null(keys$unique_atc)) {
@@ -235,7 +235,7 @@ lookup_constructor <- function(keys, clustering_parameters) {
     out <- c(out, list(
       normalizing_factor = normalizing_lookup_constructor(
         keys$unique_patterns,
-        unique(clustering_parameters$summation_method))))
+        unique(parameters$summation_method))))
 
   }
 
@@ -243,7 +243,7 @@ lookup_constructor <- function(keys, clustering_parameters) {
   if (!is.null(keys$unique_timing)) {
     out <- c(out, list(
       timing_lookup_table = timing_metric_lookup_constructor(
-        keys$unique_timing, unique(clustering_parameters$p))))
+        keys$unique_timing, unique(parameters$p))))
 
   }
 

@@ -91,11 +91,11 @@ employ <- function(
 
   #   ===   Restrictions and Preparations   ====================================
 
-  clust <- enrich_clustering_parameters(clustering, additional_data)
+  clust <- enrich(object, additional_data)
   selected_analyses <- method_selector(clust, {{ only }})
   selected_names <- selected_analyses$cluster_name
 
-  clustering_parameters <- clust$clustering_parameters %>%
+  parameters <- clust$parameters %>%
     dplyr::filter(.data$cluster_name %in% selected_names)
 
   old <- clust$data %>%
@@ -192,14 +192,14 @@ employ <- function(
   old_patterns <- keys$base_clustering %>% dplyr::filter(.data$.origin == "old")
   new_patterns <- keys$base_clustering %>% dplyr::filter(.data$.origin == "new")
 
-  lookup_tables <- lookup_constructor(keys, clustering_parameters)
+  lookup_tables <- lookup_constructor(keys, parameters)
 
   #   ---   pseudo-clustering   ------------------------------------------------
 
   # prep for parallel if needed
   if (parallel) {
     n_cores <- min(
-      nrow(clustering_parameters),
+      nrow(parameters),
       parallel::detectCores() - 1,
       ifelse(is.logical(parallel), Inf, parallel)
     )
@@ -218,7 +218,7 @@ employ <- function(
       clust,
       varlist = c(
         "keys",
-        "clustering_parameters",
+        "parameters",
         "lookup_tables",
         "k",
         "context_lookup",
@@ -230,10 +230,10 @@ employ <- function(
 
 
     clusterings <- parallel::parLapply(
-      clust, 1:nrow(clustering_parameters), function(i) {
+      clust, 1:nrow(parameters), function(i) {
 
         # current method
-        method <- clustering_parameters[i,]
+        method <- parameters[i,]
 
         # method specific atc, timing & amount metric tables
         cur_tables <- context_lookup(method, lookup_tables)

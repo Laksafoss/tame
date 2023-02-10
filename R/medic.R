@@ -118,7 +118,7 @@
 #'   \item{variables}{a list of the variables used in the clustering.}
 #'   \item{clustering}{a data frame with the person id as given by \code{id} and
 #'      the clusters found.}
-#'   \item{clustering_parameters}{a data frame with all the inputted clustering
+#'   \item{parameters}{a data frame with all the inputted clustering
 #'      parameters and the corresponding method names. These method names
 #'      correspond to the column names for each cluster in the \code{clustering}
 #'      data frame described right above.}
@@ -180,8 +180,8 @@ medic <- function(
 
   # checking input
   input_check <- match.call(expand.dots = TRUE)
-  input_check[[1]] <- quote(tame::clustering_parameters_constructor)
-  clustering_parameters <- eval(input_check, parent.frame())
+  input_check[[1]] <- quote(tame::parameters_constructor)
+  parameters <- eval(input_check, parent.frame())
 
   input_variables <- list(
     "id" = names(dplyr::select(data, {{ id }})),
@@ -210,14 +210,14 @@ medic <- function(
 
   # Calculate comparisons for look-up tables
   # these look-up tables are valid for all clustering options
-  lookup_tables <- lookup_constructor(keys, clustering_parameters)
+  lookup_tables <- lookup_constructor(keys, parameters)
 
 
   #   ===   Clustering   =======================================================
 
   # prep for parallel if needed
   if (parallel) {
-    n_cores <- min(nrow(clustering_parameters),
+    n_cores <- min(nrow(parameters),
                    parallel::detectCores() - 1,
                    ifelse(is.logical(parallel), Inf, parallel))
     if (n_cores == 1) {
@@ -234,7 +234,7 @@ medic <- function(
 
     parallel::clusterExport(clust,
                             varlist = c("keys",
-                                        "clustering_parameters",
+                                        "parameters",
                                         "lookup_tables",
                                         "k",
                                         "context_lookup",
@@ -244,10 +244,10 @@ medic <- function(
 
 
     clusterings <- parallel::parLapply(
-      clust, 1:nrow(clustering_parameters), function(i) {
+      clust, 1:nrow(parameters), function(i) {
 
         # current method
-        method <- clustering_parameters[i,]
+        method <- parameters[i,]
 
         # method specific atc, timing & amount metric tables
         cur_tables <- context_lookup(method, lookup_tables)
@@ -276,10 +276,10 @@ medic <- function(
   } else {
     #   ---   serial clustering   ----------------------------------------------
 
-    clusterings <- lapply(1:nrow(clustering_parameters), function(i) {
+    clusterings <- lapply(1:nrow(parameters), function(i) {
 
       # current method
-      method <- clustering_parameters[i,]
+      method <- parameters[i,]
 
       # method specific atc, timing & amount metric tables
       cur_tables <- context_lookup(method, lookup_tables)

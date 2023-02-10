@@ -16,7 +16,7 @@
 #'    When a recording uses the name of an existing clustering, this new
 #'    clustering will overwrite the existing one.
 #' @param inheret_parameters A logical. If `TRUE` a new clustering overwriting
-#'    an existing clustering inherits the `clustering_parameters` of the old.
+#'    an existing clustering inherits the `parameters` of the old.
 #'
 #' @details
 #' TODO

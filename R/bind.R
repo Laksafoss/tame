@@ -76,7 +76,7 @@ bind <- function(...) {
       dplyr::recode(dplyr::full_join, by = shared), # find shared
     variables = clusters[[1]]$variables,
     clustering = 1,
-    clustering_parameters = 1,
+    parameters = 1,
     key = 1,
     distance_matrix = NULL,
     call = lapply(clusters, function(cl) cl$call)

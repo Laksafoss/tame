@@ -47,13 +47,13 @@
 #' @keywords internal
 method_selector <- function(clustering, only, additional_data = NULL) {
 
-  clust <- enrich_clustering_parameters(clustering, additional_data)
+  clust <- enrich(clustering, additional_data)
 
   if (rlang::quo_is_null(rlang::enquo(only))) {
-    return(clust$clustering_parameters)
+    return(clust$parameters)
   }
 
-  res <- clust$clustering_parameters %>%
+  res <- clust$parameters %>%
     dplyr::rowwise() %>%
     dplyr::filter({{ only }}) %>%
     dplyr::ungroup()
@@ -96,7 +96,7 @@ method_selector <- function(clustering, only, additional_data = NULL) {
 #' @keywords internal
 cluster_selector <- function(clustering, clusters = NULL) {
 
-  all_names <- clustering$clustering_parameters$cluster_name
+  all_names <- clustering$parameters$cluster_name
   all_clusters <- clustering$clustering %>%
     dplyr::select(dplyr::all_of(all_names)) %>%
     dplyr::distinct() %>%

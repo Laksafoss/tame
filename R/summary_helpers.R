@@ -53,7 +53,7 @@ frequencies <- function(
     dplyr::count(.data$cluster_name, .data$cluster) %>%
     #dplyr::arrange(.data$cluster_name) %>%
     dplyr::mutate(percent = 100 * .data$n / n_id) %>%
-    dplyr::left_join(clust$clustering_parameters, by = "cluster_name")
+    dplyr::left_join(clust$parameters, by = "cluster_name")
 
   return(res)
 }
@@ -100,7 +100,7 @@ medications <- function(
     additional_data = NULL
 ) {
 
-  clust <- enrich_clustering_parameters(clustering, additional_data)
+  clust <- enrich(clustering, additional_data)
   selected_analyses <- method_selector(clust, {{ only }})
   selected_clusters <- cluster_selector(clust, {{ clusters }})
   selected_names <- selected_analyses$cluster_name
@@ -169,8 +169,7 @@ amounts <- function(
     additional_data = NULL
 ) {
 
-  clust <- enrich_clustering_parameters(clustering, additional_data)
-
+  clust <- enrich(clustering, additional_data)
   selected_analyses <- method_selector(clust, {{ only }})
   selected_clusters <- cluster_selector(clust, {{ clusters }})
   selected_names <- selected_analyses$cluster_name
@@ -404,7 +403,7 @@ interactions <- function(
     dplyr::ungroup() %>%
     fuzzyjoin::regex_inner_join(atc_groups, by = by_name) %>%
     dplyr::arrange(factor(.data$atc_groups, levels = all_atc_groups)) %>%
-    dplyr::left_join(clustering$clustering_parameters, by = "cluster_name") %>%
+    dplyr::left_join(clustering$parameters, by = "cluster_name") %>%
     #dplyr::mutate(atc_groups = {{ atc_groups }}) %>% # this only allows one group per row -- e.g. N06A should be allowed to participate in both N and N06 and N06A
     dplyr::count(
       .data$cluster_name,
@@ -413,7 +412,7 @@ interactions <- function(
       !!!rlang::syms(clust$variables$timing),
       .data$atc_groups
     ) %>%
-    dplyr::left_join(clustering$clustering_parameters, by = "cluster_name")
+    dplyr::left_join(clustering$parameters, by = "cluster_name")
 
   return(res)
 
