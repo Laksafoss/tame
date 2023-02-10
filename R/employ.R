@@ -135,11 +135,35 @@ employ <- function(
   #   ===   Exact Matching   ===================================================
 
   if (assignment_method == "exact_only") {
-    # THIS IS NOT THE OUTPUT WE WANT !!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    unnested_matching <- matching %>%
+      tidyr::unnest("pattern") %>%
+      dplyr::relocate(dplyr::any_of(names(new_data)))
+    
+    joined_data <- dplyr::bind_rows(
+      old %>% dplyr::select(-"pattern"),
+      new %>% dplyr::select(-"pattern")
+    ) %>% dplyr::left_join(unnested_matching, by = clust$variables$id)
+    
+    all_clusterings <- joined_data %>%
+      dplyr::select(
+        !!rlang::sym(clust$variables$id),
+        !!!rlang::syms(selected_names)
+      ) %>%
+      dplyr::distinct()
+    
     return(
-      matching %>%
-        tidyr::unnest(pattern) %>%
-        dplyr::relocate(dplyr::any_of(names(new_data)))
+      structure(
+        list(
+          data = joined_data,
+          clustering = all_clusterings,
+          variables = clust$variables,
+          parameters = clust$parameters,
+          key = keys,
+          call = list(clust$call, match.call(expand.dots = FALSE))
+        ),
+        "class" = "medic"
+      )
     )
   }
 
@@ -241,7 +265,7 @@ employ <- function(
     clusterings <- parallel::parLapply(
       clust, 1:nrow(parameters), function(i) {
 
-        # current method
+        # current method½
         method <- parameters[i,]
 
         # method specific atc, timing & amount metric tables

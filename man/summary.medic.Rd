@@ -40,7 +40,9 @@ The default \code{NULL} selects all clusters in the chosen clusterings of
 output. The default names all possible output types.}
 
 \item{additional_data}{A data frame with additional data that may be
-(left-)joined onto the \code{clustering_parameters} in \code{object}.}
+(left-)joined onto the \code{parameters} in \code{object}. This is often
+used in conjuction with \code{only} to select specific clusterings based on
+\code{additional_data}.}
 
 \item{...}{Additional arguments affecting the summary produced.}
 
@@ -85,6 +87,5 @@ Make cluster characterizing summaries.
 }}
 \examples{
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
-summary(clust, k == 3)
 
 }

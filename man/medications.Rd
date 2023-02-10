@@ -37,15 +37,22 @@ codes within that cluster is given a color.}
 frequency displayed within each cluster.}
 
 \item{additional_data}{A data frame with additional data that may be
-(left-)joined onto the \code{clustering_parameters} in \code{object}.}
+(left-)joined onto the \code{parameters} in \code{object}. This is often
+used in conjuction with \code{only} to select specific clusterings based on
+\code{additional_data}.}
 }
 \value{
 \code{medications()} returns a data frame with class
 \code{summary.medic.medications}.
 \itemize{
-\item \code{x} very.
-\item \code{y} important.
-\item \code{z} info.
+\item \code{cluster_name} the clustering cluster_name name.
+\item \code{cluster}  the name of the specific cluster.
+\item \code{atc} ATC codes.
+\item \code{n} number of people with this ATC code in this \code{cluster}.
+\item \code{p_analysis} the percentage of people with this ATC code assigned to
+this \code{cluster}.
+\item \code{p_cluster} the percent of people within the \code{cluster} with this ATC
+code.
 }
 }
 \description{
@@ -53,7 +60,10 @@ The function \code{medications()} calculates the frequency of the different
 unique ATC codes within each cluster.
 }
 \details{
-TODO
+\code{medication()} calculates the number of individuals with a specific ATC
+code within a cluster. Moreover, it calculates the percentage of people with
+this medication assigned to this cluster and the percent of people within
+the cluster with this medication.
 }
 \examples{
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)

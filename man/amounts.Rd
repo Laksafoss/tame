@@ -34,14 +34,26 @@ The default \code{NULL} selects all clusters in the chosen clusterings of
 counts as 1 medication, 2 medications, and 3+ medications.}
 
 \item{additional_data}{A data frame with additional data that may be
-(left-)joined onto the \code{clustering_parameters} in \code{object}.}
+(left-)joined onto the \code{parameters} in \code{object}. This is often
+used in conjuction with \code{only} to select specific clusterings based on
+\code{additional_data}.}
 }
 \value{
 \code{amounts()} returns a data frame of class \code{summary.medic.amounts}
 \itemize{
-\item \code{x} very.
-\item \code{y} important.
-\item \code{z} info.
+\item \code{cluster_name} the clustering cluster_name name.
+\item \code{cluster}  the name of the specific cluster.
+\item \code{n_unique_exposures} number of ATC codes.
+\item \code{n_people} number of people in \code{cluster} that has \code{n_unique_exposures}
+different ATC codes.
+\item \code{n_medications} the total number of medication across people in this
+\code{cluster}  this this number of \code{n_unique_exposures}.
+\item \code{p_people_analysis} info.
+\item \code{p_people_cluster} info.
+\item \code{p_medications_in_analysis} info.
+\item \code{p_medications_in_cluster} info.
+\item \code{p_people_with_n_unique_medications} info.
+\item \code{p_medications_with_n_unique_medications} info.
 }
 }
 \description{
@@ -50,7 +62,10 @@ medications for each individual and presents the count frequencies by
 cluster.
 }
 \details{
-TODO
+\code{amounts()} calculates the number of ATC codes an individual has, and then
+outputs the number of individuals within a cluster that has that many ATC
+codes. Moreover, various relevant percentages or calculated. See Value below
+for more details on these percentages.
 }
 \examples{
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)

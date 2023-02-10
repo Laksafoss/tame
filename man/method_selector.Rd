@@ -14,10 +14,12 @@ return a logical value, and are defined in terms of the variables in
 The default \code{NULL} selects all clusterings in \code{object}.}
 
 \item{additional_data}{A data frame with additional data that may be
-(left-)joined onto the \code{clustering_parameters} in \code{object}.}
+(left-)joined onto the \code{parameters} in \code{object}. This is often
+used in conjuction with \code{only} to select specific clusterings based on
+\code{additional_data}.}
 }
 \value{
-A \code{clustering_parameters} data frame with at least the following columns
+A \code{parameters} data frame with at least the following columns
 \itemize{
 \item \code{cluster_name} the name of the clustering cluster_name.
 \item \code{clustering} the name of the clustering group before the number of
@@ -36,7 +38,7 @@ additional columns present in the the outcome are from the
 }
 \description{
 The \code{method_selector()} is a filtering function for extracting only the
-relevant \code{clustering_parameters} from a <\code{medic}> object.
+relevant \code{parameters} from a <\code{medic}> object.
 }
 \details{
 The \code{method_selector()} function is a filtering function used for extracting
@@ -46,7 +48,7 @@ the investigative functions called by \code{\link[=summary]{summary()}}.
 \examples{
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
 
-method_selector(clust, k < 5)
+tame:::method_selector(clust, k < 5)
 
 
 # cluster selection based on additional data
@@ -55,7 +57,7 @@ user_classification <- data.frame(
    k = 1:10,
    size = rep(c("small", "large"), times = c(4, 6)))
 
-method_selector(clust, size == "small", user_classification)
+tame:::method_selector(clust, size == "small", user_classification)
 
 }
 \seealso{

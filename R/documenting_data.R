@@ -14,8 +14,10 @@
 #' @keywords data
 "eczema"
 
-#' This is my dummy data
-#'
+#' A Tiny Data Set for Running Examples
+#' 
+#' We use this data set in all the examples in the package.  
+#' 
 #' @name tiny_example_data
 #' @docType data
 #' @keywords data

@@ -95,21 +95,15 @@ the hierarchical clustering process. The object is a list with components:
 \describe{
 \item{data}{the inputted data frame \code{data} with the cluster
 assignments appended at the end.}
-\item{variables}{a list of the variables used in the clustering.}
 \item{clustering}{a data frame with the person id as given by \code{id} and
 the clusters found.}
-\item{clustering_parameters}{a data frame with all the inputted clustering
+\item{variables}{a list of the variables used in the clustering.}
+\item{parameters}{a data frame with all the inputted clustering
 parameters and the corresponding method names. These method names
 correspond to the column names for each cluster in the \code{clustering}
 data frame described right above.}
 \item{key}{a list of keys used internally in the function to keep track of
 simplified versions of the data.}
-\item{gof}{a data frame with the Dunn and Calinski-Harabasz indices for
-each clustering method.}
-\item{compactness}{a data frame of different within cluster compactness
-measures by cluster and method.}
-\item{separation}{a data frame of different between cluster separation
-measures by cluster-pairs (cluster.x & cluster.y) and method.}
 \item{call}{the matched call.}
 }
 }
@@ -179,11 +173,6 @@ The ATC distance is tuned using the vector \code{theta}.  TODO
 }
 }
 }
-\section{Reference}{
-
-Here we cite our paper.
-}
-
 \examples{
 # A simple clustering based only on ATC
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3)
@@ -200,5 +189,12 @@ clust <- medic(
 
 }
 \seealso{
-links to the other functions
+\link{summary.medic} for summaries and plots.
+
+\link{employ} for employing an existing clustering to new data.
+
+\link{enrich} for enriching the meta data in the \code{medic} object with additional
+data.
+
+\link{bind} for binding together two comparable lists of clusterings.
 }

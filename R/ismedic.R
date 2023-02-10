@@ -20,10 +20,12 @@ is.medic <- function(object) {
   if (is.null(names(object))) { return(FALSE) }
   required <- c(
     "data",
-    "variables",
     "clustering",
+    "variables",
     "parameters",
-    "key"
+    "key",
+    "distance_matrix",
+    "call"
   )
   if (! all(required %in% names(object))) { return(FALSE) }
 
@@ -31,15 +33,15 @@ is.medic <- function(object) {
   if (!inherits(object$data, "data.frame")) { return(FALSE) }
   # TODO: check if variables are in data ?  Or should that be done below ?
 
-  #   4   Variables Slot   =====================================================
-  if (!inherits(object$variables, "list")) { return(FALSE) }
-  if (is.null(names(object$variables))) { return(FALSE) }
-  possible <- c("id", "atc", "timing", "base_clustering")
-  if (! all(names(object$variables)) %in% possible) { return(FALSE) }
-
   #   5   Clustering Slot   ====================================================
   if (!inherits(object$clustering, "data.frame")) { return(FALSE) }
   # TODO : Check Columns
+
+    #   4   Variables Slot   =====================================================
+  if (!inherits(object$variables, "list")) { return(FALSE) }
+  if (is.null(names(object$variables))) { return(FALSE) }
+  possible <- c("id", "atc", "timing", "base_clustering")
+  if (! all(names(object$variables) %in% possible)) { return(FALSE) }
 
   #   6   Parameters Slot   ====================================================
   if (!inherits(object$parameters, "data.frame")) { return(FALSE) }
@@ -54,8 +56,7 @@ is.medic <- function(object) {
     "key",
     "reduced_key",
     "unique_exposure",
-    "unique_patterns",
-    "clustered_patterns"
+    "unique_patterns"
   )
   if (! all(required %in% names(object$key))) { return(FALSE) }
 
@@ -75,9 +76,6 @@ is.medic <- function(object) {
   if (!inherits(object$key$unique_patterns, "data.frame")) { return(FALSE) }
   # TODO : Check Columns
 
-  ##   7.6   Key Slot : Clustered slot   ---------------------------------------
-  if (!inherits(object$key$clustered_patterns, "data.frame")) { return(FALSE) }
-  # TODO : Check Columns
 
   return(TRUE)
 }

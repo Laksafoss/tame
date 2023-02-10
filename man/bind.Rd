@@ -7,7 +7,9 @@
 bind(...)
 }
 \arguments{
-\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Cluster \code{medic} objects to combine.}
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Cluster \code{medic} objects to
+combine. These \code{medic} objects should come from the same data set, as they
+are otherwise uncomparable.}
 }
 \value{
 A \code{medic} object with all the

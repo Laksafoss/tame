@@ -1,6 +1,8 @@
 #' Binding multiple clustering objects into one
 #'
-#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Cluster `medic` objects to combine.
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Cluster `medic` objects to 
+#'    combine. These `medic` objects should come from the same data set, as they
+#'    are otherwise uncomparable. 
 #'
 #' @return
 #' A `medic` object with all the
@@ -27,18 +29,20 @@
 bind <- function(...) {
 
   clusters <- rlang::dots_list(..., .named = TRUE)
+  
+  cat("Sorry to inform you that this function has been\n")
+  cat("delibaratly released before it is done.")
+  cat("It is not yet functional")
+  return(1)
 
-  return(clusters)
   #   ===   Input Check   ======================================================
 
   if (length(clusters) == 1 && rlang::is_bare_list(clusters[[1]])) {
     clusters <- clusters[[1]]
     if (is.null(names(clusters))) {
-      return(1)
+      names(clusters) <- as.character(seq_along(clusters))
     }
-  } else if (is.null(names(clusters))) {
-      return(1)
-  }
+  } 
   clusters <- purrr::discard(clusters, is.null)
 
 
@@ -46,7 +50,7 @@ bind <- function(...) {
   identical_info <- all(
     sapply(clusters, function(clust) {
       c(
-        #is.medic(clust),
+        #is.medic(clust), # to be uncommented as soon as is.medic works
         identical(clust$variables, clusters[[1]]$variables)
       )
     })

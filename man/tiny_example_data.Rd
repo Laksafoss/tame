@@ -3,7 +3,7 @@
 \docType{data}
 \name{tiny_example_data}
 \alias{tiny_example_data}
-\title{This is my dummy data}
+\title{A Tiny Data Set for Running Examples}
 \format{
 An object of class \code{data.frame} with 149 rows and 5 columns.
 }
@@ -11,6 +11,6 @@ An object of class \code{data.frame} with 149 rows and 5 columns.
 tiny_example_data
 }
 \description{
-This is my dummy data
+We use this data set in all the examples in the package.
 }
 \keyword{data}

@@ -5,7 +5,7 @@
 #' @param object A `medic` object for enrichment.
 #' @param additional_data A data frame with additional data that may be
 #'   (left-)joined onto the `parameters` in `object`.
-#' @param join_by A character vector of variables to join by. This variables is
+#' @param by A character vector of variables to join by. This variables is
 #'    passed to the `by` term in a [dplyr::left_join()] and inherets its
 #'    behavior:
 #'
@@ -27,9 +27,6 @@
 #'    For example, `by = c("k" = "cluster_size", "summation_method" = "sm")`
 #'    will match `parameters$k` to `additional_data$cluster_size` and
 #'    `parameters$summation_method` to `additional_data$sm`.
-#'
-#'    To perform a cross-join, generating all combinations of
-#'    `parameters` and `additional_data`, use `join_by = character()`.
 #'
 #' @details
 #' The `enrich()` function is a joining function used for enriching the
@@ -54,15 +51,15 @@
 #' enrich(clust, new_parameters)
 #'
 #' @export
-enrich <- function(object, additional_data = NULL, join_by = NULL) {
+enrich <- function(object, additional_data = NULL, by = NULL) {
   if (!is.null(additional_data)) {
-    if (is.null(join_by)) {
+    if (is.null(by)) {
       bys <- intersect(
         names(additional_data),
-        names(new$parameters)
+        names(object$parameters)
       )
     } else {
-      bys <- join_by
+      bys <- by
     }
     new <- object
     new$parameters <- new$parameters %>%

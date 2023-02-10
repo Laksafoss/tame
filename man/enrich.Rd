@@ -4,39 +4,36 @@
 \alias{enrich}
 \title{Enrich Clustering Parameter}
 \usage{
-enrich(object, additional_data = NULL, join_by = NULL)
+enrich(object, additional_data = NULL, by = NULL)
 }
 \arguments{
 \item{object}{A \code{medic} object for enrichment.}
 
 \item{additional_data}{A data frame with additional data that may be
-(left-)joined onto the \code{clustering_parameters} in \code{object}.}
+(left-)joined onto the \code{parameters} in \code{object}.}
 
-\item{join_by}{A character vector of variables to join by. This variables is
+\item{by}{A character vector of variables to join by. This variables is
 passed to the \code{by} term in a \code{\link[dplyr:mutate-joins]{dplyr::left_join()}} and inherets its
 behavior:
 
 If \code{NULL}, the default, the join will perform a natural join, using all
-variables in common across the \code{clustering_parameters} and
+variables in common across the \code{parameters} and
 \code{additional_data}.
 
-To join by different variables on \code{clustering_parameters} and
+To join by different variables on \code{parameters} and
 \code{additional_data}, use a named vector. For example,
-\code{by = c("k" = "cluster_size")} will match \code{clustering_parameters$k} to
+\code{by = c("k" = "cluster_size")} will match \code{parameters$k} to
 \code{additional_data$cluster_size}.
 
 To join by multiple variables, use a vector with length > 1. For example,
-\code{by = c("k", "summation_method")} will match \code{clustering_parameters$k} to
-\code{additional_data$k} and \code{clustering_parameters$summation_method} to \cr
+\code{by = c("k", "summation_method")} will match \code{parameters$k} to
+\code{additional_data$k} and \code{parameters$summation_method} to \cr
 \code{additional_data$summation_method}. Use a named vector to match different
-variables in \code{clustering_parameters} and \code{additional_data}.
+variables in \code{parameters} and \code{additional_data}.
 
 For example, \code{by = c("k" = "cluster_size", "summation_method" = "sm")}
-will match \code{clustering_parameters$k} to \code{additional_data$cluster_size} and
-\code{clustering_parameters$summation_method} to \code{additional_data$sm}.
-
-To perform a cross-join, generating all combinations of
-\code{clustering_parameters} and \code{additional_data}, use \code{join_by = character()}.}
+will match \code{parameters$k} to \code{additional_data$cluster_size} and
+\code{parameters$summation_method} to \code{additional_data$sm}.}
 }
 \value{
 An object of class \emph{medic}.

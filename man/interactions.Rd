@@ -30,7 +30,9 @@ The default \code{NULL} selects all clusters in the chosen clusterings of
 \item{atc_groups}{123}
 
 \item{additional_data}{A data frame with additional data that may be
-(left-)joined onto the \code{clustering_parameters} in \code{object}.}
+(left-)joined onto the \code{parameters} in \code{object}. This is often
+used in conjuction with \code{only} to select specific clusterings based on
+\code{additional_data}.}
 }
 \value{
 \code{interactions()} returns a data frame of class \code{summary.medic.interactions}

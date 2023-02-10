@@ -14,9 +14,8 @@
 #' `summary.medic.frequencies`.
 #' * \code{cluster_name} the clustering cluster_name name.
 #' * \code{cluster}  the name of the specific cluster.
-#' * \code{n} the number of observations assigned to this cluster.
-#' * \code{p} the percent of observations assigned to this cluster within this
-#'   cluster.
+#' * \code{n} the number of observations assigned to this `cluster`.
+#' * \code{p} the percent of observations assigned to this `cluster`.
 #'
 #' @examples
 #' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
@@ -74,14 +73,22 @@ frequencies <- function(
 #'   frequency displayed within each cluster.
 #'
 #' @details
-#' TODO
+#' `medication()` calculates the number of individuals with a specific ATC
+#' code within a cluster. Moreover, it calculates the percentage of people with 
+#' this medication assigned to this cluster and the percent of people within 
+#' the cluster with this medication. 
 #'
 #' @return
 #' `medications()` returns a data frame with class
 #' `summary.medic.medications`.
-#' * \code{x} very.
-#' * \code{y} important.
-#' * \code{z} info.
+#' * \code{cluster_name} the clustering cluster_name name.
+#' * \code{cluster}  the name of the specific cluster.
+#' * \code{atc} ATC codes.
+#' * \code{n} number of people with this ATC code in this `cluster`.
+#' * \code{p_analysis} the percentage of people with this ATC code assigned to 
+#'                     this `cluster`.
+#' * \code{p_cluster} the percent of people within the `cluster` with this ATC 
+#'                    code. 
 #'
 #' @examples
 #' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
@@ -144,13 +151,27 @@ medications <- function(
 #'   counts as 1 medication, 2 medications, and 3+ medications.
 #'
 #' @details
-#' TODO
-#'
+#' `amounts()` calculates the number of ATC codes an individual has, and then 
+#' outputs the number of individuals within a cluster that has that many ATC 
+#' codes. Moreover, various relevant percentages or calculated. See Value below
+#' for more details on these percentages. 
+#' 
+#' 
 #' @return
 #' `amounts()` returns a data frame of class `summary.medic.amounts`
-#' * \code{x} very.
-#' * \code{y} important.
-#' * \code{z} info.
+#' * \code{cluster_name} the clustering cluster_name name.
+#' * \code{cluster}  the name of the specific cluster.
+#' * \code{n_unique_exposures} number of ATC codes.
+#' * \code{n_people} number of people in `cluster` that has `n_unique_exposures`
+#'                   different ATC codes. 
+#' * \code{n_medications} the total number of medication across people in this 
+#'                        `cluster`  this this number of `n_unique_exposures`.
+#' * \code{p_people_analysis} info.
+#' * \code{p_people_cluster} info.
+#' * \code{p_medications_in_analysis} info.
+#' * \code{p_medications_in_cluster} info.
+#' * \code{p_people_with_n_unique_medications} info.
+#' * \code{p_medications_with_n_unique_medications} info.
 #'
 #' @examples
 #' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)

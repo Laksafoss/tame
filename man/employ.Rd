@@ -7,7 +7,8 @@
 employ(
   object,
   new_data,
-  which,
+  only = NULL,
+  additional_data = NULL,
   assignment_method = "nearest_cluster",
   parallel = FALSE,
   ...
@@ -18,8 +19,15 @@ employ(
 
 \item{new_data}{A data frame in which to look for variables with}
 
-\item{which}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> A set of specific
-clusterings to be employed to the new data.}
+\item{only}{<\code{\link[dplyr:dplyr_data_masking]{data-masking}}> Expressions that
+return a logical value, and are defined in terms of the variables in
+\code{object} and/or \code{additional_data} and specifies which clusterings should be
+emplyed to the new data.}
+
+\item{additional_data}{A data frame with additional data that may be
+(left-)joined onto the \code{parameters} in \code{object}. This is often
+used in conjuction with \code{only} to select specific clusterings based on
+\code{additional_data}.}
 
 \item{assignment_method}{A character naming the employment method. The
 default assignment method \code{"nearest_cluster"} matches people in \code{new_data}

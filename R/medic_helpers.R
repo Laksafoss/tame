@@ -7,14 +7,19 @@
 #' @inheritParams medic
 #' 
 #' @return 
-#' 123
+#' A data.frame with the parameters for clustering. 
 #' 
 #' @examples
-#' 1 + 1
+#' parameters_constructor(
+#'    data = tiny_example_data, 
+#'    k = 3, 
+#'    id = id,
+#'    atc = atc
+#' )
 #' 
 #' @export
 parameters_constructor <- function(
-    data, # CAN WE AVOID EXPORTING THIS ????<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<??
+    data, # CAN WE AVOID EXPORTING THIS ????<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<??
     id,
     k = 5,
     atc,
@@ -29,13 +34,20 @@ parameters_constructor <- function(
     theta = (5:0) / 5,
     ...) {
 
-  #### !!!!!!! ADD CHECK FOR NA'S IN DATA !!!! <-<-<-<-<-<-<<-<-<-<-<-<-<<-<-<-<-<-<-<-<-
+  na_cols <- data %>%
+    dplyr::select({{ id }}, {{ atc }}, {{ timing }}, {{ base_clustering }}) %>%
+    dplyr::summarise(dplyr::across(dplyr::everything(), ~ any(is.na(.))))
+  
+  if (any(na_cols)) {
+    stop("There are one or more columns in 'data' with NA's")
+    # we know which columns it is - we can give the name if we want
+  }
+  
 
   if (missing(id)) {
     stop("An 'id' variable must be specified.")
   }
 
-  # we would like to reach a point where we can remove this, but it cant be done yet - I don't know where the problem is!!!! <-<-<-<-<
   if (missing(atc)) {
     stop("An 'atc' variable must be specified.")
   }

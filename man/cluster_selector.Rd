@@ -34,7 +34,7 @@ clust <- medic(
    k = 3:5
 )
 
-cluster_selector(clust, clusters = I:III)
+tame:::cluster_selector(clust, clusters = I:III)
 
 }
 \seealso{

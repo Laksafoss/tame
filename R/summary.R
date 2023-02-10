@@ -41,7 +41,6 @@
 #' 
 #' @examples
 #' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
-#' summary(clust, k == 3)
 #'
 #' @export
 summary.medic <- function(

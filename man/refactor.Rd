@@ -23,16 +23,13 @@ When a recording uses the name of an existing clustering, this new
 clustering will overwrite the existing one.}
 
 \item{inheret_parameters}{A logical. If \code{TRUE} a new clustering overwriting
-an existing clustering inherits the \code{clustering_parameters} of the old.}
+an existing clustering inherits the \code{parameters} of the old.}
 }
 \value{
 A \code{medic} object with relevant clusterings refactored.
 }
 \description{
 Refactor the levels of the chosen clusters.
-}
-\details{
-TODO
 }
 \examples{
 

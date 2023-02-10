@@ -32,7 +32,7 @@
 #' @examples
 #' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
 #'
-#' method_selector(clust, k < 5)
+#' tame:::method_selector(clust, k < 5)
 #'
 #'
 #' # cluster selection based on additional data
@@ -41,7 +41,7 @@
 #'    k = 1:10,
 #'    size = rep(c("small", "large"), times = c(4, 6)))
 #'
-#' method_selector(clust, size == "small", user_classification)
+#' tame:::method_selector(clust, size == "small", user_classification)
 #'
 #' @keywords internal
 method_selector <- function(clustering, only, additional_data = NULL) {
@@ -89,7 +89,7 @@ method_selector <- function(clustering, only, additional_data = NULL) {
 #'    k = 3:5
 #' )
 #'
-#' cluster_selector(clust, clusters = I:III)
+#' tame:::cluster_selector(clust, clusters = I:III)
 #'
 #' @keywords internal
 cluster_selector <- function(clustering, clusters = NULL) {
@@ -111,7 +111,7 @@ cluster_selector <- function(clustering, clusters = NULL) {
   # General handling
   chosen_clusters <- all_clusters %>%
     dplyr::distinct() %>%
-    dplyr::arrange(as.numeric(as.roman(.data$cluster))) %>%
+    dplyr::arrange(as.numeric(as.roman(as.character(.data$cluster)))) %>%
     dplyr::mutate(dummy = 1) %>%
     tidyr::pivot_wider(names_from = "cluster", values_from = "dummy") %>%
     dplyr::select({{ clusters }}) %>%

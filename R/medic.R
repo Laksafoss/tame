@@ -116,29 +116,28 @@
 #' \describe{
 #'   \item{data}{the inputted data frame \code{data} with the cluster
 #'      assignments appended at the end.}
-#'   \item{variables}{a list of the variables used in the clustering.}
 #'   \item{clustering}{a data frame with the person id as given by \code{id} and
 #'      the clusters found.}
+#'   \item{variables}{a list of the variables used in the clustering.}
 #'   \item{parameters}{a data frame with all the inputted clustering
 #'      parameters and the corresponding method names. These method names
 #'      correspond to the column names for each cluster in the \code{clustering}
 #'      data frame described right above.}
 #'   \item{key}{a list of keys used internally in the function to keep track of
 #'      simplified versions of the data.}
-#'   \item{gof}{a data frame with the Dunn and Calinski-Harabasz indices for
-#'      each clustering method.}
-#'   \item{compactness}{a data frame of different within cluster compactness
-#'      measures by cluster and method.}
-#'   \item{separation}{a data frame of different between cluster separation
-#'      measures by cluster-pairs (cluster.x & cluster.y) and method.}
 #'   \item{call}{the matched call.}
 #' }
 #'
-#' @section Reference:
-#' Here we cite our paper.
 #'
 #' @seealso
-#' links to the other functions
+#' [summary.medic] for summaries and plots.
+#' 
+#' [employ] for employing an existing clustering to new data.
+#' 
+#' [enrich] for enriching the meta data in the `medic` object with additional 
+#' data. 
+#' 
+#' [bind] for binding together two comparable lists of clusterings.
 #'
 #'
 #' @examples
@@ -308,7 +307,7 @@ medic <- function(
   #   ===   Reformatting Results   =============================================
 
   # The output of the clustering loop is by clustering method.
-  # W, functie would like it to be by out_data and
+  # We would like it to be by out_data and
 
   # clustering assignments
   cluster_assignment <- purrr::reduce(
@@ -329,7 +328,7 @@ medic <- function(
     dplyr::left_join(cluster_assignment, by = ".internal_character_id") %>%
     dplyr::select(-".internal_character_id", -".original_order")
 
-  distance_matrix <- lapply(clusteringson(d) d$distance_matrix)
+  distance_matrix <- lapply(clusterings, function(d) d$distance_matrix)
 
   expanded_options <- parameters %>%
     dplyr::cross_join(data.frame(k = k)) %>%
@@ -339,14 +338,19 @@ medic <- function(
 
 
   #   ===   Return Results   ===================================================
-
-  return(structure(list(data = out_data,
-                        clustering = cluster_data,
-                        variables = input_variables,
-                        parameters = expanded_options,
-                        key = keys,
-                        distance_matrix = distance_matrix,
-                        call = match.call(expand.dots = FALSE)),
-         "class" = "medic"))
+  
+  return(
+    structure(
+      list(
+        data = out_data,
+        clustering = cluster_data,
+        variables = input_variables,
+        parameters = expanded_options,
+        key = keys,
+        distance_matrix = distance_matrix,
+        call = match.call(expand.dots = FALSE)
+      ),
+      "class" = "medic")
+  )
 }
 
