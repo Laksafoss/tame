@@ -1,18 +1,17 @@
 #' Method Selector
 #'
 #' The `method_selector()` is a filtering function for extracting only the
-#' relevant `clustering_parameters` from a <`medic`> object.
+#' relevant `parameters` from a <`medic`> object.
 #'
 #' @inheritParams summary.medic
 #'
 #' @details
 #' The `method_selector()` function is a filtering function used for extracting
-#' the characteristics of the chosen method. This function is used in all of the
-#' investigative functions with a \code{only} statement such as
-#' [`cluster_frequency()`] and [`medication_amount()`].
+#' the characteristics of the chosen method. This function is used in all of
+#' the investigative functions called by [`summary()`].
 #'
 #' @return
-#' A `clustering_parameters` data frame with at least the following columns
+#' A `parameters` data frame with at least the following columns
 #' * \code{cluster_name} the name of the clustering cluster_name.
 #' * \code{clustering} the name of the clustering group before the number of
 #'       clusters is chosen.
@@ -76,8 +75,7 @@ method_selector <- function(clustering, only, additional_data = NULL) {
 #' @details
 #' The `cluster_selector()` finds the names of the chosen clusters present in
 #' the \code{clustering} <`medic`> object. This function is used in all of
-#' the investigative functions with a \code{cluster} statement such as
-#' [`atc_frequency()`] and [`medication_amount()`].
+#' the investigative functions called by [`summary()`].
 #'
 #' @seealso [`method_selector()`] is another selector method used through out
 #'   the package.

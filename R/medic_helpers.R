@@ -5,9 +5,15 @@
 #' the user.
 #'
 #' @inheritParams medic
+#' 
+#' @return 
+#' 123
+#' 
+#' @examples
+#' 1 + 1
+#' 
 #' @export
-#' @noRd
-clustering_parameters_constructor <- function(
+parameters_constructor <- function(
     data, # CAN WE AVOID EXPORTING THIS ????<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<??
     id,
     k = 5,

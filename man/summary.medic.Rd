@@ -54,15 +54,23 @@ output. The default names all possible output types.}
 A list of clustering characteristics of class \code{summary.medic} is returned. It
 can contain any of the following characteristics:
 \subsection{Frequencies}{
+
+123
 }
 
 \subsection{Medications}{
+
+123
 }
 
 \subsection{Amounts}{
+
+123
 }
 
 \subsection{Trajectories}{
+
+123
 }
 }
 \description{
@@ -76,7 +84,6 @@ Make cluster characterizing summaries.
 
 }}
 \examples{
-
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
 summary(clust, k == 3)
 

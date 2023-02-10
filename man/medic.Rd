@@ -44,6 +44,8 @@ variables. Moreover, pattern matching selection helpers such as
 \code{\link[tidyselect:starts_with]{num_range}} may also be used to select timing
 variables.}
 
+\item{base_clustering}{TO DO}
+
 \item{linkage}{The agglomeration method to be used in the clustering. This
 should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2",
 "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median"

@@ -19,6 +19,7 @@
 #'   [`starts_with`][tidyselect::starts_with] or
 #'   [`num_range`][tidyselect::starts_with] may also be used to select timing
 #'   variables.
+#' @param base_clustering TO DO
 #' @param linkage The agglomeration method to be used in the clustering. This
 #'   should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2",
 #'   "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median"

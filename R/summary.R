@@ -18,7 +18,9 @@
 #' @param outputs A character vector naming the desired characteristics to
 #'   output. The default names all possible output types.
 #' @param additional_data A data frame with additional data that may be
-#'   (left-)joined onto the `clustering_parameters` in `object`.
+#'   (left-)joined onto the `parameters` in `object`. This is often 
+#'   used in conjuction with `only` to select specific clusterings based on 
+#'   `additional_data`.
 #' @param ... Additional arguments affecting the summary produced.
 #'
 #' @return
@@ -26,15 +28,18 @@
 #' can contain any of the following characteristics:
 #'
 #' ## Frequencies
+#' 123
 #'
 #' ## Medications
+#' 123
 #'
 #' ## Amounts
+#' 123
 #'
 #' ## Trajectories
-#'
+#' 123
+#' 
 #' @examples
-#'
 #' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
 #' summary(clust, k == 3)
 #'

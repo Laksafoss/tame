@@ -5,7 +5,7 @@
 \alias{pcos}
 \title{This is my dummy data}
 \format{
-An object of class \code{data.frame} with 8338 rows and 16 columns.
+An object of class \code{data.frame} with 8337 rows and 16 columns.
 }
 \usage{
 pcos

@@ -4,8 +4,14 @@
 #'
 #' @param object A `medic` clustering object for which employment is desired.
 #' @param new_data A data frame in which to look for variables with
-#' @param which <[`tidy-select`][dplyr::dplyr_tidy_select]> A set of specific
-#'    clusterings to be employed to the new data.
+#' @param only <[`data-masking`][dplyr::dplyr_data_masking]> Expressions that
+#'   return a logical value, and are defined in terms of the variables in
+#'   `object` and/or `additional_data` and specifies which clusterings should be 
+#'   emplyed to the new data.
+#' @param additional_data A data frame with additional data that may be
+#'   (left-)joined onto the `parameters` in `object`. This is often 
+#'   used in conjuction with `only` to select specific clusterings based on 
+#'   `additional_data`.
 #' @param assignment_method A character naming the employment method. The
 #'   default assignment method `"nearest_cluster"` matches people in `new_data`
 #'   to their nearest cluster in the chosen clusterings from `object`. As

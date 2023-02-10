@@ -5,7 +5,7 @@
 \alias{tiny_example_data}
 \title{This is my dummy data}
 \format{
-An object of class \code{data.frame} with 150 rows and 5 columns.
+An object of class \code{data.frame} with 149 rows and 5 columns.
 }
 \usage{
 tiny_example_data

@@ -40,9 +40,8 @@ relevant \code{clustering_parameters} from a <\code{medic}> object.
 }
 \details{
 The \code{method_selector()} function is a filtering function used for extracting
-the characteristics of the chosen method. This function is used in all of the
-investigative functions with a \code{only} statement such as
-\code{\link[=cluster_frequency]{cluster_frequency()}} and \code{\link[=medication_amount]{medication_amount()}}.
+the characteristics of the chosen method. This function is used in all of
+the investigative functions called by \code{\link[=summary]{summary()}}.
 }
 \examples{
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)

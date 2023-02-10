@@ -24,8 +24,7 @@ The \code{cluster_selector()} function finds the name of the chosen clusters.
 \details{
 The \code{cluster_selector()} finds the names of the chosen clusters present in
 the \code{clustering} <\code{medic}> object. This function is used in all of
-the investigative functions with a \code{cluster} statement such as
-\code{\link[=atc_frequency]{atc_frequency()}} and \code{\link[=medication_amount]{medication_amount()}}.
+the investigative functions called by \code{\link[=summary]{summary()}}.
 }
 \examples{
 clust <- medic(

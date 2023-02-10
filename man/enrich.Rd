@@ -4,9 +4,11 @@
 \alias{enrich}
 \title{Enrich Clustering Parameter}
 \usage{
-enrich(clustering, additional_data = NULL, join_by = NULL)
+enrich(object, additional_data = NULL, join_by = NULL)
 }
 \arguments{
+\item{object}{A \code{medic} object for enrichment.}
+
 \item{additional_data}{A data frame with additional data that may be
 (left-)joined onto the \code{clustering_parameters} in \code{object}.}
 
@@ -35,8 +37,6 @@ will match \code{clustering_parameters$k} to \code{additional_data$cluster_size}
 
 To perform a cross-join, generating all combinations of
 \code{clustering_parameters} and \code{additional_data}, use \code{join_by = character()}.}
-
-\item{object}{A \code{medic} object for enrichment.}
 }
 \value{
 An object of class \emph{medic}.

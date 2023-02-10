@@ -5,7 +5,7 @@
 \alias{eczema}
 \title{This is my dummy data}
 \format{
-An object of class \code{data.frame} with 50645 rows and 7 columns.
+An object of class \code{data.frame} with 50644 rows and 7 columns.
 }
 \usage{
 eczema
