@@ -54,7 +54,7 @@
 #' enrich(clust, new_parameters)
 #'
 #' @export
-enrich <- function(clustering, additional_data = NULL, join_by = NULL) {
+enrich <- function(object, additional_data = NULL, join_by = NULL) {
   if (!is.null(additional_data)) {
     if (is.null(join_by)) {
       bys <- intersect(
@@ -64,10 +64,10 @@ enrich <- function(clustering, additional_data = NULL, join_by = NULL) {
     } else {
       bys <- join_by
     }
-    new <- clustering
+    new <- object
     new$parameters <- new$parameters %>%
       dplyr::left_join(additional_data, by = bys)
     return(new)
   }
-  return(clustering)
+  return(object)
 }

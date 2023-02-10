@@ -48,7 +48,7 @@ refactor <- function(object, ..., inheret_parameters = TRUE) {
 
   changes <- rlang::enquos(..., .named = TRUE, .homonyms = "last")
 
-  clust <- clustering
+  clust <- object
   clust$data <- clust$data %>% dplyr::mutate(...)
   clust$clustering <- clust$clustering %>% dplyr::mutate(...)
 
@@ -69,13 +69,13 @@ refactor <- function(object, ..., inheret_parameters = TRUE) {
     )
   }
 
-  clust$clustering_parameters <- clustering$clustering_parameters %>%
+  clust$parameters <- clust$parameters %>% # this used to be object$parameters
     dplyr::left_join(tmp, by = "cluster_name") %>%
-    dplyr::arrange(order(match(cluster_name, all_cluster_names)))
+    dplyr::arrange(order(match(.data$cluster_name, all_cluster_names)))
 
   # inheritance is only name based at the moment -- can we do better?????
   if (!inheret_parameters) {
-    clust$clustering_parameters <- clust$clustering_parameters %>%
+    clust$parameters <- clust$parameters %>%
       dplyr::mutate(
         dplyr::across(
           .data$clustering:.data$p,
