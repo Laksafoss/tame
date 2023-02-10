@@ -47,7 +47,7 @@ clust <- medic(
   timing = first_trimester:third_trimester
 )
 
-trajectories(clust, k == 5, clusters = I:III)
+tame:::trajectories(clust, k == 5, clusters = I:III)
 
 }
 \keyword{internal}

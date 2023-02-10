@@ -56,7 +56,7 @@ clust <- medic(
   timing = first_trimester:third_trimester
 )
 
-interactions(clust, k == 5, clusters = I:III)
+tame:::interactions(clust, k == 5, clusters = I:III)
 
 }
 \keyword{internal}

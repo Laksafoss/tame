@@ -47,8 +47,8 @@ each cluster and the associated frequency of assignment.
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
 
 # make frequency tables
-tame::frequencies(clust, k == 5)
-tame::frequencies(clust, k < 5, I:III)
+tame:::frequencies(clust, k == 5)
+tame:::frequencies(clust, k < 5, I:III)
 
 }
 \keyword{internal}

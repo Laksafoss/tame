@@ -58,7 +58,7 @@ TODO
 \examples{
 clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
 
-tame::medications(clust, k == 5, clusters = I:III)
+tame:::medications(clust, k == 5, clusters = I:III)
 
 }
 \keyword{internal}

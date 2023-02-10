@@ -31,7 +31,7 @@ bind <- function(...) {
   return(clusters)
   #   ===   Input Check   ======================================================
 
-  if (length(clusters) == 1 && is_bare_list(clusters[[1]])) {
+  if (length(clusters) == 1 && rlang::is_bare_list(clusters[[1]])) {
     clusters <- clusters[[1]]
     if (is.null(names(clusters))) {
       return(1)
@@ -73,7 +73,7 @@ bind <- function(...) {
 
   out <- list(
     data = lapply(clusters, function(cl) cl$data) |> # ændre navne på .analysis_order og cluster_xxx
-      purrr::recode(dplyr::full_join, by = shared), # find shared
+      dplyr::recode(dplyr::full_join, by = shared), # find shared
     variables = clusters[[1]]$variables,
     clustering = 1,
     clustering_parameters = 1,
