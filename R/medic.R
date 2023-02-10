@@ -308,7 +308,7 @@ medic <- function(
   #   ===   Reformatting Results   =============================================
 
   # The output of the clustering loop is by clustering method.
-  # We would like it to be by out_data and
+  # W, functie would like it to be by out_data and
 
   # clustering assignments
   cluster_assignment <- purrr::reduce(
@@ -318,24 +318,23 @@ medic <- function(
   # for nice output data
   cluster_data <- data %>%
     dplyr::arrange(.data$.original_order) %>%
-    dplyr::select({{ id }}, .data$.internal_character_id) %>%
+    dplyr::select({{ id }}, ".internal_character_id") %>%
     dplyr::distinct() %>%
     dplyr::left_join(cluster_assignment, by = ".internal_character_id") %>%
-    dplyr::select(-.data$.internal_character_id)
+    dplyr::select(-".internal_character_id")
 
   # for nice output data
   out_data <- data %>%
     dplyr::arrange(.data$.original_order) %>%
     dplyr::left_join(cluster_assignment, by = ".internal_character_id") %>%
-    dplyr::select(-.data$.internal_character_id,
-                  -.data$.original_order)
+    dplyr::select(-".internal_character_id", -".original_order")
 
-  distance_matrix <- lapply(clusterings, function(d) d$distance_matrix)
+  distance_matrix <- lapply(clusteringson(d) d$distance_matrix)
 
-  expanded_options <- clustering_parameters %>%
-    dplyr::left_join(data.frame(k = k), by = character()) %>%
+  expanded_options <- parameters %>%
+    dplyr::cross_join(data.frame(k = k)) %>%
     dplyr::mutate(cluster_name = paste0(.data$clustering, "_k=", .data$k)) %>%
-    dplyr::relocate(.data$cluster_name)
+    dplyr::relocate("cluster_name")
 
 
 

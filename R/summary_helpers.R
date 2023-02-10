@@ -22,8 +22,8 @@
 #' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
 #'
 #' # make frequency tables
-#' tame::frequencies(clust, k == 5)
-#' tame::frequencies(clust, k < 5, I:III)
+#' tame:::frequencies(clust, k == 5)
+#' tame:::frequencies(clust, k < 5, I:III)
 #'
 #' @keywords internal
 frequencies <- function(
@@ -33,10 +33,9 @@ frequencies <- function(
     additional_data = NULL
 ) {
 
-  clust <- enrich_clustering_parameters(clustering, additional_data)
-
-  selected_clusters <- cluster_selector(clust, {{ clusters }})
+  clust <- enrich(clustering, additional_data)
   selected_analyses <- method_selector(clust, {{ only }})
+  selected_clusters <- cluster_selector(clust, {{ clusters }})
   selected_names <- selected_analyses$cluster_name
   n_id <- dplyr::n_distinct(
     dplyr::pull(clust$clustering, !!clust$variables$id)
@@ -248,7 +247,7 @@ amounts <- function(
         .data$n_medications_with_m_medications_in_analysis[1],
       .groups = "drop") %>%
     dplyr::rename(
-      n_unique_exposures = n_exposures_grouped
+      n_unique_exposures = "n_exposures_grouped"
     )
 
   return(res)
@@ -283,7 +282,7 @@ amounts <- function(
 #'   timing = first_trimester:third_trimester
 #' )
 #'
-#' trajectories(clust, k == 5, clusters = I:III)
+#' tame:::trajectories(clust, k == 5, clusters = I:III)
 #'
 #' @keywords internal
 trajectories <- function(
@@ -293,7 +292,7 @@ trajectories <- function(
     additional_data = NULL
 ) {
 
-  clust <- enrich_clustering_parameters(clustering, additional_data)
+  clust <- enrich(clustering, additional_data)
   selected_analyses <- method_selector(clust, {{ only }})
   selected_clusters <- cluster_selector(clust, {{ clusters }})
   selected_name <- selected_analyses$cluster_name
@@ -363,7 +362,7 @@ trajectories <- function(
 #'   timing = first_trimester:third_trimester
 #' )
 #'
-#' interactions(clust, k == 5, clusters = I:III)
+#' tame:::interactions(clust, k == 5, clusters = I:III)
 #'
 #' @keywords internal
 interactions <- function(
@@ -374,7 +373,7 @@ interactions <- function(
     additional_data = NULL
 ) {
 
-  clust <- enrich_clustering_parameters(clustering, additional_data)
+  clust <- enrich(clustering, additional_data)
   selected_analyses <- method_selector(clust, {{ only }})
   selected_clusters <- cluster_selector(clust, {{ clusters }})
   selected_names <- selected_analyses$cluster_name

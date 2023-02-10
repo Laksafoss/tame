@@ -48,17 +48,19 @@
 employ <- function(
     object,
     new_data,
-    which,
+    only = NULL,
+    additional_data = NULL,
     assignment_method = "nearest_cluster",
     parallel = FALSE,
     ...) {
 
 
   #   ===   Input Check   ======================================================
-
-  variable_names_needed <- unlist(
-    object$variables[which(names(object$variables) != "base_clustering")]
-  )
+  
+  #   ---  Are all variables present   -----------------------------------------
+  variable_names_needed <- unlist(object$variables)[
+    which(names(unlist(object$variables)) != "base_clustering")
+  ]
   if (! all(variable_names_needed %in% names(new_data))) {
     diff <- setdiff(variable_names_needed, names(new_data))
     stop(
@@ -75,9 +77,10 @@ employ <- function(
     )
   }
 
+  #   ---   Are we only considering new people   -------------------------------
   overlap <- intersect(
-    clustering$data[[clustering$variables$id]],
-    new_data[[clustering$variables$id]]
+    object$data[[object$variables$id]],
+    new_data[[object$variables$id]]
   )
   if (length(overlap) > 0) {
     if (length(overlap) > 5) {
@@ -261,7 +264,7 @@ employ <- function(
           complete = max,
           average  = mean,
           mcquitty = function() stop("'mcquitty' linkage not implmented yet."),
-          median   = median,
+          median   = stats::median,
           centroid = function() stop("'centroid' linkage not implmented yet."))
 
         new_clusters <- apply(distance_matrix, 2, function(d) {
@@ -272,18 +275,14 @@ employ <- function(
           )
           closest <- which(clust_dist == min(clust_dist))
           if (length(closest) > 1) {
-            if (ties == "random") {
-              return(names(clust_dist)[sample(closest, 1)])
-            } else {
-              stop("We actually don't have any other ties handling method yet.")
-            }
+            return(names(clust_dist)[sample(closest, 1)])
           } else {
             return(names(clust_dist)[closest])
           }
         })
 
         new_clusters <- new_patterns %>%
-          dplyr::select(.data$unique_pattern_key) %>%
+          dplyr::select("unique_pattern_key") %>%
           dplyr::mutate(!!method[["cluster_name"]] := new_clusters)
 
         return(new_clusters)
@@ -292,10 +291,10 @@ employ <- function(
 
     #   ...  serial pseudo-clustering   ........................................
 
-    clusterings <- lapply(1:nrow(clustering_parameters), function(i) {
+    clusterings <- lapply(1:nrow(parameters), function(i) {
 
       # current method
-      method <- clustering_parameters[i,]
+      method <- parameters[i,]
 
       # method specific atc, timing & amount metric tables
       cur_tables <- context_lookup(method, lookup_tables)
@@ -317,7 +316,7 @@ employ <- function(
         complete = max,
         average  = mean,
         mcquitty = function() stop("'mcquitty' linkage not implmented yet."),
-        median   = median,
+        median   = stats::median,
         centroid = function() stop("'centroid' linkage not implmented yet."))
 
       new_clusters <- apply(distance_matrix, 2, function(d) {
@@ -328,18 +327,14 @@ employ <- function(
         )
         closest <- which(clust_dist == min(clust_dist))
         if (length(closest) > 1) {
-          if (ties == "random") {
-            return(names(clust_dist)[sample(closest, 1)])
-          } else {
-            stop("We actually don't have any other ties handling method yet.")
-          }
+          return(names(clust_dist)[sample(closest, 1)])
         } else {
           return(names(clust_dist)[closest])
         }
       })
 
       new_clusters <- new_patterns %>%
-        dplyr::select(.data$unique_pattern_key) %>%
+        dplyr::select("unique_pattern_key") %>%
         dplyr::mutate(!!method[["cluster_name"]] := new_clusters)
 
       return(new_clusters)
@@ -353,11 +348,11 @@ employ <- function(
     dplyr::filter(.data$.origin == "new") %>%
     dplyr::select(
       !!rlang::sym(clust$variables$id),
-      .data$unique_pattern_key
+      "unique_pattern_key"
     ) %>%
     dplyr::distinct() %>%
     dplyr::left_join(all_new_closest_clusterings, by = "unique_pattern_key") %>%
-    dplyr::select(-.data$unique_pattern_key) %>%
+    dplyr::select(-"unique_pattern_key") %>%
     dplyr::mutate(
       dplyr::across(
         dplyr::all_of(selected_names),
