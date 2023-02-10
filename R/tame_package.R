@@ -4,7 +4,9 @@
 #' @references
 #' mention or article
 #' @importFrom rlang .data
+#' @importFrom rlang :=
 #' @importFrom magrittr %>%
+#' @importFrom utils as.roman
 #' @importFrom Rcpp evalCpp
 #' @useDynLib tame, .registration = TRUE
 #' @keywords internal
