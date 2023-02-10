@@ -22,7 +22,7 @@ is.medic <- function(object) {
     "data",
     "variables",
     "clustering",
-    "clustering_parameters",
+    "parameters",
     "key"
   )
   if (! all(required %in% names(object))) { return(FALSE) }
@@ -42,7 +42,7 @@ is.medic <- function(object) {
   # TODO : Check Columns
 
   #   6   Parameters Slot   ====================================================
-  if (!inherits(object$clustering_parameters, "data.frame")) { return(FALSE) }
+  if (!inherits(object$parameters, "data.frame")) { return(FALSE) }
   # TODO : Check Columns
 
   #   7   Key Slot   ===========================================================
@@ -60,23 +60,23 @@ is.medic <- function(object) {
   if (! all(required %in% names(object$key))) { return(FALSE) }
 
   ##   7.2   Key Slot : Key slot   ---------------------------------------------
-  if (!inherets(object$key$key, "data.frame")) { return(FALSE) }
+  if (!inherits(object$key$key, "data.frame")) { return(FALSE) }
   # TODO : Check Columns
 
   ##   7.3   Key Slot : Reduced slot   -----------------------------------------
-  if (!inherets(object$key$reduced_key, "data.frame")) { return(FALSE) }
+  if (!inherits(object$key$reduced_key, "data.frame")) { return(FALSE) }
   # TODO : Check Columns
 
   ##   7.4   Key Slot : Exposure slot   ----------------------------------------
-  if (!inherets(object$key$unique_exposure, "data.frame")) { return(FALSE) }
+  if (!inherits(object$key$unique_exposure, "data.frame")) { return(FALSE) }
   # TODO : Check Columns
 
   ##   7.5   Key Slot : Pattern slot   -----------------------------------------
-  if (!inherets(object$key$unique_patterns, "data.frame")) { return(FALSE) }
+  if (!inherits(object$key$unique_patterns, "data.frame")) { return(FALSE) }
   # TODO : Check Columns
 
   ##   7.6   Key Slot : Clustered slot   ---------------------------------------
-  if (!inherets(object$key$clustered_patterns, "data.frame")) { return(FALSE) }
+  if (!inherits(object$key$clustered_patterns, "data.frame")) { return(FALSE) }
   # TODO : Check Columns
 
   return(TRUE)
