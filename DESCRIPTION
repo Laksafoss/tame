@@ -6,22 +6,17 @@ Authors@R:
            comment = c(ORCID = "0000-0002-9898-2924"))
 Description: Analysis and illustration tools for Timing and ATC base medication 
     clustering.
-License: GPL (>= 3)
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
     dplyr,
-    forcats,
     fuzzyjoin,
-    ggplot2,
-    ggtext,
-    glue,
     magrittr,
     purrr,
     Rfast,
     rlang,
-    scales,
     stats,
     stringr,
     tibble,
@@ -31,7 +26,7 @@ Imports:
 Suggests: rmarkdown, knitr, testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 
-    R (>= 4.2.1)
+    R (>= 4.2)
 LazyData: true
 VignetteBuilder: knitr
 LinkingTo: Rcpp
