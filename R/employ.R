@@ -411,12 +411,12 @@ employ <- function(
     structure(
       list(
         data = joined_data,
-        new_only_data = out_data,
-        variables = clust$variables,
+        #new_only_data = out_data,
         clustering = all_clusterings,
-        clustering_parameters = clust$clustering_parameters,
+        variables = clust$variables,
+        parameters = clust$parameters,
         key = keys,
-        call = match.call(expand.dots = FALSE)
+        call = list(clust$call, match.call(expand.dots = FALSE))
       ),
       "class" = "medic"
     )

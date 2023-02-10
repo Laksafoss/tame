@@ -341,9 +341,9 @@ medic <- function(
   #   ===   Return Results   ===================================================
 
   return(structure(list(data = out_data,
-                        variables = input_variables,
                         clustering = cluster_data,
-                        clustering_parameters = expanded_options,
+                        variables = input_variables,
+                        parameters = expanded_options,
                         key = keys,
                         distance_matrix = distance_matrix,
                         call = match.call(expand.dots = FALSE)),
