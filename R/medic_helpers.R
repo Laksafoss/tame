@@ -11,7 +11,7 @@
 #' 
 #' @examples
 #' parameters_constructor(
-#'    data = tiny_example_data, 
+#'    data = complications, 
 #'    k = 3, 
 #'    id = id,
 #'    atc = atc

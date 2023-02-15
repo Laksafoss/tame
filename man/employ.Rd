@@ -60,8 +60,8 @@ an integer then the number of \link[parallel:makeCluster]{clusters} is set to
 Employ a clustering to new data
 }
 \examples{
-part1 <- tiny_example_data[1:100,]
-part2 <- tiny_example_data[101:149,]
+part1 <- complications[1:100,]
+part2 <- complications[101:149,]
 
 clust <- medic(part1, id = id, atc = atc, k = 3)
 employ(clust, part2)

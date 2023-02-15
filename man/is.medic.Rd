@@ -17,7 +17,7 @@ elements.
 Test if an object is a medic-object
 }
 \examples{
-clust <- medic(tiny_example_data, id = id, atc = atc, k = 3)
+clust <- medic(complications, id = id, atc = atc, k = 3)
 is.medic(clust)
 
 }

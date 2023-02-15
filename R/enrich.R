@@ -39,7 +39,7 @@
 #'
 #' @examples
 #' clust <- medic(
-#'    tiny_example_data,
+#'    complications,
 #'    id = id,
 #'    atc = atc,
 #'    timing = first_trimester:third_trimester,

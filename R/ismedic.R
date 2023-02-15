@@ -7,7 +7,7 @@
 #' elements.
 #'
 #' @examples
-#' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3)
+#' clust <- medic(complications, id = id, atc = atc, k = 3)
 #' is.medic(clust)
 #'
 #' @export

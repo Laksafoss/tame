@@ -3,7 +3,7 @@
 \docType{data}
 \name{eczema}
 \alias{eczema}
-\title{This is my dummy data}
+\title{A Simulated Data Set About Eczema}
 \format{
 An object of class \code{data.frame} with 50644 rows and 7 columns.
 }
@@ -11,6 +11,6 @@ An object of class \code{data.frame} with 50644 rows and 7 columns.
 eczema
 }
 \description{
-This is my dummy data
+A Simulated Data Set About Eczema
 }
 \keyword{data}

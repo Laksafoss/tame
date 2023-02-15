@@ -69,7 +69,7 @@
 #' }
 #'
 #' and the \emph{sum of minima}:
-#' #' \deqn{%
+#' \deqn{%
 #'   d(p_i, p_j) = \frac{1}{2}(N(M_i)^{\alpha}\sum_{m\in M_i}\min_{n \in M_j}%
 #'   ((1 + D_{\theta}(m,n)) (1 + \gamma T(t_{im},t_{jn})) - 1)^{\beta} +
 #'   N(M_j)^{\alpha} \sum_{n\in M_j}\min_{m \in M_i}%
@@ -142,11 +142,11 @@
 #'
 #' @examples
 #' # A simple clustering based only on ATC
-#' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3)
+#' clust <- medic(complications, id = id, atc = atc, k = 3)
 #'
 #' # A simple clustering with both ATC and timing
 #' clust <- medic(
-#'   tiny_example_data,
+#'   complications,
 #'   id = id,
 #'   atc = atc,
 #'   timing = first_trimester:third_trimester,

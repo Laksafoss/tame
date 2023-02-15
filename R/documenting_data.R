@@ -1,24 +1,16 @@
 
-
-#' This is my dummy data
-#'
-#' @name pcos
-#' @docType data
-#' @keywords data
-"pcos"
-
-#' This is my dummy data
+#'  A Simulated Data Set About Eczema
 #'
 #' @name eczema
 #' @docType data
 #' @keywords data
 "eczema"
 
-#' A Tiny Data Set for Running Examples
+#' A Simulated Data Set About Pregnancy Complications
 #' 
 #' We use this data set in all the examples in the package.  
 #' 
-#' @name tiny_example_data
+#' @name complications
 #' @docType data
 #' @keywords data
-"tiny_example_data"
+"complications"

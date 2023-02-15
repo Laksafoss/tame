@@ -45,7 +45,7 @@ individuals assigned to each cluster.
 each cluster and the associated frequency of assignment.
 }
 \examples{
-clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
+clust <- medic(complications, id = id, atc = atc, k = 3:5)
 
 # make frequency tables
 tame:::frequencies(clust, k == 5)

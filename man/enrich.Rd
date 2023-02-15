@@ -49,7 +49,7 @@ all of the investigative functions with a \code{additional_data} statement such 
 }
 \examples{
 clust <- medic(
-   tiny_example_data,
+   complications,
    id = id,
    atc = atc,
    timing = first_trimester:third_trimester,

@@ -175,11 +175,11 @@ The ATC distance is tuned using the vector \code{theta}.  TODO
 }
 \examples{
 # A simple clustering based only on ATC
-clust <- medic(tiny_example_data, id = id, atc = atc, k = 3)
+clust <- medic(complications, id = id, atc = atc, k = 3)
 
 # A simple clustering with both ATC and timing
 clust <- medic(
-  tiny_example_data,
+  complications,
   id = id,
   atc = atc,
   timing = first_trimester:third_trimester,
