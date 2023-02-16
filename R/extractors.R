@@ -83,7 +83,7 @@ method_selector <- function(clustering, only, additional_data = NULL) {
 #'
 #' @examples
 #' clust <- medic(
-#'    tiny_example_data,
+#'    complications,
 #'    id = id,
 #'    atc = atc,
 #'    k = 3:5
