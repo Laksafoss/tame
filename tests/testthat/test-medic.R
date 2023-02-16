@@ -4,7 +4,7 @@
 test_that("medic basic input", {
   expect_s3_class(
     medic(
-      tiny_example_data,
+      complications,
       id = id,
       atc = atc,
       timing = first_trimester:third_trimester
