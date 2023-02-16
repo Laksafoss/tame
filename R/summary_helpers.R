@@ -91,7 +91,7 @@ frequencies <- function(
 #'                    code. 
 #'
 #' @examples
-#' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
+#' clust <- medic(complications, id = id, atc = atc, k = 3:5)
 #'
 #' tame:::medications(clust, k == 5, clusters = I:III)
 #'
@@ -174,7 +174,7 @@ medications <- function(
 #' * \code{p_medications_with_n_unique_medications} info.
 #'
 #' @examples
-#' clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
+#' clust <- medic(complications, id = id, atc = atc, k = 3:5)
 #'
 #' tame:::amounts(clust, k == 5, clusters = I:III)
 #'
@@ -296,7 +296,7 @@ amounts <- function(
 #'
 #' @examples
 #' clust <- medic(
-#'   tiny_example_data,
+#'   complications,
 #'   id = id,
 #'   atc = atc,
 #'   k = 3:5,
@@ -376,7 +376,7 @@ trajectories <- function(
 #'
 #' @examples
 #' clust <- medic(
-#'   tiny_example_data,
+#'   complications,
 #'   id = id,
 #'   atc = atc,
 #'   k = 3:5,
