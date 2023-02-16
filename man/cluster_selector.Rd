@@ -28,7 +28,7 @@ the investigative functions called by \code{\link[=summary]{summary()}}.
 }
 \examples{
 clust <- medic(
-   tiny_example_data,
+   complications,
    id = id,
    atc = atc,
    k = 3:5

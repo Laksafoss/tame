@@ -68,7 +68,7 @@ codes. Moreover, various relevant percentages or calculated. See Value below
 for more details on these percentages.
 }
 \examples{
-clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
+clust <- medic(complications, id = id, atc = atc, k = 3:5)
 
 tame:::amounts(clust, k == 5, clusters = I:III)
 

@@ -66,7 +66,7 @@ this medication assigned to this cluster and the percent of people within
 the cluster with this medication.
 }
 \examples{
-clust <- medic(tiny_example_data, id = id, atc = atc, k = 3:5)
+clust <- medic(complications, id = id, atc = atc, k = 3:5)
 
 tame:::medications(clust, k == 5, clusters = I:III)
 
