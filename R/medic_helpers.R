@@ -94,7 +94,7 @@ parameters_constructor <- function(
       p = p,
       theta_list = if (is.list(theta)) theta else list(theta)) %>%
       dplyr::mutate(theta = as.character(theta_list),
-                    clustering = paste0("cluster_", dplyr::row_number())) %>%
+                    clustering = paste0("cluster_", dplyr::row_number())) %>% #      allow user specification
       dplyr::relocate("clustering")
   }, error = function(cond) {
     message(paste0("The parameters 'alpha', 'beta', 'gamma', 'p', 'theta' and ",
