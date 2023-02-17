@@ -181,7 +181,7 @@ key_constructor <- function(data, id, base_clustering, atc, timing) {
 
 
   nest_key <- key %>%
-    tidyr::nest(pattern = unique(unlist(lapply(out, names)))) # should it be split into keys and actuall data?
+    tidyr::nest(pattern = unique(unlist(lapply(out, names))))
 
   unique_patterns <- nest_key %>%
     dplyr::select("pattern") %>%
@@ -214,7 +214,7 @@ key_constructor <- function(data, id, base_clustering, atc, timing) {
 
   rms <- key %>%
     dplyr::select(".internal_character_id",
-                  {{ id }}, # added recently - is this correct?
+                  {{ id }},
                   {{ base_clustering }},
                   {{ atc }},
                   {{ timing }}) %>%
@@ -331,7 +331,7 @@ normalizing_lookup_constructor <- function(unique_patterns,
     res <- c(res, list("double_sum" = 1 / multiplied))
   }
 
-  if (any(summation_methods == "sum_of_minima")) { # nothing needs to be done here !?
+  if (any(summation_methods == "sum_of_minima")) {
     p <- length(numeric_exposure_in_pattern)
     repeated <- matrix(numeric_exposure_in_pattern,
                        ncol = p, nrow = p, byrow = TRUE)
@@ -358,7 +358,7 @@ normalizing_lookup_constructor <- function(unique_patterns,
 timing_metric_lookup_constructor <- function(unique_timing, ps) {
   res <- lapply(ps, function(p) {
     Rfast::Dist(
-      dplyr::select(unique_timing, - "unique_timing_key"), # what is going on here is this correct ??
+      dplyr::select(unique_timing, -"unique_timing_key"),
       method = "minkowski", p = p) / ((ncol(unique_timing) - 1) ^ p)
   })
   names(res) <- as.character(ps)
@@ -574,7 +574,7 @@ hierarchical_clustering <- function(keys,
                                     method,
                                     k,
                                     distance_matrix,
-                                    base_clustering) { # to be remved : base_clustering
+                                    base_clustering) { # to be removed: base_clustering -- why?
 
 
   #   ===   Potential Pre-clusters   ===========================================

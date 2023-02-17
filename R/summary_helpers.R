@@ -12,10 +12,10 @@
 #' @return
 #' `frequencies()` returns a data frame with class
 #' `summary.medic.frequencies`.
-#' * \code{cluster_name} the clustering cluster_name name.
-#' * \code{cluster}  the name of the specific cluster.
-#' * \code{n} the number of observations assigned to this `cluster`.
-#' * \code{p} the percent of observations assigned to this `cluster`.
+#' * `cluster_name` the name of the clustering.
+#' * `cluster` the cluster name.
+#' * `n` the number of observations assigned to this `cluster`.
+#' * `p` the percent of observations assigned to this `cluster`.
 #'
 #' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3:5)
@@ -49,7 +49,6 @@ frequencies <- function(
     ) %>%
     dplyr::filter(.data$cluster %in% selected_clusters) %>%
     dplyr::count(.data$cluster_name, .data$cluster) %>%
-    #dplyr::arrange(.data$cluster_name) %>%
     dplyr::mutate(percent = 100 * .data$n / n_id) %>%
     dplyr::left_join(clust$parameters, by = "cluster_name")
 
@@ -81,14 +80,13 @@ frequencies <- function(
 #' @return
 #' `medications()` returns a data frame with class
 #' `summary.medic.medications`.
-#' * \code{cluster_name} the clustering cluster_name name.
-#' * \code{cluster}  the name of the specific cluster.
-#' * \code{atc} ATC codes.
-#' * \code{n} number of people with this ATC code in this `cluster`.
-#' * \code{p_analysis} the percentage of people with this ATC code assigned to 
-#'                     this `cluster`.
-#' * \code{p_cluster} the percent of people within the `cluster` with this ATC 
-#'                    code. 
+#' * `cluster_name` the name of the clustering.
+#' * `cluster` the cluster name.
+#' * `atc` ATC codes.
+#' * `n` number of people with this ATC code in this `cluster`.
+#' * `p_analysis` the percentage of people with this ATC code assigned to this 
+#'   `cluster`.
+#' * `p_cluster` the percent of people within the `cluster` with this ATC code. 
 #'
 #' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3:5)
@@ -159,19 +157,24 @@ medications <- function(
 #' 
 #' @return
 #' `amounts()` returns a data frame of class `summary.medic.amounts`
-#' * \code{cluster_name} the clustering cluster_name name.
-#' * \code{cluster}  the name of the specific cluster.
-#' * \code{n_unique_exposures} number of ATC codes.
-#' * \code{n_people} number of people in `cluster` that has `n_unique_exposures`
-#'                   different ATC codes. 
-#' * \code{n_medications} the total number of medication across people in this 
-#'                        `cluster`  this this number of `n_unique_exposures`.
-#' * \code{p_people_analysis} info.
-#' * \code{p_people_cluster} info.
-#' * \code{p_medications_in_analysis} info.
-#' * \code{p_medications_in_cluster} info.
-#' * \code{p_people_with_n_unique_medications} info.
-#' * \code{p_medications_with_n_unique_medications} info.
+#' * `cluster_name` the name of the clustering.
+#' * `cluster` the cluster name.
+#' * `m` number of ATC codes.
+#' * `n_people` number of people in `cluster` that has `m` different ATC codes. 
+#' * `n_medications` the total number of medication across people in this 
+#'   `cluster` with `m` different ATC codes.
+#' * `p_people_analysis` percentage of people in `cluster` with `m` different 
+#'   ATC codes in analysis.
+#' * `p_people_cluster` percentage of people with `m` different ATC codes in 
+#'   `cluster`.
+#' * `p_medications_in_analysis` percentage of medication given in `cluster` 
+#'   with `m` different ATC codes in analysis.
+#' * `p_medications_in_cluster` percentage of medication given with `m` 
+#'   different ATC codes in `cluster`.
+#' * `p_people_with_n_unique_medications` percentage of people in `cluster`
+#'   with `m` different ATC codes.
+#' * `p_medications_with_n_unique_medications` percentage of medication in 
+#'   `cluster` with `m` different ATC codes. 
 #'
 #' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3:5)
@@ -268,7 +271,7 @@ amounts <- function(
         .data$n_medications_with_m_medications_in_analysis[1],
       .groups = "drop") %>%
     dplyr::rename(
-      n_unique_exposures = "n_exposures_grouped"
+      m = "n_exposures_grouped"
     )
 
   return(res)
@@ -285,14 +288,24 @@ amounts <- function(
 #' @inheritParams summary.medic
 #'
 #' @details
-#' TODO
+#' `trajectories()` calculates both the number of unique timing trajectories in 
+#' each cluster and the average timing trajectories in each cluster. 
 #'
 #' @return
-#' `trajectories()` returns a data frame of class `summary.medic.trajectories`
-#' * \code{x} very.
-#' * \code{y} important.
-#' * \code{z} info.
+#' `trajectories()` returns a list of class `summary.medic.trajectories` with 
+#' two data frames:
+#' 
+#' ## average
+#' * `cluster_name` the name of the clustering.
+#' * `cluster` the `cluster` name.
+#' * _timing variables_ the average timing value in `cluster`.
+#' * `n` the number of people in `cluster`.
 #'
+#' ## individual
+#' * `cluster_name` the name of the clustering.
+#' * `cluster` the cluster name.
+#' * _timing variables_ a unique timing pattern in `cluster`.
+#' * `n` number of people with this unique timing pattern.
 #'
 #' @examples
 #' clust <- medic(
@@ -366,13 +379,18 @@ trajectories <- function(
 #' @param atc_groups 123
 #'
 #' @details
-#' TODO
+#' `interactions()` calculates both the number of unique timing trajectories in 
+#' each cluster and the average timing trajectories in each cluster. 
 #'
 #' @return
 #' `interactions()` returns a data frame of class `summary.medic.interactions`
-#' * \code{x} very.
-#' * \code{y} important.
-#' * \code{z} info.
+#' * `cluster_name` the name of the clustering.
+#' * `cluster` the cluster name.
+#' * `n` the number of people in the cluster.
+#' * `atc_group` atc groups as specified by the `atc_groups` input.
+#' * _timing variable_ a unique timing pattern in `cluster` and `atc_group`.
+#' * `n_interaction` number of people in this cluster with this timing and atc 
+#'   group combination.
 #'
 #' @examples
 #' clust <- medic(
@@ -418,7 +436,7 @@ interactions <- function(
     dplyr::filter(.data$cluster %in% selected_clusters) %>%
     dplyr::group_by(.data$cluster_name, .data$cluster) %>%
     dplyr::mutate(
-      cluster_size = dplyr::n_distinct(!!rlang::sym(clust$variables$id))
+      n = dplyr::n_distinct(!!rlang::sym(clust$variables$id))
     ) %>%
     dplyr::ungroup() %>%
     fuzzyjoin::regex_inner_join(atc_groups, by = by_name) %>%
@@ -428,11 +446,12 @@ interactions <- function(
     dplyr::count(
       .data$cluster_name,
       .data$cluster,
-      .data$cluster_size,
+      .data$n,
       !!!rlang::syms(clust$variables$timing),
-      .data$atc_groups
+      .data$atc_groups,
+      name = "n_interaction" # this used to be called "n" !!!
     ) %>%
-    dplyr::left_join(clustering$parameters, by = "cluster_name")
+    dplyr::relocate("cluster_name", "cluster", "n", "atc_groups")
 
   return(res)
 
