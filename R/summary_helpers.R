@@ -29,7 +29,8 @@ frequencies <- function(
     clustering,
     only = NULL,
     clusters = NULL,
-    additional_data = NULL
+    additional_data = NULL,
+    ...
 ) {
 
   clust <- enrich(clustering, additional_data)
@@ -65,6 +66,7 @@ frequencies <- function(
 #'
 #' @inheritParams summary.medic
 #'
+#' @param cluster_wise TODO 
 #' @param m A numeric restricting the number of distinct ATC codes plotted
 #'   within each cluster. That is, the (at most) `m` most frequent ATC
 #'   codes within that cluster is given a color.
@@ -101,7 +103,8 @@ medications <- function(
     cluster_wise = TRUE, # do we need cluster_wise ?????????????
     m = 3,
     q = 0.05,
-    additional_data = NULL
+    additional_data = NULL,
+    ...
 ) {
 
   clust <- enrich(clustering, additional_data)
@@ -189,7 +192,8 @@ amounts <- function(
     count_grouper = function(x) {
       cut(x, breaks = c(0, 1, 2, Inf), labels = c("1", "2", "3+"))
     },
-    additional_data = NULL
+    additional_data = NULL,
+    ...
 ) {
 
   clust <- enrich(clustering, additional_data)
@@ -323,7 +327,8 @@ trajectories <- function(
     clustering,
     only = NULL,
     clusters = NULL,
-    additional_data = NULL
+    additional_data = NULL,
+    ...
 ) {
 
   clust <- enrich(clustering, additional_data)
@@ -376,11 +381,16 @@ trajectories <- function(
 #'
 #' @inheritParams summary.medic
 #'
-#' @param atc_groups 123
+#' @param atc_groups A data.frame specifying the ATC groups to summaries by. The
+#'   data.frame must have two columns: 
+#'   * `regex` giving regular expressions specifying the wanted ATC groups.
+#'   * `atc_groups` the name of this ATC grouping.
+#'   
+#'   As a standard the anatomical level (first level) of the ATC codes is used.
 #'
 #' @details
-#' `interactions()` calculates both the number of unique timing trajectories in 
-#' each cluster and the average timing trajectories in each cluster. 
+#' `interactions()` calculates both the number of people with unique timing 
+#' trajectory and ATC group, as given by `atc_groups`, in each cluster.
 #'
 #' @return
 #' `interactions()` returns a data frame of class `summary.medic.interactions`
@@ -409,7 +419,8 @@ interactions <- function(
     only = NULL,
     clusters = NULL,
     atc_groups = data.frame(regex = paste0("^", LETTERS), atc_groups = LETTERS),
-    additional_data = NULL
+    additional_data = NULL,
+    ...
 ) {
 
   clust <- enrich(clustering, additional_data)

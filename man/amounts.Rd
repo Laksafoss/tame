@@ -12,7 +12,8 @@ amounts(
      cut(x, breaks = c(0, 1, 2, Inf), labels = c("1",
     "2", "3+"))
  },
-  additional_data = NULL
+  additional_data = NULL,
+  ...
 )
 }
 \arguments{
@@ -37,23 +38,48 @@ counts as 1 medication, 2 medications, and 3+ medications.}
 (left-)joined onto the \code{parameters} in \code{object}. This is often
 used in conjuction with \code{only} to select specific clusterings based on
 \code{additional_data}.}
+
+\item{...}{Additional arguments passed to the internal summary function.
+\itemize{
+\item \code{cluster_wise}  an option in the \code{medications()} function.
+\item \code{m} an option in the \code{medications()} function. A numeric restricting the
+number of distinct ATC codes plotted within each cluster. That is, the
+(at most) \code{m} most frequent ATC codes within that cluster is given a
+color.
+\item \code{q} an option in the \code{medications()} function. A numeric between 0 and 1
+restricting the minimal ATC codes frequency displayed within each
+cluster.
+\item \code{count_grouper} an option in the \code{amounts()} function. A function for
+grouping counts. As a standard it groups counts as 1 medication, 2
+medications, and 3+ medications.
+\item \code{atc_groups} A data.frame specifying the ATC groups to summaries by. The
+data.frame must have two columns: (1) \code{regex} giving regular expressions
+specifying the wanted ATC groups and (2) \code{atc_groups} the name of this
+ATC grouping. As a standard the anatomical level (first level) of the ATC
+codes is used.
+}}
 }
 \value{
 \code{amounts()} returns a data frame of class \code{summary.medic.amounts}
 \itemize{
-\item \code{cluster_name} the clustering cluster_name name.
-\item \code{cluster}  the name of the specific cluster.
-\item \code{n_unique_exposures} number of ATC codes.
-\item \code{n_people} number of people in \code{cluster} that has \code{n_unique_exposures}
-different ATC codes.
+\item \code{cluster_name} the name of the clustering.
+\item \code{cluster} the cluster name.
+\item \code{m} number of ATC codes.
+\item \code{n_people} number of people in \code{cluster} that has \code{m} different ATC codes.
 \item \code{n_medications} the total number of medication across people in this
-\code{cluster}  this this number of \code{n_unique_exposures}.
-\item \code{p_people_analysis} info.
-\item \code{p_people_cluster} info.
-\item \code{p_medications_in_analysis} info.
-\item \code{p_medications_in_cluster} info.
-\item \code{p_people_with_n_unique_medications} info.
-\item \code{p_medications_with_n_unique_medications} info.
+\code{cluster} with \code{m} different ATC codes.
+\item \code{p_people_analysis} percentage of people in \code{cluster} with \code{m} different
+ATC codes in analysis.
+\item \code{p_people_cluster} percentage of people with \code{m} different ATC codes in
+\code{cluster}.
+\item \code{p_medications_in_analysis} percentage of medication given in \code{cluster}
+with \code{m} different ATC codes in analysis.
+\item \code{p_medications_in_cluster} percentage of medication given with \code{m}
+different ATC codes in \code{cluster}.
+\item \code{p_people_with_n_unique_medications} percentage of people in \code{cluster}
+with \code{m} different ATC codes.
+\item \code{p_medications_with_n_unique_medications} percentage of medication in
+\code{cluster} with \code{m} different ATC codes.
 }
 }
 \description{

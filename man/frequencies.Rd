@@ -4,7 +4,13 @@
 \alias{frequencies}
 \title{The Frequency of Assignment to Each Cluster}
 \usage{
-frequencies(clustering, only = NULL, clusters = NULL, additional_data = NULL)
+frequencies(
+  clustering,
+  only = NULL,
+  clusters = NULL,
+  additional_data = NULL,
+  ...
+)
 }
 \arguments{
 \item{only}{<\code{\link[dplyr:dplyr_data_masking]{data-masking}}> Expressions that
@@ -25,13 +31,33 @@ The default \code{NULL} selects all clusters in the chosen clusterings of
 (left-)joined onto the \code{parameters} in \code{object}. This is often
 used in conjuction with \code{only} to select specific clusterings based on
 \code{additional_data}.}
+
+\item{...}{Additional arguments passed to the internal summary function.
+\itemize{
+\item \code{cluster_wise}  an option in the \code{medications()} function.
+\item \code{m} an option in the \code{medications()} function. A numeric restricting the
+number of distinct ATC codes plotted within each cluster. That is, the
+(at most) \code{m} most frequent ATC codes within that cluster is given a
+color.
+\item \code{q} an option in the \code{medications()} function. A numeric between 0 and 1
+restricting the minimal ATC codes frequency displayed within each
+cluster.
+\item \code{count_grouper} an option in the \code{amounts()} function. A function for
+grouping counts. As a standard it groups counts as 1 medication, 2
+medications, and 3+ medications.
+\item \code{atc_groups} A data.frame specifying the ATC groups to summaries by. The
+data.frame must have two columns: (1) \code{regex} giving regular expressions
+specifying the wanted ATC groups and (2) \code{atc_groups} the name of this
+ATC grouping. As a standard the anatomical level (first level) of the ATC
+codes is used.
+}}
 }
 \value{
 \code{frequencies()} returns a data frame with class
 \code{summary.medic.frequencies}.
 \itemize{
-\item \code{cluster_name} the clustering cluster_name name.
-\item \code{cluster}  the name of the specific cluster.
+\item \code{cluster_name} the name of the clustering.
+\item \code{cluster} the cluster name.
 \item \code{n} the number of observations assigned to this \code{cluster}.
 \item \code{p} the percent of observations assigned to this \code{cluster}.
 }

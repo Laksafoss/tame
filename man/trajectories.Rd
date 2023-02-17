@@ -4,7 +4,13 @@
 \alias{trajectories}
 \title{Timing pattern frequency within clusters}
 \usage{
-trajectories(clustering, only = NULL, clusters = NULL, additional_data = NULL)
+trajectories(
+  clustering,
+  only = NULL,
+  clusters = NULL,
+  additional_data = NULL,
+  ...
+)
 }
 \arguments{
 \item{only}{<\code{\link[dplyr:dplyr_data_masking]{data-masking}}> Expressions that
@@ -25,20 +31,54 @@ The default \code{NULL} selects all clusters in the chosen clusterings of
 (left-)joined onto the \code{parameters} in \code{object}. This is often
 used in conjuction with \code{only} to select specific clusterings based on
 \code{additional_data}.}
+
+\item{...}{Additional arguments passed to the internal summary function.
+\itemize{
+\item \code{cluster_wise}  an option in the \code{medications()} function.
+\item \code{m} an option in the \code{medications()} function. A numeric restricting the
+number of distinct ATC codes plotted within each cluster. That is, the
+(at most) \code{m} most frequent ATC codes within that cluster is given a
+color.
+\item \code{q} an option in the \code{medications()} function. A numeric between 0 and 1
+restricting the minimal ATC codes frequency displayed within each
+cluster.
+\item \code{count_grouper} an option in the \code{amounts()} function. A function for
+grouping counts. As a standard it groups counts as 1 medication, 2
+medications, and 3+ medications.
+\item \code{atc_groups} A data.frame specifying the ATC groups to summaries by. The
+data.frame must have two columns: (1) \code{regex} giving regular expressions
+specifying the wanted ATC groups and (2) \code{atc_groups} the name of this
+ATC grouping. As a standard the anatomical level (first level) of the ATC
+codes is used.
+}}
 }
 \value{
-\code{trajectories()} returns a data frame of class \code{summary.medic.trajectories}
+\code{trajectories()} returns a list of class \code{summary.medic.trajectories} with
+two data frames:
+\subsection{average}{
 \itemize{
-\item \code{x} very.
-\item \code{y} important.
-\item \code{z} info.
+\item \code{cluster_name} the name of the clustering.
+\item \code{cluster} the \code{cluster} name.
+\item \emph{timing variables} the average timing value in \code{cluster}.
+\item \code{n} the number of people in \code{cluster}.
+}
+}
+
+\subsection{individual}{
+\itemize{
+\item \code{cluster_name} the name of the clustering.
+\item \code{cluster} the cluster name.
+\item \emph{timing variables} a unique timing pattern in \code{cluster}.
+\item \code{n} number of people with this unique timing pattern.
+}
 }
 }
 \description{
 \code{trajectories()} calculates the average timing paths within clusters.
 }
 \details{
-TODO
+\code{trajectories()} calculates both the number of unique timing trajectories in
+each cluster and the average timing trajectories in each cluster.
 }
 \examples{
 clust <- medic(

@@ -11,7 +11,8 @@ medications(
   cluster_wise = TRUE,
   m = 3,
   q = 0.05,
-  additional_data = NULL
+  additional_data = NULL,
+  ...
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ frame, so expressions like I:IV can be used to select a range of clusters.
 The default \code{NULL} selects all clusters in the chosen clusterings of
 \code{object}.}
 
+\item{cluster_wise}{TODO}
+
 \item{m}{A numeric restricting the number of distinct ATC codes plotted
 within each cluster. That is, the (at most) \code{m} most frequent ATC
 codes within that cluster is given a color.}
@@ -40,19 +43,38 @@ frequency displayed within each cluster.}
 (left-)joined onto the \code{parameters} in \code{object}. This is often
 used in conjuction with \code{only} to select specific clusterings based on
 \code{additional_data}.}
+
+\item{...}{Additional arguments passed to the internal summary function.
+\itemize{
+\item \code{cluster_wise}  an option in the \code{medications()} function.
+\item \code{m} an option in the \code{medications()} function. A numeric restricting the
+number of distinct ATC codes plotted within each cluster. That is, the
+(at most) \code{m} most frequent ATC codes within that cluster is given a
+color.
+\item \code{q} an option in the \code{medications()} function. A numeric between 0 and 1
+restricting the minimal ATC codes frequency displayed within each
+cluster.
+\item \code{count_grouper} an option in the \code{amounts()} function. A function for
+grouping counts. As a standard it groups counts as 1 medication, 2
+medications, and 3+ medications.
+\item \code{atc_groups} A data.frame specifying the ATC groups to summaries by. The
+data.frame must have two columns: (1) \code{regex} giving regular expressions
+specifying the wanted ATC groups and (2) \code{atc_groups} the name of this
+ATC grouping. As a standard the anatomical level (first level) of the ATC
+codes is used.
+}}
 }
 \value{
 \code{medications()} returns a data frame with class
 \code{summary.medic.medications}.
 \itemize{
-\item \code{cluster_name} the clustering cluster_name name.
-\item \code{cluster}  the name of the specific cluster.
+\item \code{cluster_name} the name of the clustering.
+\item \code{cluster} the cluster name.
 \item \code{atc} ATC codes.
 \item \code{n} number of people with this ATC code in this \code{cluster}.
-\item \code{p_analysis} the percentage of people with this ATC code assigned to
-this \code{cluster}.
-\item \code{p_cluster} the percent of people within the \code{cluster} with this ATC
-code.
+\item \code{p_analysis} the percentage of people with this ATC code assigned to this
+\code{cluster}.
+\item \code{p_cluster} the percent of people within the \code{cluster} with this ATC code.
 }
 }
 \description{

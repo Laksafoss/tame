@@ -113,7 +113,7 @@ simplified versions of the data.}
 }
 \description{
 The \code{medic} method uses agglomerative hierarchical clustering with a
-bespoke distance measure based on medication ATC codes simmilarities,
+bespoke distance measure based on medication ATC codes similarities,
 medication timing and medication amount to assign people to medication
 pattern clusters.
 }
@@ -166,18 +166,16 @@ the sum, in other words, the average is calculated.
 
 The central idea of this method, namely the ATC distance, is given as
 \deqn{%
-  D_{\theta}(x, y) = \sum_{i=1,...,5}1\{x and y match on precisely level i\}\theta_i%
+  D_{\theta}(x, y) = \sum_{i=1,...,5}1\{x and y match on level i, but not level i + 1\}\theta_i%
 }{%
-  D_\theta(x, y) = \sum_{i=1,...,5}1\{x and y match on precisely level i\}\theta_i%
+  D_\theta(x, y) = \sum_{i=1,...,5}1\{x and y match on level i, but not level i + 1\}\theta_i%
 }
 The ATC distance is tuned using the vector \code{theta}.
 
 Note that two ATC codes are said to match at level i when they are identical
-at level i, but different at level i + 1. E.g. the two codes N06AB01 and
-N06AA01 match on level 3 as they are both "N06A" at level 3, but at level 4
-they differ ("N06AB" and "N06AA").
-
-TODO
+at level i. E.g. the two codes N06AB01 and N06AA01 match on level 1, 2, and 3
+as they are both "N" at level 1, "N06" at level 2, and "N06A" at level 3,
+but at level 4 they differ ("N06AB" and "N06AA" are not the same).
 }
 
 \subsection{Timing distance}{
