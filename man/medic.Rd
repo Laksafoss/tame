@@ -114,8 +114,7 @@ simplified versions of the data.}
 \description{
 The \code{medic} method uses agglomerative hierarchical clustering with a
 bespoke distance measure based on medication ATC codes similarities,
-medication timing and medication amount to assign people to medication
-pattern clusters.
+medication timing and medication amount or dosage.
 }
 \details{
 The \code{medic} method uses agglomerative hierarchical

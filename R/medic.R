@@ -1,9 +1,8 @@
 #' Medication clustering (based on ATC and timing)
 #'
-#' The \code{medic} method uses agglomerative hierarchical clustering with a
-#' bespoke distance measure based on medication ATC codes similarities,
-#' medication timing and medication amount to assign people to medication
-#' pattern clusters.
+#' The \code{medic} method uses agglomerative hierarchical clustering with a 
+#' bespoke distance measure based on medication ATC codes similarities, 
+#' medication timing and medication amount or dosage.
 #'
 #' @param data A data frame containing all the variables for the clustering.
 #' @param k a vector specifying the number of clusters to identify.

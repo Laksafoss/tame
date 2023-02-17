@@ -1,6 +1,9 @@
 #' Timing and ATC based Medication Clustering
 #'
-#' A nice and short description of the package.
+#' Agglomerative hierarchical clustering with a bespoke distance measure based 
+#' on medication ATC codes similarities, medication timing and medication amount
+#' or dosage. Tools for summarizing, illustrating and manipulating the cluster
+#' objects are also avalible.
 #' 
 #' @importFrom rlang .data
 #' @importFrom rlang :=

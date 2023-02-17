@@ -4,8 +4,10 @@ Version: 0.0.1
 Authors@R: 
     person("Anna", "Laksafoss", , "adls@ssi.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9898-2924"))
-Description: Analysis and illustration tools for Timing and ATC base medication 
-    clustering.
+Description: Agglomerative hierarchical clustering with a bespoke distance 
+  measure based on medication ATC codes similarities, medication timing and 
+  medication amount or dosage. Tools for summarizing, illustrating and 
+  manipulating the cluster objects are also avalible.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
