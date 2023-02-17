@@ -1,8 +1,7 @@
-#' Medication Clustering
+#' Timing and ATC based Medication Clustering
 #'
 #' A nice and short description of the package.
-#' @references
-#' mention or article
+#' 
 #' @importFrom rlang .data
 #' @importFrom rlang :=
 #' @importFrom magrittr %>%

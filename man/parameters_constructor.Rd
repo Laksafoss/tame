@@ -41,7 +41,9 @@ variables. Moreover, pattern matching selection helpers such as
 \code{\link[tidyselect:starts_with]{num_range}} may also be used to select timing
 variables.}
 
-\item{base_clustering}{TO DO}
+\item{base_clustering}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> An
+unquoted expression naming the variable in \code{data} that gives an initial
+clustering to start the \code{medic} from or \code{NULL}.}
 
 \item{linkage}{The agglomeration method to be used in the clustering. This
 should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2",

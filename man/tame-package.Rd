@@ -4,12 +4,16 @@
 \name{tame-package}
 \alias{tame}
 \alias{tame-package}
-\title{Medication Clustering}
+\title{Timing and ATC based Medication Clustering}
 \description{
 A nice and short description of the package.
 }
-\references{
-mention or article
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/Laksafoss/tame/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Anna Laksafoss \email{adls@ssi.dk} (\href{https://orcid.org/0000-0002-9898-2924}{ORCID})

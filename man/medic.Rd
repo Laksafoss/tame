@@ -44,7 +44,9 @@ variables. Moreover, pattern matching selection helpers such as
 \code{\link[tidyselect:starts_with]{num_range}} may also be used to select timing
 variables.}
 
-\item{base_clustering}{TO DO}
+\item{base_clustering}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> An
+unquoted expression naming the variable in \code{data} that gives an initial
+clustering to start the \code{medic} from or \code{NULL}.}
 
 \item{linkage}{The agglomeration method to be used in the clustering. This
 should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2",
@@ -95,8 +97,8 @@ the hierarchical clustering process. The object is a list with components:
 \describe{
 \item{data}{the inputted data frame \code{data} with the cluster
 assignments appended at the end.}
-\item{clustering}{a data frame with the person id as given by \code{id} and
-the clusters found.}
+\item{clustering}{a data frame with the person id as given by \code{id},
+the \code{.analysis_order} and the clusters found.}
 \item{variables}{a list of the variables used in the clustering.}
 \item{parameters}{a data frame with all the inputted clustering
 parameters and the corresponding method names. These method names
@@ -104,6 +106,8 @@ correspond to the column names for each cluster in the \code{clustering}
 data frame described right above.}
 \item{key}{a list of keys used internally in the function to keep track of
 simplified versions of the data.}
+\item{distance_matrix}{the distance matrices for each method if
+\code{return_distance_matrix} is \code{TRUE} otherwise \code{NULL}.}
 \item{call}{the matched call.}
 }
 }
@@ -118,31 +122,37 @@ The \code{medic} method uses agglomerative hierarchical
 clustering with a bespoke distance measure based on medication ATC codes and
 timing similarities to assign medication pattern clusters to people.
 
-Two versions of the distance measure are available: The \emph{double sum}:
+Two versions of the distance measure are available:
+
+The \emph{double sum}:
 
 \deqn{%
-  d(p_i, p_j) = N(M_i, M_j)^{\alpha} \sum_{m\in M_i}\sum_{n \in M_j}%
-  ((1 + D_{\theta}(m,n)) (1 + \gamma T(t_{im},t_{jn})) - 1)^{\beta}.%
+  d(p_i, p_j) = N_{\alpha}(M_i \times M_j) \sum_{m\in M_i}\sum_{n \in M_j}%
+  ((1 + D_{\theta}(m,n)) (1 + \gamma T_p(t_{im},t_{jn})) - 1)^{\beta}.%
 }{%
-  d(p_i, p_j) = N(M_i, M_j)^\alpha \sum{m in M_i}\sum{n in M_j}%
-  ((1 + D_\theta(m,n)) (1+ \gamma T(t_{im},t_{jn})) - 1)^\beta.%
+  d(p_i, p_j) = N_\alpha(M_i  M_j) \sum{m in M_i}\sum{n in M_j}%
+  ((1 + D_\theta(m,n)) (1+ \gamma T_p(t_{im},t_{jn})) - 1)^\beta.%
 }
 
 and the \emph{sum of minima}:
 \deqn{%
-  d(p_i, p_j) = \frac{1}{2}(N(M_i)^{\alpha}\sum_{m\in M_i}\min_{n \in M_j}%
-  ((1 + D_{\theta}(m,n)) (1 + \gamma T(t_{im},t_{jn})) - 1)^{\beta} +
-  N(M_j)^{\alpha} \sum_{n\in M_j}\min_{m \in M_i}%
-  ((1 + D_{\theta}(m,n)) (1 + \gamma T(t_{im},t_{jn})) - 1)^{\beta}).%
+  d(p_i, p_j) = \frac{1}{2}(N_{\alpha}(M_i)\sum_{m\in M_i}\min_{n \in M_j}%
+  ((1 + D_{\theta}(m,n)) (1 + \gamma T_p(t_{im},t_{jn})) - 1)^{\beta} +
+  N_{\alpha}(M_j) \sum_{n\in M_j}\min_{m \in M_i}%
+  ((1 + D_{\theta}(m,n)) (1 + \gamma T_p(t_{im},t_{jn})) - 1)^{\beta}).%
 }{%
-  d(p_i, p_j) = (1/2) *( N(M_i)^\alpha\sum{m in M_i}\min{n in M_j}%
-  ((1 + D_\theta(m,n)) (1+ \gamma T(t_{im},t_{jn})) - 1)^\beta +
-   (N(M_j)^\alpha\sum{n in M_j}\min{m in M_i}%
-  ((1 + D_\theta(m,n)) (1+ \gamma T(t_{im},t_{jn})) - 1)^\beta).%
+  d(p_i, p_j) = (1/2) *( N_\alpha(M_i)\sum{m in M_i}\min{n in M_j}%
+  ((1 + D_\theta(m,n)) (1+ \gamma T_p(t_{im},t_{jn})) - 1)^\beta +
+   (N_\alpha(M_j)\sum{n in M_j}\min{m in M_i}%
+  ((1 + D_\theta(m,n)) (1+ \gamma T_p(t_{im},t_{jn})) - 1)^\beta).%
 }
 \subsection{Normalization}{
 
-TO DO  : Make the N(.) function above more consistent
+\deqn{%
+  N_{\alpha}(x) = |x|^{-\alpha}%
+}{%
+  N_\alpha(x) = |x|^-\alpha %
+}
 
 If the normalization tuning, \code{alpha}, is 0, then no normalization is
 preformed and the distance measure becomes highly dependent on the number of
@@ -156,21 +166,29 @@ the sum, in other words, the average is calculated.
 
 The central idea of this method, namely the ATC distance, is given as
 \deqn{%
-  123%
+  D_{\theta}(x, y) = \sum_{i=1,...,5}1\{x and y match on precisely level i\}\theta_i%
 }{%
-  123%
+  D_\theta(x, y) = \sum_{i=1,...,5}1\{x and y match on precisely level i\}\theta_i%
 }
+The ATC distance is tuned using the vector \code{theta}.
 
-The ATC distance is tuned using the vector \code{theta}.  TODO
+Note that two ATC codes are said to match at level i when they are identical
+at level i, but different at level i + 1. E.g. the two codes N06AB01 and
+N06AA01 match on level 3 as they are both "N06A" at level 3, but at level 4
+they differ ("N06AB" and "N06AA").
+
+TODO
 }
 
 \subsection{Timing distance}{
 
+The timing distance is a simple Minkowski distance:
 \deqn{%
-  123%
+  T(x,y) =(\sum_{t \in T} |x_t - y_t|^p)^{1/p}.%
 }{%
-  123%
+  T(x,y) =(\sum_{t in T} |x_t - y_t|^p)^{1/p}.%
 }
+When \code{p} is 1, the default, the Manhattan distance is used.
 }
 }
 \examples{

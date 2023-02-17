@@ -64,6 +64,11 @@ part1 <- complications[1:100,]
 part2 <- complications[101:149,]
 
 clust <- medic(part1, id = id, atc = atc, k = 3)
+
+# Nearest cluster matching
 employ(clust, part2)
+
+# Only exact matching
+employ(clust, part2, assignment_method = "exact_only")
 
 }

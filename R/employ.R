@@ -42,7 +42,12 @@
 #' part2 <- complications[101:149,]
 #'
 #' clust <- medic(part1, id = id, atc = atc, k = 3)
+#' 
+#' # Nearest cluster matching
 #' employ(clust, part2)
+#'
+#' # Only exact matching
+#' employ(clust, part2, assignment_method = "exact_only")
 #'
 #' @export
 employ <- function(
@@ -132,25 +137,49 @@ employ <- function(
     dplyr::full_join(old_distinct, by = "pattern")
 
 
+
   #   ===   Exact Matching   ===================================================
 
   if (assignment_method == "exact_only") {
     
-    unnested_matching <- matching %>%
-      tidyr::unnest("pattern") %>%
-      dplyr::relocate(dplyr::any_of(names(new_data)))
+    exact_clusters <- matching %>%
+      dplyr::select(-"pattern") %>%
+      dplyr::mutate(
+        dplyr::across(dplyr::all_of(selected_names), list("new_exact" = ~.))
+      )
     
-    joined_data <- dplyr::bind_rows(
-      old %>% dplyr::select(-"pattern"),
-      new %>% dplyr::select(-"pattern")
-    ) %>% dplyr::left_join(unnested_matching, by = clust$variables$id)
-    
-    all_clusterings <- joined_data %>%
+    old_clusters <- clust$clustering %>%
       dplyr::select(
         !!rlang::sym(clust$variables$id),
+        ".analysis_order",
         !!!rlang::syms(selected_names)
       ) %>%
-      dplyr::distinct()
+      dplyr::distinct() %>%
+      dplyr::mutate(
+        dplyr::across(dplyr::all_of(selected_names), list("old" = ~.))
+      ) %>%
+      dplyr::arrange(
+        match(
+          !!rlang::sym(clust$variables$id),
+          clust$data[[clust$variables$id]]
+        )
+      )
+    
+    all_clusterings <- dplyr::bind_rows(exact_clusters, old_clusters)
+   
+    final_clusters <- all_clusterings %>%
+      dplyr::select(
+        !!rlang::sym(clust$variables$id), 
+        !!!rlang::syms(selected_names)
+      )
+    
+    joined_data <- clust$data %>% 
+      dplyr::select(-dplyr::all_of(selected_names)) %>%
+      dplyr::mutate(.origin = "old") %>%
+      dplyr::bind_rows(new_data) %>%
+      dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) %>%
+      dplyr::left_join(final_clusters, by = clust$variables$id) %>%
+      dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
     
     return(
       structure(
@@ -159,7 +188,7 @@ employ <- function(
           clustering = all_clusterings,
           variables = clust$variables,
           parameters = clust$parameters,
-          key = keys,
+          key = clust$keys,
           call = list(clust$call, match.call(expand.dots = FALSE))
         ),
         "class" = "medic"
@@ -265,7 +294,7 @@ employ <- function(
     clusterings <- parallel::parLapply(
       clust, 1:nrow(parameters), function(i) {
 
-        # current method½
+        # current method
         method <- parameters[i,]
 
         # method specific atc, timing & amount metric tables
@@ -389,7 +418,7 @@ employ <- function(
       dplyr::across(dplyr::all_of(selected_names), list("new_exact" = ~.))
     )
 
-  old_clusters <- clust$data %>%
+  old_clusters <- clust$clustering %>%
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       !!!rlang::syms(selected_names)
@@ -414,20 +443,21 @@ employ <- function(
       )
     )
   all_clusterings <- dplyr::bind_rows(all_new_clusterings, old_clusters)
-
-  out_data <- new_data %>%
-    dplyr::left_join(all_new_clusterings, by = clust$variables$id)
-
-  joined_data <- new_data %>%
-    dplyr::mutate(.origin = "new") %>%
-    dplyr::bind_rows(clust$data) %>%
-    dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "old")) %>%
+  
+  final_clusters <- all_clusterings %>%
     dplyr::select(
-      !!rlang::sym(clust$variables$id),
-      !!rlang::sym(clust$variables$atc),
-      dplyr::all_of(clust$variables$timing)
-    ) %>%
-    dplyr::left_join(all_clusterings, by = clust$variables$id)
+      !!rlang::sym(clust$variables$id), 
+      !!!rlang::syms(selected_names)
+    )
+  
+  
+  joined_data <- clust$data %>% 
+    dplyr::select(-dplyr::all_of(selected_names)) %>%
+    dplyr::mutate(.origin = "old") %>%
+    dplyr::bind_rows(new_data) %>%
+    dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) %>%
+    dplyr::left_join(final_clusters, by = clust$variables$id) %>%
+    dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
 
   names(keys)[which(names(keys) == "base_clustering")] <- "clustered_patterns"
 
@@ -435,7 +465,6 @@ employ <- function(
     structure(
       list(
         data = joined_data,
-        #new_only_data = out_data,
         clustering = all_clusterings,
         variables = clust$variables,
         parameters = clust$parameters,
