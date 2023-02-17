@@ -165,7 +165,8 @@ employ <- function(
         )
       )
     
-    all_clusterings <- dplyr::bind_rows(exact_clusters, old_clusters)
+    all_clusterings <- dplyr::bind_rows(exact_clusters, old_clusters) %>%
+      dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
    
     final_clusters <- all_clusterings %>%
       dplyr::select(
@@ -179,7 +180,7 @@ employ <- function(
       dplyr::bind_rows(new_data) %>%
       dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) %>%
       dplyr::left_join(final_clusters, by = clust$variables$id) %>%
-      dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
+      dplyr::relocate(dplyr::all_of(clust$variables$id))
     
     return(
       structure(
@@ -421,6 +422,7 @@ employ <- function(
   old_clusters <- clust$clustering %>%
     dplyr::select(
       !!rlang::sym(clust$variables$id),
+      ".analysis_order",
       !!!rlang::syms(selected_names)
     ) %>%
     dplyr::distinct() %>%
@@ -442,7 +444,9 @@ employ <- function(
         new_data[[clust$variables$id]]
       )
     )
-  all_clusterings <- dplyr::bind_rows(all_new_clusterings, old_clusters)
+  all_clusterings <- dplyr::bind_rows(all_new_clusterings, old_clusters) %>%
+    dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
+  
   
   final_clusters <- all_clusterings %>%
     dplyr::select(
@@ -457,7 +461,7 @@ employ <- function(
     dplyr::bind_rows(new_data) %>%
     dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) %>%
     dplyr::left_join(final_clusters, by = clust$variables$id) %>%
-    dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
+    dplyr::relocate(dplyr::all_of(clust$variables$id))
 
   names(keys)[which(names(keys) == "base_clustering")] <- "clustered_patterns"
 
