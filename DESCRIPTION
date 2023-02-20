@@ -1,5 +1,5 @@
 Package: tame
-Title: Timing and ATC Based Medication Clustering
+Title: Timing, Anatomical, Therapeutic and Chemical Based Medication Clustering
 Version: 0.0.1
 Authors@R: 
     person("Anna", "Laksafoss", , "adls@ssi.dk", role = c("aut", "cre"),
@@ -32,5 +32,4 @@ Config/testthat/edition: 3
 Depends: 
     R (>= 4.2)
 LazyData: true
-VignetteBuilder: knitr
 LinkingTo: Rcpp
