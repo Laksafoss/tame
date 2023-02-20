@@ -5,9 +5,10 @@ Authors@R:
     person("Anna", "Laksafoss", , "adls@ssi.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9898-2924"))
 Description: Agglomerative hierarchical clustering with a bespoke distance 
-  measure based on medication ATC codes similarities, medication timing and 
+  measure based on medication similarities in the Anatomical Therapeutic 
+  Chemical Classification System, medication timing and 
   medication amount or dosage. Tools for summarizing, illustrating and 
-  manipulating the cluster objects are also avalible.
+  manipulating the cluster objects are also available.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

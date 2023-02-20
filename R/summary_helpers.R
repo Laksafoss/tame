@@ -397,7 +397,7 @@ trajectories <- function(
 #' * `cluster_name` the name of the clustering.
 #' * `cluster` the cluster name.
 #' * `n` the number of people in the cluster.
-#' * `atc_group` atc groups as specified by the `atc_groups` input.
+#' * `atc_group` ATC groups as specified by the `atc_groups` input.
 #' * _timing variable_ a unique timing pattern in `cluster` and `atc_group`.
 #' * `n_interaction` number of people in this cluster with this timing and atc 
 #'   group combination.

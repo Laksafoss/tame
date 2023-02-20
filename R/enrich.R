@@ -6,7 +6,7 @@
 #' @param additional_data A data frame with additional data that may be
 #'   (left-)joined onto the `parameters` in `object`.
 #' @param by A character vector of variables to join by. This variables is
-#'    passed to the `by` term in a [dplyr::left_join()] and inherets its
+#'    passed to the `by` term in a [dplyr::left_join()] and inherits its
 #'    behavior:
 #'
 #'    If `NULL`, the default, the join will perform a natural join, using all

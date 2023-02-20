@@ -26,20 +26,20 @@
 #'   "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median"
 #'   (= WPGMC) or "centroid" (= UPGMC). See [stats::hclust] for more
 #'   information. For a discussion of linkage criterion choice see
-#'   \emph{detailes} below.
+#'   \emph{details} below.
 #' @param summation_method The summation method used in the distance measure.
 #'    This  should be either "double_sum" or "sum_of_minima". See
-#'   \emph{detailes} below for more information.
+#'   \emph{details} below for more information.
 #' @param alpha A number giving the tuning of the normalization. See
-#'   \emph{detailes} below for more information.
+#'   \emph{details} below for more information.
 #' @param beta A number giving the power of the individual medication
-#'   combinations. See \emph{detailes} below for more information.
+#'   combinations. See \emph{details} below for more information.
 #' @param gamma A number giving the weight of the timing terms. See
-#'   \emph{detailes} below for more information.
+#'   \emph{details} below for more information.
 #' @param p The power of the Minkowski distance used in the timing-specific
-#'    distance. See \emph{detailes} below for more information.
+#'    distance. See \emph{details} below for more information.
 #' @param theta A vector of length 6 specifying the tuning of the ATC measure.
-#'   See \emph{detailes} below for more information.
+#'   See \emph{details} below for more information.
 #' @param parallel A logical or an integer. If `FALSE`, the default, no
 #'   parallelization is done.
 #'
@@ -48,7 +48,7 @@
 #'   `parallel` is \code{TRUE} the number of [clusters][parallel::makeCluster]
 #'   is set to [detectCores][parallel::detectCores] - 1, and when `parallel` is
 #'   an integer then the number of [clusters][parallel::makeCluster] is set to
-#'   `parallel`. For more detailes on the parallization method see
+#'   `parallel`. For more details on the parallelization method see
 #'   [parallel::parLapply].
 #' @param return_distance_matrix A logical.
 #' @param set_seed A logical or an integer.

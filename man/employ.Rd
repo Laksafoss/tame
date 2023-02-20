@@ -22,7 +22,7 @@ employ(
 \item{only}{<\code{\link[dplyr:dplyr_data_masking]{data-masking}}> Expressions that
 return a logical value, and are defined in terms of the variables in
 \code{object} and/or \code{additional_data} and specifies which clusterings should be
-emplyed to the new data.}
+employed to the new data.}
 
 \item{additional_data}{A data frame with additional data that may be
 (left-)joined onto the \code{parameters} in \code{object}. This is often
@@ -38,7 +38,7 @@ in the output.
 
 The assignment method \code{"exact_only"} only matches a person from \code{new_data}
 to a cluster if they are a perfect match to anyone in \code{object}. Thus,
-people from \code{new_data} are not garuanteed assignment to a cluster.}
+people from \code{new_data} are not guaranteed assignment to a cluster.}
 
 \item{parallel}{A logical or an integer. If \code{FALSE}, the default, no
 parallelization is done.
@@ -48,7 +48,7 @@ If \code{TRUE} or an integer larger than 2L parallelization is implemented via
 \code{parallel} is \code{TRUE} the number of \link[parallel:makeCluster]{clusters}
 is set to \link[parallel:detectCores]{detectCores} - 1, and when \code{parallel} is
 an integer then the number of \link[parallel:makeCluster]{clusters} is set to
-\code{parallel}. For more detailes on the parallization method see
+\code{parallel}. For more details on the parallelization method see
 \link[parallel:clusterApply]{parallel::parLapply}.}
 
 \item{...}{Additional arguments affecting the employment procedure.}

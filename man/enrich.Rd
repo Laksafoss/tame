@@ -13,7 +13,7 @@ enrich(object, additional_data = NULL, by = NULL)
 (left-)joined onto the \code{parameters} in \code{object}.}
 
 \item{by}{A character vector of variables to join by. This variables is
-passed to the \code{by} term in a \code{\link[dplyr:mutate-joins]{dplyr::left_join()}} and inherets its
+passed to the \code{by} term in a \code{\link[dplyr:mutate-joins]{dplyr::left_join()}} and inherits its
 behavior:
 
 If \code{NULL}, the default, the join will perform a natural join, using all

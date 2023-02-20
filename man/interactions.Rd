@@ -68,7 +68,7 @@ codes is used.
 \item \code{cluster_name} the name of the clustering.
 \item \code{cluster} the cluster name.
 \item \code{n} the number of people in the cluster.
-\item \code{atc_group} atc groups as specified by the \code{atc_groups} input.
+\item \code{atc_group} ATC groups as specified by the \code{atc_groups} input.
 \item \emph{timing variable} a unique timing pattern in \code{cluster} and \code{atc_group}.
 \item \code{n_interaction} number of people in this cluster with this timing and atc
 group combination.

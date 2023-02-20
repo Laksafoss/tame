@@ -7,7 +7,7 @@
 #' @param only <[`data-masking`][dplyr::dplyr_data_masking]> Expressions that
 #'   return a logical value, and are defined in terms of the variables in
 #'   `object` and/or `additional_data` and specifies which clusterings should be 
-#'   emplyed to the new data.
+#'   employed to the new data.
 #' @param additional_data A data frame with additional data that may be
 #'   (left-)joined onto the `parameters` in `object`. This is often 
 #'   used in conjuction with `only` to select specific clusterings based on 
@@ -21,7 +21,7 @@
 #'
 #'   The assignment method `"exact_only"` only matches a person from `new_data`
 #'   to a cluster if they are a perfect match to anyone in `object`. Thus,
-#'   people from `new_data` are not garuanteed assignment to a cluster.
+#'   people from `new_data` are not guaranteed assignment to a cluster.
 #' @param parallel A logical or an integer. If `FALSE`, the default, no
 #'   parallelization is done.
 #'
@@ -30,7 +30,7 @@
 #'   `parallel` is \code{TRUE} the number of [clusters][parallel::makeCluster]
 #'   is set to [detectCores][parallel::detectCores] - 1, and when `parallel` is
 #'   an integer then the number of [clusters][parallel::makeCluster] is set to
-#'   `parallel`. For more detailes on the parallization method see
+#'   `parallel`. For more details on the parallelization method see
 #'   [parallel::parLapply].
 #' @param ... Additional arguments affecting the employment procedure.
 #'

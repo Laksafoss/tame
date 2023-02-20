@@ -50,26 +50,26 @@ should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2",
 "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median"
 (= WPGMC) or "centroid" (= UPGMC). See \link[stats:hclust]{stats::hclust} for more
 information. For a discussion of linkage criterion choice see
-\emph{detailes} below.}
+\emph{details} below.}
 
 \item{summation_method}{The summation method used in the distance measure.
 This  should be either "double_sum" or "sum_of_minima". See
-\emph{detailes} below for more information.}
+\emph{details} below for more information.}
 
 \item{alpha}{A number giving the tuning of the normalization. See
-\emph{detailes} below for more information.}
+\emph{details} below for more information.}
 
 \item{beta}{A number giving the power of the individual medication
-combinations. See \emph{detailes} below for more information.}
+combinations. See \emph{details} below for more information.}
 
 \item{gamma}{A number giving the weight of the timing terms. See
-\emph{detailes} below for more information.}
+\emph{details} below for more information.}
 
 \item{p}{The power of the Minkowski distance used in the timing-specific
-distance. See \emph{detailes} below for more information.}
+distance. See \emph{details} below for more information.}
 
 \item{theta}{A vector of length 6 specifying the tuning of the ATC measure.
-See \emph{detailes} below for more information.}
+See \emph{details} below for more information.}
 
 \item{...}{Additional arguments not currently in use.}
 }
