@@ -93,10 +93,4 @@ outputs the number of individuals within a cluster that has that many ATC
 codes. Moreover, various relevant percentages or calculated. See Value below
 for more details on these percentages.
 }
-\examples{
-clust <- medic(complications, id = id, atc = atc, k = 3:5)
-
-tame:::amounts(clust, k == 5, clusters = I:III)
-
-}
 \keyword{internal}

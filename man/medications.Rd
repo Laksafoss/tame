@@ -87,10 +87,4 @@ code within a cluster. Moreover, it calculates the percentage of people with
 this medication assigned to this cluster and the percent of people within
 the cluster with this medication.
 }
-\examples{
-clust <- medic(complications, id = id, atc = atc, k = 3:5)
-
-tame:::medications(clust, k == 5, clusters = I:III)
-
-}
 \keyword{internal}

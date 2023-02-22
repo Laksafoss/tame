@@ -70,12 +70,4 @@ individuals assigned to each cluster.
 \code{frequencies()} calculates the number of individuals assigned to
 each cluster and the associated frequency of assignment.
 }
-\examples{
-clust <- medic(complications, id = id, atc = atc, k = 3:5)
-
-# make frequency tables
-tame:::frequencies(clust, k == 5)
-tame:::frequencies(clust, k < 5, I:III)
-
-}
 \keyword{internal}

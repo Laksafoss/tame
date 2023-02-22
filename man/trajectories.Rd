@@ -80,16 +80,4 @@ two data frames:
 \code{trajectories()} calculates both the number of unique timing trajectories in
 each cluster and the average timing trajectories in each cluster.
 }
-\examples{
-clust <- medic(
-  complications,
-  id = id,
-  atc = atc,
-  k = 3:5,
-  timing = first_trimester:third_trimester
-)
-
-tame:::trajectories(clust, k == 5, clusters = I:III)
-
-}
 \keyword{internal}

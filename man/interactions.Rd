@@ -82,16 +82,4 @@ and ATC combinations within clusters.
 \code{interactions()} calculates both the number of people with unique timing
 trajectory and ATC group, as given by \code{atc_groups}, in each cluster.
 }
-\examples{
-clust <- medic(
-  complications,
-  id = id,
-  atc = atc,
-  k = 3:5,
-  timing = first_trimester:third_trimester
-)
-
-tame:::interactions(clust, k == 5, clusters = I:III)
-
-}
 \keyword{internal}

@@ -16,14 +16,14 @@
 #' * `cluster` the cluster name.
 #' * `n` the number of observations assigned to this `cluster`.
 #' * `p` the percent of observations assigned to this `cluster`.
-#'
-#' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3:5)
-#'
-#' # make frequency tables
-#' tame:::frequencies(clust, k == 5)
-#' tame:::frequencies(clust, k < 5, I:III)
-#'
+#
+# @examples
+# clust <- medic(complications, id = id, atc = atc, k = 3:5)
+#
+# # make frequency tables
+# tame:::frequencies(clust, k == 5)
+# tame:::frequencies(clust, k < 5, I:III)
+#
 #' @keywords internal
 frequencies <- function(
     clustering,
@@ -90,11 +90,11 @@ frequencies <- function(
 #'   `cluster`.
 #' * `p_cluster` the percent of people within the `cluster` with this ATC code. 
 #'
-#' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3:5)
-#'
-#' tame:::medications(clust, k == 5, clusters = I:III)
-#'
+# @examples
+# clust <- medic(complications, id = id, atc = atc, k = 3:5)
+#
+# tame:::medications(clust, k == 5, clusters = I:III)
+#
 #' @keywords internal
 medications <- function(
     clustering,
@@ -179,11 +179,11 @@ medications <- function(
 #' * `p_medications_with_n_unique_medications` percentage of medication in 
 #'   `cluster` with `m` different ATC codes. 
 #'
-#' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3:5)
-#'
-#' tame:::amounts(clust, k == 5, clusters = I:III)
-#'
+# @examples
+# clust <- medic(complications, id = id, atc = atc, k = 3:5)
+#
+# tame:::amounts(clust, k == 5, clusters = I:III)
+#
 #' @keywords internal
 amounts <- function(
     clustering,
@@ -311,17 +311,17 @@ amounts <- function(
 #' * _timing variables_ a unique timing pattern in `cluster`.
 #' * `n` number of people with this unique timing pattern.
 #'
-#' @examples
-#' clust <- medic(
-#'   complications,
-#'   id = id,
-#'   atc = atc,
-#'   k = 3:5,
-#'   timing = first_trimester:third_trimester
-#' )
-#'
-#' tame:::trajectories(clust, k == 5, clusters = I:III)
-#'
+# @examples
+# clust <- medic(
+#   complications,
+#   id = id,
+#   atc = atc,
+#   k = 3:5,
+#   timing = first_trimester:third_trimester
+# )
+#
+# tame:::trajectories(clust, k == 5, clusters = I:III)
+#
 #' @keywords internal
 trajectories <- function(
     clustering,
@@ -402,17 +402,17 @@ trajectories <- function(
 #' * `n_interaction` number of people in this cluster with this timing and atc 
 #'   group combination.
 #'
-#' @examples
-#' clust <- medic(
-#'   complications,
-#'   id = id,
-#'   atc = atc,
-#'   k = 3:5,
-#'   timing = first_trimester:third_trimester
-#' )
-#'
-#' tame:::interactions(clust, k == 5, clusters = I:III)
-#'
+# @examples
+# clust <- medic(
+#   complications,
+#   id = id,
+#   atc = atc,
+#   k = 3:5,
+#   timing = first_trimester:third_trimester
+# )
+#
+# tame:::interactions(clust, k == 5, clusters = I:III)
+#
 #' @keywords internal
 interactions <- function(
     clustering,
