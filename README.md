@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# tame <img src="man/figures/Logo_tame.png" align="right" height="200" />
-=======
-# tame <img src="man/figures/lion_logo.png" align="right" height="300" />
->>>>>>> 23203e81f6025639894ecaf979a3bfbec2002e18
+# tame <img src="man/figures/Logo_tame.png" align="right" height="300" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/Laksafoss/tame/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Laksafoss/tame/actions/workflows/R-CMD-check.yaml)
