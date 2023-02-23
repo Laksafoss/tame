@@ -26,17 +26,6 @@ The \code{cluster_selector()} finds the names of the chosen clusters present in
 the \code{clustering} <\code{medic}> object. This function is used in all of
 the investigative functions called by \code{\link[=summary]{summary()}}.
 }
-\examples{
-clust <- medic(
-   complications,
-   id = id,
-   atc = atc,
-   k = 3:5
-)
-
-tame:::cluster_selector(clust, clusters = I:III)
-
-}
 \seealso{
 \code{\link[=method_selector]{method_selector()}} is another selector method used through out
 the package.

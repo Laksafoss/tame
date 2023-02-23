@@ -29,20 +29,20 @@
 #' @seealso [`cluster_selector()`] is another selector method used through out
 #'   the package.
 #'
-#' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3:5)
-#'
-#' tame:::method_selector(clust, k < 5)
-#'
-#'
-#' # cluster selection based on additional data
-#'
-#' user_classification <- data.frame(
-#'    k = 1:10,
-#'    size = rep(c("small", "large"), times = c(4, 6)))
-#'
-#' tame:::method_selector(clust, size == "small", user_classification)
-#'
+# @examples
+# clust <- medic(complications, id = id, atc = atc, k = 3:5)
+#
+# tame:::method_selector(clust, k < 5)
+#
+#
+# # cluster selection based on additional data
+#
+# user_classification <- data.frame(
+#    k = 1:10,
+#    size = rep(c("small", "large"), times = c(4, 6)))
+#
+# tame:::method_selector(clust, size == "small", user_classification)
+#
 #' @keywords internal
 method_selector <- function(clustering, only, additional_data = NULL) {
 
@@ -81,16 +81,16 @@ method_selector <- function(clustering, only, additional_data = NULL) {
 #'   the package.
 #'
 #'
-#' @examples
-#' clust <- medic(
-#'    complications,
-#'    id = id,
-#'    atc = atc,
-#'    k = 3:5
-#' )
-#'
-#' tame:::cluster_selector(clust, clusters = I:III)
-#'
+# @examples
+# clust <- medic(
+#    complications,
+#    id = id,
+#    atc = atc,
+#    k = 3:5
+# )
+#
+# tame:::cluster_selector(clust, clusters = I:III)
+#
 #' @keywords internal
 cluster_selector <- function(clustering, clusters = NULL) {
 

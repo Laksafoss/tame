@@ -45,21 +45,6 @@ The \code{method_selector()} function is a filtering function used for extractin
 the characteristics of the chosen method. This function is used in all of
 the investigative functions called by \code{\link[=summary]{summary()}}.
 }
-\examples{
-clust <- medic(complications, id = id, atc = atc, k = 3:5)
-
-tame:::method_selector(clust, k < 5)
-
-
-# cluster selection based on additional data
-
-user_classification <- data.frame(
-   k = 1:10,
-   size = rep(c("small", "large"), times = c(4, 6)))
-
-tame:::method_selector(clust, size == "small", user_classification)
-
-}
 \seealso{
 \code{\link[=cluster_selector]{cluster_selector()}} is another selector method used through out
 the package.
