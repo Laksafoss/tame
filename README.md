@@ -1,7 +1,9 @@
 # tame <img src="man/figures/Logo_tame.png" align="right" height="300" />
 
 <!-- badges: start -->
+[![CRANstatus](https://www.r-pkg.org/badges/version/EpiForsk)](https://cran.r-project.org/package=tame)
 [![R-CMD-check](https://github.com/Laksafoss/tame/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Laksafoss/tame/actions/workflows/R-CMD-check.yaml)
+![CRAN Downloads overall](https://cranlogs.r-pkg.org/badges/grand-total/tame)
 <!-- badges: end -->
 
 
