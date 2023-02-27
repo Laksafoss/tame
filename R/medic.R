@@ -365,7 +365,7 @@ medic <- function(
         distance_matrix = distance_matrix,
         call = match.call(expand.dots = FALSE)
       ),
-      "class" = "medic")
+      "class" = c("medic", "list"))
   )
 }
 

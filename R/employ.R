@@ -192,7 +192,7 @@ employ <- function(
           key = clust$keys,
           call = list(clust$call, match.call(expand.dots = FALSE))
         ),
-        "class" = "medic"
+        class = c("medic", "list")
       )
     )
   }
@@ -475,7 +475,7 @@ employ <- function(
         key = keys,
         call = list(clust$call, match.call(expand.dots = FALSE))
       ),
-      "class" = "medic"
+      class = c("medic", "list")
     )
   )
 }

@@ -1,5 +1,6 @@
 #' @describeIn medic Print method for medic-objects
 #' @param x A `medic` object for printing.
+#' @exportS3Method  
 print.medic <- function(x, ...) {
   cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
       "\n\n", sep = "")
