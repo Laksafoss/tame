@@ -207,10 +207,14 @@ medic <- function(
   # create character id key - saves us some pain when naming
   if (is.numeric(set_seed)) { set.seed(set_seed) }
   data <- data %>%
-    dplyr::mutate(.original_order = dplyr::row_number(),
-                  .analysis_order = sample(1:(dplyr::n()),
-                                           size = dplyr::n(),
-                                           replace = FALSE)) %>%
+    dplyr::mutate(
+      .original_order = dplyr::row_number(),
+      .analysis_order = sample(
+        seq_len(dplyr::n(...)),
+        size = dplyr::n(),
+        replace = FALSE
+      )
+    ) %>%
     dplyr::arrange(.data$.analysis_order) %>%
     dplyr::mutate(.internal_character_id = as.character({{ id }}))
 
@@ -259,7 +263,7 @@ medic <- function(
 
 
     clusterings <- parallel::parLapply(
-      clust, 1:nrow(parameters), function(i) {
+      clust, seq_along(nrow(parameters)), function(i) {
 
         # current method
         method <- parameters[i,]
@@ -291,7 +295,7 @@ medic <- function(
   } else {
     #   ---   serial clustering   ----------------------------------------------
 
-    clusterings <- lapply(1:nrow(parameters), function(i) {
+    clusterings <- lapply(seq_along(nrow(parameters)), function(i) {
 
       # current method
       method <- parameters[i,]

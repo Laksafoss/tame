@@ -52,11 +52,11 @@ parameters_constructor <- function(
     stop("An 'atc' variable must be specified.")
   }
 
-  if (any(unlist(theta) != 0) & missing(atc)) {
+  if (any(unlist(theta) != 0) && missing(atc)) {
     stop("When 'theta' contains values != 0 then 'atc' must be specified.")
   }
 
-  if (any(beta != 0) & missing(timing) & missing(atc)) {
+  if (any(beta != 0) && missing(timing) && missing(atc)) {
     stop("When 'beta' != 0 then 'timing' or 'atc' must be specified.")
   }
 
@@ -439,13 +439,15 @@ context_lookup <- function(method, lookup_tables) {
 #'    Must be specified when applying a clustering to new data otherwise it
 #'    should be `NULL`.
 #' @noRd
-distance_matrix_constructor <- function(keys,
-                                        method,
-                                        cur_tables,
-                                        old_patterns = NULL,
-                                        new_patterns = NULL) {
+distance_matrix_constructor <- function(
+  keys,
+  method,
+  cur_tables,
+  old_patterns = NULL,
+  new_patterns = NULL
+) {
 
-  if ((!is.null(old_patterns)) & (!is.null(new_patterns))) {
+  if ((!is.null(old_patterns)) && (!is.null(new_patterns))) {
     rows <- keys$reduced_key %>%
       dplyr::filter(.data$unique_pattern_key %in% old_patterns)
     cols <- keys$reduced_key %>%
@@ -654,7 +656,7 @@ hierarchical_clustering <- function(keys,
                      ~factor(.,
                              levels = names(sort(rank(-table(.),
                                                       ties.method = "first"))),
-                             labels = as.roman(1:length(unique(.)))))
+                             labels = as.roman(seq_along(length(unique(.))))))
 
   return(list(cluster_assignment = cluster_assignment,
               distance_matrix = distance_matrix))

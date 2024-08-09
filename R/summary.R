@@ -165,7 +165,7 @@ cluster_frequency <- function(
     output_clusters <- c("Population", as.character(levels(selected_clusters)))
   }
   
-  n_id <- dplyr::n_distinct(
+  n_indi <- dplyr::n_distinct(
     dplyr::pull(clust$clustering, !!clust$variables$id)
   )
   selected_data <- clust$clustering |>
@@ -189,7 +189,7 @@ cluster_frequency <- function(
       values_to = "Cluster"
     ) |>
     dplyr::count(.data$Clustering, .data$Cluster, name = "Count") |>
-    dplyr::mutate(Percent = 100 * .data$Count / n_id) |>
+    dplyr::mutate(Percent = 100 * .data$Count / n_indi) |>
     dplyr::filter(.data$Cluster %in% output_clusters)
   
   class(res) <- c("summary.medic.cluster_frequency", class(res))
@@ -249,9 +249,9 @@ medication_frequency <- function(
     output_clusters <- c("Population", as.character(levels(selected_clusters)))
   }
   
-  n_id <- dplyr::n_distinct(
-    dplyr::pull(clust$clustering, !!clust$variables$id)
-  )
+  # n_indi <- dplyr::n_distinct(
+  #   dplyr::pull(clust$clustering, !!clust$variables$id)
+  # )
   selected_data <- clust$data |>
     dplyr::select(
       !!clust$variables$id,
@@ -387,9 +387,9 @@ comedication_count <- function(
   
   if (is.null(count_grouper)) { count_grouper <- function(x) x }
   
-  n_id <- dplyr::n_distinct(
-    dplyr::pull(clust$clustering, !!clust$variables$id)
-  )
+  # n_indi <- dplyr::n_distinct(
+  #   dplyr::pull(clust$clustering, !!clust$variables$id)
+  # )
   selected_data <- clust$data |> 
     dplyr::select(
       !!rlang::sym(clust$variables$id), 

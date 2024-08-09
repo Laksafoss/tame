@@ -69,7 +69,7 @@ crop_summary.summary.medic.medication_frequency <- function(
     dplyr::group_by(!!!dplyr::syms(group_name)) |>
     dplyr::mutate(
       remaining = top_n < rank(-.data$Count, ties.method = "first") | 
-        !!dplyr::sym(scope_name) < min_percent | 
+        !!dplyr::sym(scope_name) < min_percent |
         .data$Count < min_count
     ) |>
     dplyr::ungroup() |>
@@ -79,9 +79,13 @@ crop_summary.summary.medic.medication_frequency <- function(
   res <- object |>
     dplyr::left_join(selected_top, by = c(group_name, atc_name)) |>
     dplyr::mutate(
-      "{atc_name}" := dplyr::if_else(remaining, "Remaining", !!dplyr::sym(atc_name)),
+      "{atc_name}" := dplyr::if_else(
+        .data$remaining, 
+        "Remaining", 
+        !!dplyr::sym(atc_name)
+      ),
       "Percent of ATC code" = dplyr::if_else(  #
-        remaining,                             # We may be able to make something
+        .data$remaining,                       # We may be able to make something
         NA_real_,                              # a bit smarter, but this is fine
         .data$`Percent of ATC code`            # for now...
       )                                        #

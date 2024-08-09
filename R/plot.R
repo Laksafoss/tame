@@ -29,11 +29,11 @@ plot_cluster_frequency.summary.medic.cluster_frequency <- function(
   )
   
   p <- object |>
-    dplyr::filter(if (with_population) TRUE else Cluster != "Population") |>
-    ggplot2::ggplot(ggplot2::aes(x = Cluster, y = !!dplyr::sym(chosen_y))) + 
+    dplyr::filter(if (with_population) TRUE else .data$Cluster != "Population") |>
+    ggplot2::ggplot(ggplot2::aes(x = .data$Cluster, y = !!dplyr::sym(chosen_y))) + 
     ggplot2::geom_col() 
   
-  if (p$data |> distinct(Clustering) |> nrow() > 1) {
+  if (p$data |> dplyr::distinct(.data$Clustering) |> nrow() > 1) {
     p <- p + ggplot2::facet_grid(rows = "Clustering")
   }
   
@@ -68,11 +68,11 @@ plot_medication_frequency.summary.medic.medication_frequency <- function(
     with_population = FALSE
 ) {
   
-  chosen_y <- if(scale == "percent" & scope == "cluster") {
+  chosen_y <- if(scale == "percent" && scope == "cluster") {
     "Percent of Medication in Cluster" 
-  } else if (scale == "percent" & scope == "global") {
+  } else if (scale == "percent" && scope == "global") {
     "Percent of All Cluster"
-  } else if (scale == "percent" & scope == "medication") {
+  } else if (scale == "percent" && scope == "medication") {
     "Percent of ATC code"
   }else if (scale == "count") {
     "Count"
@@ -91,14 +91,14 @@ plot_medication_frequency.summary.medic.medication_frequency <- function(
   atc_name <- attr(object, "atc")
   
   p <- object |>
-    dplyr::filter(if (with_population) TRUE else Cluster != "Population") |>
+    dplyr::filter(if (with_population) TRUE else .data$Cluster != "Population") |>
     ggplot2::ggplot(
       ggplot2::aes(x = !!dplyr::sym(atc_name), y = !!dplyr::sym(chosen_y))
     ) + 
     ggplot2::geom_col() 
   
   
-  if (p$data |> distinct(Clustering) |> nrow() > 1) {
+  if (p$data |> dplyr::distinct(.data$Clustering) |> nrow() > 1) {
     p <- p + ggplot2::facet_grid(
       rows = ggplot2::vars(!!dplyr::sym("Clustering")), 
       cols = ggplot2::vars(!!dplyr::sym("Cluster"))
@@ -141,21 +141,21 @@ plot_comedication_count.summary.medic.comedication_count <- function(
     with_population = FALSE
 ) {
   
-  chosen_y <- if(scale == "percent" & scope == "cluster" & focus == "people") {
+  chosen_y <- if(scale == "percent" && scope == "cluster" && focus == "people") {
     "Percentage of People in Cluster" 
-  } else if(scale == "percent" & scope == "cluster" & focus == "medication") {
+  } else if(scale == "percent" && scope == "cluster" && focus == "medication") {
     "Percentage of Medication in Cluster" 
-  } else if (scale == "percent" & scope == "global" & focus == "people") {
+  } else if (scale == "percent" && scope == "global" && focus == "people") {
     "Percentage of All People"
-  } else if (scale == "percent" & scope == "global" & focus == "medication") {
+  } else if (scale == "percent" && scope == "global" && focus == "medication") {
     "Percentage of All Medications"
-  } else if (scale == "percent" & scope == "medication count" & focus == "people") {
+  } else if (scale == "percent" && scope == "medication count" && focus == "people") {
     "Percentage of People with the Same Medication Count"
-  } else if (scale == "percent" & scope == "medication count" & focus == "medication") {
+  } else if (scale == "percent" && scope == "medication count" && focus == "medication") {
     "Percentage of Medication with the Same Medication Count"
-  } else if (scale == "count" & focus == "people") {
+  } else if (scale == "count" && focus == "people") {
     "Number of People"
-  } else if (scale == "count" & focus == "medication") {
+  } else if (scale == "count" && focus == "medication") {
     "Number of medications"
   } else {
     stop(
@@ -174,14 +174,17 @@ plot_comedication_count.summary.medic.comedication_count <- function(
   }
   
   p <- object |>
-    dplyr::filter(if (with_population) TRUE else Cluster != "Population") |>
+    dplyr::filter(if (with_population) TRUE else .data$Cluster != "Population") |>
     ggplot2::ggplot(
-      ggplot2::aes(x = !!dplyr::sym("Medication Count"), y = !!dplyr::sym(chosen_y))
+      ggplot2::aes(
+        x = !!dplyr::sym("Medication Count"), 
+        y = !!dplyr::sym(chosen_y)
+      )
     ) + 
     ggplot2::geom_col() 
   
   
-  if (p$data |> distinct(Clustering) |> nrow() > 1) {
+  if (p$data |> dplyr::distinct(.data$Clustering) |> nrow() > 1) {
     p <- p + ggplot2::facet_grid(
       rows = ggplot2::vars(!!dplyr::sym("Clustering")), 
       cols = ggplot2::vars(!!dplyr::sym("Cluster"))
@@ -250,7 +253,7 @@ plot_timing_trajectory.summary.medic.timing_trajectory <- function(
     }
   } else {
     plot_data <- object[[focus]]
-    if (max_lines < Inf & focus == "individual") {
+    if (max_lines < Inf && focus == "individual") {
       plot_data <- plot_data |>
         dplyr::group_by(.data$Clustering, .data$Cluster) |>
         dplyr::slice_sample(n = max_lines) |>
@@ -277,7 +280,7 @@ plot_timing_trajectory.summary.medic.timing_trajectory <- function(
       )
     )
   
-  if (p$data |> distinct(.data$Clustering) |> nrow() > 1) {
+  if (p$data |> dplyr::distinct(.data$Clustering) |> nrow() > 1) {
     p <- p + ggplot2::facet_grid(
       rows = ggplot2::vars(!!dplyr::sym("Clustering")), 
       cols = ggplot2::vars(!!dplyr::sym("Cluster"))
@@ -346,7 +349,7 @@ plot_timing_atc_group.summary.medic.timing_atc_group <- function(
     }
   } else {
     plot_data <- object[[focus]]
-    if (max_lines < Inf & focus == "individual") {
+    if (max_lines < Inf && focus == "individual") {
       plot_data <- plot_data |>
         dplyr::group_by(
           .data$Clustering, 
@@ -378,7 +381,7 @@ plot_timing_atc_group.summary.medic.timing_atc_group <- function(
       )
     )
   
-  if (p$data |> distinct(.data$Clustering) |> nrow() > 1) {
+  if (p$data |> dplyr::distinct(.data$Clustering) |> nrow() > 1) {
     p <- p + ggplot2::facet_grid(
       rows = ggplot2::vars(!!dplyr::sym("Clustering")), 
       cols = ggplot2::vars(!!dplyr::sym("Cluster"))
@@ -506,7 +509,7 @@ construct_plot_data <- function(
         ),
         "%)"
       ),
-      cluster_name = factor(cluster_name, levels = cluster_name)
+      cluster_name = factor(.data$cluster_name, levels = .data$cluster_name)
     )
   
   medication_frequencies <- object$medication_frequency |>
@@ -529,7 +532,7 @@ construct_plot_data <- function(
       row_facet = "Average Trajectory",
       plotting_part = "timing_trajectory",
       line_group = dplyr::row_number(),
-      Origin = dplyr::if_else(Origin == "average", 1, alpha_individual)
+      Origin = dplyr::if_else(.data$Origin == "average", 1, alpha_individual)
     ) |>
     tidyr::pivot_longer(
       cols = object$variables$timing,
@@ -543,7 +546,7 @@ construct_plot_data <- function(
       row_facet = .data$`ATC Groups`,
       plotting_part = "timing_atc_group",
       line_group = dplyr::row_number(),
-      Origin = dplyr::if_else(Origin == "average", 1, alpha_individual)
+      Origin = dplyr::if_else(.data$Origin == "average", 1, alpha_individual)
     ) |>
     tidyr::pivot_longer(
       cols = object$variables$timing,
@@ -581,7 +584,7 @@ construct_plot_data <- function(
     dplyr::mutate(
       Timing = tidyr::replace_na(.data$Timing, 0),
       row_facet = factor(
-        row_facet, 
+        .data$row_facet, 
         levels = c(
           "Comedication Count",
           "Medication Frequencies",
@@ -755,14 +758,14 @@ plot_summary.summary.medic <- function(
     
     # First row : Comedication counts -- legend via 'fill' below
     ggplot2::geom_col(
-      data = \(x) x |> dplyr::filter(plotting_part == "comedication_count"),
+      data = \(x) x |> dplyr::filter(.data$plotting_part == "comedication_count"),
       ggplot2::aes(fill = .data$`Medication Count`),
       width = time_scale$width
     ) +
     
     # Second row : Medication frequency -- legend via 'linetype' below
     ggplot2::geom_col(
-      data = \(x) x |> dplyr::filter(plotting_part == "medication_frequency"),
+      data = \(x) x |> dplyr::filter(.data$plotting_part == "medication_frequency"),
       ggplot2::aes(
         fill = !!dplyr::sym(object$variables$atc), 
         linetype = !!dplyr::sym(object$variables$atc) # ATC_NAME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -772,13 +775,13 @@ plot_summary.summary.medic <- function(
     
     # Third row : Average trajectories
     ggplot2::geom_line(
-      data = \(x) x |> dplyr::filter(plotting_part == "timing_trajectory"),
+      data = \(x) x |> dplyr::filter(.data$plotting_part == "timing_trajectory"),
       ggplot2::aes(alpha = .data$alpha, group = .data$line_group)
     ) + 
     
     # Remaining rows : Timing ATC code -- legend via 'color' below
     ggplot2::geom_line(
-      data = \(x) x |> dplyr::filter(plotting_part == "timing_atc_group"),
+      data = \(x) x |> dplyr::filter(.data$plotting_part == "timing_atc_group"),
       ggplot2::aes(
         color = .data$`ATC Groups`,
         alpha = .data$alpha,
@@ -823,7 +826,7 @@ plot_summary.summary.medic <- function(
   if (labels) {
     p <- p +
       ggplot2::geom_text(
-         data = \(x) x |> dplyr::filter(plotting_part == "label"),
+         data = \(x) x |> dplyr::filter(.data$plotting_part == "label"),
          ggplot2::aes(label = .data$label)
       ) 
   }
