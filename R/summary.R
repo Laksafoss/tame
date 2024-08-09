@@ -183,24 +183,6 @@ summary.medic <- function(
 }
 
 
-#' @describeIn summary.medic Print method for medic-objects
-#' @param x A `summary.medic` object for printing or plotting.
-#' @export
-print.summary.medic <- function(x, ...) {
-  print.default(x)
-}
-
-#' @describeIn summary.medic Plot method for medic-objects
-#' @param x A `summary.medic` object for printing or plotting.
-#' @param by <[`data-masking`][dplyr::dplyr_data_masking]>
-#' @param facet <[`data-masking`][dplyr::dplyr_data_masking]>
-#'
-#' @export
-plot.summary.medic <- function(x, by, facet, ...) {
-  warning("This function is still under construction")
-  plot(c(1, 2, 3), c(3, 4, 5))
-}
-
 
 
 #' Print Summary of Medication
