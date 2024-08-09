@@ -369,3 +369,44 @@ medic <- function(
   )
 }
 
+
+
+#' @describeIn medic Print method for medic-objects
+#' @param x A `medic` object for printing.
+#' @exportS3Method  
+print.medic <- function(x, ...) {
+  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
+      "\n\n", sep = "")
+  
+  cat("ID variable:\n")
+  print(x$variables$id)
+  cat("\n")
+  
+  if (length(x$variables$atc)) {
+    cat("ATC variable:\n")
+    print(x$variables$atc)
+    cat("\n")
+  } else cat("No ATC variable\n")
+  
+  if (length(x$variables$timing)) {
+    cat("Timing variable(s):\n")
+    print(x$variables$timing)
+    cat("\n")
+  } else cat("No timing variable\n")
+  
+  cat("Total number of clusterings created:\n")
+  print(nrow(x$parameters))
+  cat("\n")
+  
+  cat("Clustering parameters:\n")
+  print(x$parameters, max = 10)
+  cat("\n")
+  
+  return(invisible(x))
+}
+
+
+
+str.medic <- function(object, ...) {
+  utils:::str.default(object, max.level = 2, ...)
+}
