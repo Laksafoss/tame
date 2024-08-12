@@ -133,7 +133,7 @@ summary.medic <- function(
 #'
 #' @return
 #' `cluster_frequency()` returns a data frame with class
-#' `summary.medic.cluster_frequency`.
+#' `cluster_frequency`.
 #' * `Clustering` the name of the clustering.
 #' * `Cluster` the cluster name.
 #' * `Count` the number of individuals assigned to the cluster.
@@ -192,7 +192,7 @@ cluster_frequency <- function(
     dplyr::mutate(Percent = 100 * .data$Count / n_indi) |>
     dplyr::filter(.data$Cluster %in% output_clusters)
   
-  class(res) <- c("summary.medic.cluster_frequency", class(res))
+  class(res) <- c("cluster_frequency", class(res))
   
   return(res)
 }
@@ -215,7 +215,7 @@ cluster_frequency <- function(
 #'
 #' @return
 #' `medication_frequency()` returns a data frame with class
-#' `summary.medic.medication_frequency`.
+#' `medication_frequency`.
 #' * `Clustering` the name of the clustering.
 #' * `Cluster` the cluster name.
 #' * _atc_ ATC codes.
@@ -305,7 +305,7 @@ medication_frequency <- function(
     dplyr::select(-"tmp") |>
     dplyr::arrange(.data$Clustering, .data$Cluster, dplyr::desc(.data$Count))
   
-  class(res) <- c("summary.medic.medication_frequency", class(res))
+  class(res) <- c("medication_frequency", class(res))
   attr(res, "atc") <- clust$variables$atc
   
   return(res)
@@ -333,7 +333,7 @@ medication_frequency <- function(
 #' 
 #' @return
 #' `comedication_count()` returns a data frame of class 
-#' `summary.medic.comedication_count`
+#' `comedication_count`
 #' * `Clustering` the name of the clustering.
 #' * `Cluster` the name of the cluster. 
 #' * `Medication Count` a number of medications. The numbers or groups are 
@@ -490,7 +490,7 @@ comedication_count <- function(
     dplyr::select(-"population") |>
     dplyr::arrange(.data$Clustering, .data$Cluster, .data$`Medication Count`)
   
-  class(res) <- c("summary.medic.comedication_count", class(res))
+  class(res) <- c("comedication_count", class(res))
   
   return(res)
 }
@@ -513,7 +513,7 @@ comedication_count <- function(
 #'
 #' @return
 #' `timing_trajectory()` returns a list of class 
-#' `summary.medic.timing_trajectory` with two data frames:
+#' `timing_trajectory` with two data frames:
 #' 
 #' ## average
 #' * `Clustering` the name of the clustering.
@@ -600,7 +600,7 @@ timing_trajectory <- function(
       )
   )
   
-  class(res) <- c("summary.medic.timing_trajectory", class(res))
+  class(res) <- c("timing_trajectory", class(res))
   attr(res, "timing") <- clust$variables$timing
   
   return(res)
@@ -631,7 +631,7 @@ timing_trajectory <- function(
 #'
 #' @return
 #' `timing_atc_group()` returns a list of class 
-#' `summary.medic.timing_atc_group` with two data frames:
+#' `timing_atc_group` with two data frames:
 #' 
 #' ## average
 #' * `Clustering` the name of the clustering.
@@ -775,7 +775,7 @@ timing_atc_group <- function(
     )
   
   res <- list("average" = average, "individual" = individual)
-  class(res) <- c("summary.medic.timing_atc_group", class(res))
+  class(res) <- c("timing_atc_group", class(res))
   attr(res, "timing") <- clust$variables$timing
   
   return(res)
