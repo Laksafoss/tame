@@ -1,6 +1,6 @@
 Package: tame
 Title: Timing, Anatomical, Therapeutic and Chemical Based Medication Clustering
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: 
     person("Anna", "Laksafoss", , "adls@ssi.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9898-2924"))
