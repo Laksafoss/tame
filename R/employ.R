@@ -6,11 +6,11 @@
 #' @param new_data A data frame in which to look for variables with
 #' @param only <[`data-masking`][dplyr::dplyr_data_masking]> Expressions that
 #'   return a logical value, and are defined in terms of the variables in
-#'   `object` and/or `additional_data` and specifies which clusterings should be 
+#'   `object` and/or `additional_data` and specifies which clusterings should be
 #'   employed to the new data.
 #' @param additional_data A data frame with additional data that may be
-#'   (left-)joined onto the `parameters` in `object`. This is often 
-#'   used in conjuction with `only` to select specific clusterings based on 
+#'   (left-)joined onto the `parameters` in `object`. This is often
+#'   used in conjuction with `only` to select specific clusterings based on
 #'   `additional_data`.
 #' @param assignment_method A character naming the employment method. The
 #'   default assignment method `"nearest_cluster"` matches people in `new_data`
@@ -42,7 +42,7 @@
 #' part2 <- complications[101:149,]
 #'
 #' clust <- medic(part1, id = id, atc = atc, k = 3)
-#' 
+#'
 #' # Nearest cluster matching
 #' employ(clust, part2)
 #'
@@ -51,17 +51,17 @@
 #'
 #' @export
 employ <- function(
-    object,
-    new_data,
-    only = NULL,
-    additional_data = NULL,
-    assignment_method = "nearest_cluster",
-    parallel = FALSE,
-    ...) {
-
+  object,
+  new_data,
+  only = NULL,
+  additional_data = NULL,
+  assignment_method = "nearest_cluster",
+  parallel = FALSE,
+  ...
+) {
 
   #   ===   Input Check   ======================================================
-  
+
   #   ---  Are all variables present   -----------------------------------------
   variable_names_needed <- unlist(object$variables)[
     which(names(unlist(object$variables)) != "base_clustering")
@@ -141,13 +141,13 @@ employ <- function(
   #   ===   Exact Matching   ===================================================
 
   if (assignment_method == "exact_only") {
-    
+
     exact_clusters <- matching %>%
       dplyr::select(-"pattern") %>%
       dplyr::mutate(
         dplyr::across(dplyr::all_of(selected_names), list("new_exact" = ~.))
       )
-    
+
     old_clusters <- clust$clustering %>%
       dplyr::select(
         !!rlang::sym(clust$variables$id),
@@ -164,24 +164,24 @@ employ <- function(
           clust$data[[clust$variables$id]]
         )
       )
-    
+
     all_clusterings <- dplyr::bind_rows(exact_clusters, old_clusters) %>%
       dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
-   
+
     final_clusters <- all_clusterings %>%
       dplyr::select(
-        !!rlang::sym(clust$variables$id), 
+        !!rlang::sym(clust$variables$id),
         !!!rlang::syms(selected_names)
       )
-    
-    joined_data <- clust$data %>% 
+
+    joined_data <- clust$data %>%
       dplyr::select(-dplyr::all_of(selected_names)) %>%
       dplyr::mutate(.origin = "old") %>%
       dplyr::bind_rows(new_data) %>%
       dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) %>%
       dplyr::left_join(final_clusters, by = clust$variables$id) %>%
       dplyr::relocate(dplyr::all_of(clust$variables$id))
-    
+
     return(
       structure(
         list(
@@ -293,10 +293,12 @@ employ <- function(
 
 
     clusterings <- parallel::parLapply(
-      clust, 1:nrow(parameters), function(i) {
+      clust,
+      seq_along(nrow(parameters)),
+      function(i) {
 
         # current method
-        method <- parameters[i,]
+        method <- parameters[i, ]
 
         # method specific atc, timing & amount metric tables
         cur_tables <- context_lookup(method, lookup_tables)
@@ -307,9 +309,10 @@ employ <- function(
           method,
           cur_tables,
           old_patterns = old_patterns %>% dplyr::pull(.data$unique_pattern_key),
-          new_patterns = new_patterns %>% dplyr::pull(.data$unique_pattern_key))
+          new_patterns = new_patterns %>% dplyr::pull(.data$unique_pattern_key)
+        )
 
-        chosen_linkage <- switch (
+        chosen_linkage <- switch(
           method[["linkage"]],
           ward     = function() stop("'ward' linkage not implmented yet."),
           ward.D   = function() stop("'ward.D' linkage not implmented yet."),
@@ -319,80 +322,95 @@ employ <- function(
           average  = mean,
           mcquitty = function() stop("'mcquitty' linkage not implmented yet."),
           median   = stats::median,
-          centroid = function() stop("'centroid' linkage not implmented yet."))
+          centroid = function() stop("'centroid' linkage not implmented yet.")
+        )
 
-        new_clusters <- apply(distance_matrix, 2, function(d) {
-          clust_dist <- tapply(
-            d,
-            old_patterns %>% dplyr::pull(method[["cluster_name"]]),
-            FUN = chosen_linkage
-          )
-          closest <- which(clust_dist == min(clust_dist))
-          if (length(closest) > 1) {
-            return(names(clust_dist)[sample(closest, 1)])
-          } else {
-            return(names(clust_dist)[closest])
+        new_clusters <- apply(
+          distance_matrix,
+          2,
+          function(d) {
+            clust_dist <- tapply(
+              d,
+              old_patterns %>% dplyr::pull(method[["cluster_name"]]),
+              FUN = chosen_linkage
+            )
+            closest <- which(clust_dist == min(clust_dist))
+            if (length(closest) > 1) {
+              return(names(clust_dist)[sample(closest, 1)])
+            } else {
+              return(names(clust_dist)[closest])
+            }
           }
-        })
+        )
 
         new_clusters <- new_patterns %>%
           dplyr::select("unique_pattern_key") %>%
           dplyr::mutate(!!method[["cluster_name"]] := new_clusters)
 
         return(new_clusters)
-      })
+      }
+    )
   } else {
 
     #   ...  serial pseudo-clustering   ........................................
 
-    clusterings <- lapply(1:nrow(parameters), function(i) {
+    clusterings <- lapply(
+      seq_along(nrow(parameters)),
+      function(i) {
 
-      # current method
-      method <- parameters[i,]
+        # current method
+        method <- parameters[i, ]
 
-      # method specific atc, timing & amount metric tables
-      cur_tables <- context_lookup(method, lookup_tables)
+        # method specific atc, timing & amount metric tables
+        cur_tables <- context_lookup(method, lookup_tables)
 
-      # create method specific distance matrix
-      distance_matrix <- distance_matrix_constructor(
-        keys,
-        method,
-        cur_tables,
-        old_patterns = old_patterns %>% dplyr::pull(.data$unique_pattern_key),
-        new_patterns = new_patterns %>% dplyr::pull(.data$unique_pattern_key))
-
-      chosen_linkage <- switch (
-        method[["linkage"]],
-        ward     = function() stop("'ward' linkage not implmented yet."),
-        ward.D   = function() stop("'ward.D' linkage not implmented yet."),
-        ward.D2  = function() stop("'ward.D2' linkage not implmented yet."),
-        single   = min,
-        complete = max,
-        average  = mean,
-        mcquitty = function() stop("'mcquitty' linkage not implmented yet."),
-        median   = stats::median,
-        centroid = function() stop("'centroid' linkage not implmented yet."))
-
-      new_clusters <- apply(distance_matrix, 2, function(d) {
-        clust_dist <- tapply(
-          d,
-          old_patterns %>% dplyr::pull(method[["cluster_name"]]),
-          FUN = chosen_linkage
+        # create method specific distance matrix
+        distance_matrix <- distance_matrix_constructor(
+          keys,
+          method,
+          cur_tables,
+          old_patterns = old_patterns %>% dplyr::pull(.data$unique_pattern_key),
+          new_patterns = new_patterns %>% dplyr::pull(.data$unique_pattern_key)
         )
-        closest <- which(clust_dist == min(clust_dist))
-        if (length(closest) > 1) {
-          return(names(clust_dist)[sample(closest, 1)])
-        } else {
-          return(names(clust_dist)[closest])
-        }
-      })
 
-      new_clusters <- new_patterns %>%
-        dplyr::select("unique_pattern_key") %>%
-        dplyr::mutate(!!method[["cluster_name"]] := new_clusters)
+        chosen_linkage <- switch(
+          method[["linkage"]],
+          ward     = function() stop("'ward' linkage not implmented yet."),
+          ward.D   = function() stop("'ward.D' linkage not implmented yet."),
+          ward.D2  = function() stop("'ward.D2' linkage not implmented yet."),
+          single   = min,
+          complete = max,
+          average  = mean,
+          mcquitty = function() stop("'mcquitty' linkage not implmented yet."),
+          median   = stats::median,
+          centroid = function() stop("'centroid' linkage not implmented yet.")
+        )
 
-      return(new_clusters)
-    })
+        new_clusters <- apply(
+          distance_matrix,
+          2,
+          function(d) {
+            clust_dist <- tapply(
+              d,
+              old_patterns %>% dplyr::pull(method[["cluster_name"]]),
+              FUN = chosen_linkage
+            )
+            closest <- which(clust_dist == min(clust_dist))
+            if (length(closest) > 1) {
+              return(names(clust_dist)[sample(closest, 1)])
+            } else {
+              return(names(clust_dist)[closest])
+            }
+          }
+        )
+
+        new_clusters <- new_patterns %>%
+          dplyr::select("unique_pattern_key") %>%
+          dplyr::mutate(!!method[["cluster_name"]] := new_clusters)
+
+        return(new_clusters)
+      }
+    )
   }
 
   all_new_closest_clusterings <- clusterings %>%
@@ -444,18 +462,19 @@ employ <- function(
         new_data[[clust$variables$id]]
       )
     )
+
   all_clusterings <- dplyr::bind_rows(all_new_clusterings, old_clusters) %>%
     dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
-  
-  
+
+
   final_clusters <- all_clusterings %>%
     dplyr::select(
-      !!rlang::sym(clust$variables$id), 
+      !!rlang::sym(clust$variables$id),
       !!!rlang::syms(selected_names)
     )
-  
-  
-  joined_data <- clust$data %>% 
+
+
+  joined_data <- clust$data %>%
     dplyr::select(-dplyr::all_of(selected_names)) %>%
     dplyr::mutate(.origin = "old") %>%
     dplyr::bind_rows(new_data) %>%
