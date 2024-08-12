@@ -145,7 +145,8 @@
 #'     which = c("cluster_frequency", "medication_frequency"),
 #'     top_n = 3
 #'   )
-#'
+#' 
+#' @rdname summary_crop
 #' @export
 summary_crop <- function(object, ...) {
   UseMethod("summary_crop", object)
