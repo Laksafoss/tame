@@ -6,10 +6,18 @@
 #' @param scale The scale of the y-axis. Must be either "percent" or "count".
 #' @param with_population Logical value indicating whether to include the
 #'   population cluster.
+#' @param ... Additional arguments passed to the plotting functions.
 #'
 #' @return A ggplot object.
 #'
-#' @example
+#' @seealso \code{\link{cluster_frequency}}
+#' @seealso \code{\link{plot_medication_frequency}}
+#' @seealso \code{\link{plot_comedication_count}}
+#' @seealso \code{\link{plot_timing_trajectory}}
+#' @seealso \code{\link{plot_timing_atc_group}}
+#' @seealso \code{\link{plot_summary}}
+#'
+#' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
 #' clust |> plot_cluster_frequency()
 #' clust |> cluster_frequency() |> plot_cluster_frequency()
@@ -41,7 +49,8 @@ plot_cluster_frequency.summary.medic <- function(object, ...) {
 plot_cluster_frequency.cluster_frequency <- function(
   object,
   scale = "percent",
-  with_population = FALSE
+  with_population = FALSE,
+  ...
 ) {
 
   chosen_y <- switch(
@@ -80,10 +89,18 @@ plot_cluster_frequency.cluster_frequency <- function(
 #'  "medication".
 #' @param with_population Logical value indicating whether to include the
 #'  population cluster.
+#' @param ... Additional arguments passed to the plotting functions.
 #'
 #' @return A ggplot object.
 #'
-#' @example
+#' @seealso \code{\link{medication_frequency}}
+#' @seealso \code{\link{plot_cluster_frequency}}
+#' @seealso \code{\link{plot_comedication_count}}
+#' @seealso \code{\link{plot_timing_trajectory}}
+#' @seealso \code{\link{plot_timing_atc_group}}
+#' @seealso \code{\link{plot_summary}}
+#'
+#' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
 #'
 #' clust |> plot_medication_frequency()
@@ -117,7 +134,8 @@ plot_medication_frequency.medication_frequency <- function(
   object,
   scale = "percent",
   scope = "cluster",
-  with_population = FALSE
+  with_population = FALSE,
+  ...
 ) {
 
   chosen_y <- if (scale == "percent" && scope == "cluster") {
@@ -178,10 +196,18 @@ plot_medication_frequency.medication_frequency <- function(
 #' @param focus The focus of the plot. Must be either "people" or "medication".
 #' @param with_population Logical value indicating whether to include the
 #'   population cluster.
+#' @param ... Additional arguments passed to the plotting functions.
 #'
 #' @return A ggplot object.
 #'
-#' @example
+#' @seealso \code{\link{comedication_count}}
+#' @seealso \code{\link{plot_cluster_frequency}}
+#' @seealso \code{\link{plot_medication_frequency}}
+#' @seealso \code{\link{plot_timing_trajectory}}
+#' @seealso \code{\link{plot_timing_atc_group}}
+#' @seealso \code{\link{plot_summary}}
+#'
+#' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
 #'
 #' clust |> plot_comedication_count()
@@ -216,7 +242,8 @@ plot_comedication_count.comedication_count <- function(
   scale = "percent",
   scope = "cluster",
   focus = "people",
-  with_population = FALSE
+  with_population = FALSE,
+  ...
 ) {
 
   chosen_y <- if (
@@ -306,10 +333,18 @@ plot_comedication_count.comedication_count <- function(
 #' @param with_population Logical value indicating whether to include the
 #' population cluster.
 #' @param max_lines The maximum number of lines to plot.
+#' @param ... Additional arguments passed to the plotting functions.
 #'
 #' @return A ggplot object.
 #'
-#' @example
+#' @seealso \code{\link{timing_trajectory}}
+#' @seealso \code{\link{plot_cluster_frequency}}
+#' @seealso \code{\link{plot_medication_frequency}}
+#' @seealso \code{\link{plot_comedication_count}}
+#' @seealso \code{\link{plot_timing_atc_group}}
+#' @seealso \code{\link{plot_summary}}
+#'
+#' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
 #'
 #' clust |> plot_timing_trajectory()
@@ -429,10 +464,18 @@ plot_timing_trajectory.timing_trajectory <- function(
 #' @param with_population Logical value indicating whether to include the
 #' population cluster.
 #' @param max_lines The maximum number of lines to plot.
+#' @param ... Additional arguments passed to the plotting functions.
 #'
 #' @return A ggplot object.
 #'
-#' @example
+#' @seealso \code{\link{timing_atc_group}}
+#' @seealso \code{\link{plot_cluster_frequency}}
+#' @seealso \code{\link{plot_medication_frequency}}
+#' @seealso \code{\link{plot_comedication_count}}
+#' @seealso \code{\link{plot_timing_trajectory}}
+#' @seealso \code{\link{plot_summary}}
+#'
+#' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
 #'
 #' clust |> plot_timing_atc_group()
@@ -550,12 +593,25 @@ plot_timing_atc_group.timing_atc_group <- function(
 #'
 #' This function plots the summary of the clustering results.
 #'
+#' @inheritParams summary.medic
 #' @param object The object containing the summary data.
+#' @param n_breaks The number of breaks for the time scale.
+#' @param plot_individual Logical value indicating whether to plot individual
+#'  trajectories.
+#' @param labels Logical value indicating whether to include labels.
+#' @param alpha_individual The alpha value for the individual trajectories.
 #' @param ... Additional arguments passed to the plotting functions.
 #'
 #' @return A ggplot object.
 #'
-#' @example
+#' @seealso \code{\link{summary}}
+#' @seealso \code{\link{plot_cluster_frequency}}
+#' @seealso \code{\link{plot_medication_frequency}}
+#' @seealso \code{\link{plot_comedication_count}}
+#' @seealso \code{\link{plot_timing_trajectory}}
+#' @seealso \code{\link{plot_timing_atc_group}}
+#'
+#' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
 #'
 #' clust |> plot_summary()
@@ -647,8 +703,8 @@ plot_summary.summary.medic <- function(
 
     # Setup the facets
     ggplot2::facet_grid(
-      rows = dplyr::vars(!!dplyr::sym("row_facet")),
-      cols = dplyr::vars(!!dplyr::sym("Cluster")),
+      rows = ggplot2::vars(!!dplyr::sym("row_facet")),
+      cols = ggplot2::vars(!!dplyr::sym("Cluster")),
       scales = "free_y"
     ) +
 

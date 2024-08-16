@@ -64,7 +64,7 @@ print.summary.medic <- function(x, ...) {
 #' is a modified version of the `str.default` function from the `utils` package,
 #' with the maximum level set to 2.
 str.summary.medic <- function(object, ...) {
-  utils:::str.default(object, max.level = 2, ...)
+  str(object, max.level = 2, ...)
 }
 
 

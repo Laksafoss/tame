@@ -32,10 +32,11 @@
 #' The `enrich()` function is a joining function used for enriching the
 #' clustering characteristics with user-defined data. This function is used in
 #' all of the investigative functions with a `additional_data` statement such as
-#' [`frequencies()`] and [`amounts()`].
+#' [`summary()`], [`cluster_frequency()`] and [`medication_frequency()`].
 #'
 #' @return
 #' An object of class \emph{medic}.
+#'
 #'
 #' @examples
 #' clust <- medic(

@@ -145,7 +145,7 @@
 #'     which = c("cluster_frequency", "medication_frequency"),
 #'     top_n = 3
 #'   )
-#' 
+#'
 #' @rdname summary_crop
 #' @export
 summary_crop <- function(object, ...) {
@@ -158,7 +158,8 @@ summary_crop.cluster_frequency <- function(
   object,
   top_n = 5L,
   min_count = 0,
-  min_percent = 0
+  min_percent = 0,
+  ...
 ) {
 
   cluster_levels <- c(levels(object$Cluster), "Remaining")
@@ -200,7 +201,8 @@ summary_crop.medication_frequency <- function(
   top_n = 5L,
   min_count = 0,
   min_percent = 0,
-  scope = "cluster"
+  scope = "cluster",
+  ...
 ) {
 
   scope_name <- switch(
