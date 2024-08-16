@@ -282,7 +282,9 @@ construct_color_scales <- function(
 ) {
 
   if (is.null(comedication_count_colors)) {
-    unique_comedication_count <- na.omit(unique(plot_data$`Medication Count`))
+    unique_comedication_count <- stats::na.omit(
+      unique(plot_data$`Medication Count`)
+    )
     comedication_count_colors <- scales::viridis_pal(
       begin = 0.1, end = 1
     )(length(unique_comedication_count))
@@ -296,7 +298,7 @@ construct_color_scales <- function(
     }
   }
 
-  unique_atc <- na.omit(unique(plot_data[[attr(plot_data, "atc")]]))
+  unique_atc <- stats::na.omit(unique(plot_data[[attr(plot_data, "atc")]]))
   medication_frequency_linetype <- seq_along(unique_atc)
   names(medication_frequency_linetype) <- unique_atc
   if (is.null(medication_frequency_colors)) {
@@ -318,7 +320,7 @@ construct_color_scales <- function(
   }
 
   if (is.null(timing_atc_group_colors)) {
-    unique_atc_groups <- na.omit(unique(plot_data$`ATC Groups`))
+    unique_atc_groups <- stats::na.omit(unique(plot_data$`ATC Groups`))
     if (length(unique_atc_groups) <= 8) {
       timing_atc_group_colors <- scales::brewer_pal("qual")(
         length(unique_atc_groups)
