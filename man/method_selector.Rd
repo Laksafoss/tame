@@ -48,5 +48,11 @@ the investigative functions called by \code{\link[=summary]{summary()}}.
 \seealso{
 \code{\link[=cluster_selector]{cluster_selector()}} is another selector method used through out
 the package.
+
+\code{\link[=enrich]{enrich()}} is a joining function used for enriching the clustering
+characteristics with user-defined data.
+
+\code{\link[=summary.medic]{summary.medic()}} is the main function for summarizing the
+clustering results.
 }
 \keyword{internal}

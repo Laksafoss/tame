@@ -45,7 +45,7 @@ Enrich the parameter information in a clustering with user-defined data.
 The \code{enrich()} function is a joining function used for enriching the
 clustering characteristics with user-defined data. This function is used in
 all of the investigative functions with a \code{additional_data} statement such as
-\code{\link[=frequencies]{frequencies()}} and \code{\link[=amounts]{amounts()}}.
+\code{\link[=summary]{summary()}}, \code{\link[=cluster_frequency]{cluster_frequency()}} and \code{\link[=medication_frequency]{medication_frequency()}}.
 }
 \examples{
 clust <- medic(
