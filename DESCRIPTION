@@ -25,7 +25,9 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    Rcpp (>= 1.0.8)
+    Rcpp (>= 1.0.8),
+    ggplot2,
+    scales
 Suggests: rmarkdown, knitr, testthat (>= 3.0.0)
 BugReports: https://github.com/Laksafoss/tame/issues
 Config/testthat/edition: 3
