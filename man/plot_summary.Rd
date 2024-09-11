@@ -59,14 +59,26 @@ A ggplot object.
 This function plots the summary of the clustering results.
 }
 \examples{
-clust <- medic(complications, id = id, atc = atc, k = 3)
+clust <- medic(
+  complications,
+  id = id,
+  atc = atc,
+  k = 3,
+  timing = first_trimester:third_trimester
+)
 
 clust |> plot_summary()
 clust |> summary() |> plot_summary()
 
 # If the clustering object contains more than one clustering, it is necessary
 # to filter the clustering, as only one clustering can be plotted at a time.
-clust <- medic(complications, id = id, atc = atc, k = 3:5)
+clust <- medic(
+  complications,
+  id = id,
+  atc = atc,
+  k = 3:5,
+  timing = first_trimester:third_trimester
+)
 clust |> plot_summary(only = k == 4)
 clust |> summary(only = k == 4) |> plot_summary()
 

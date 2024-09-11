@@ -86,7 +86,13 @@
 #' object.
 #'
 #' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3)
+#' clust <- medic(
+#'   complications,
+#'   id = id,
+#'   atc = atc,
+#'   k = 3:5,
+#'   timing = first_trimester:third_trimester
+#' )
 #'
 #'
 #' # Crop the cluster frequency summary

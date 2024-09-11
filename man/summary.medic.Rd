@@ -81,7 +81,13 @@ The number of people with unique timing trajectory and ATC group, as given by
 Make cluster characterizing summaries.
 }
 \examples{
-clust <- medic(complications, id = id, atc = atc, k = 3:5)
+clust <- medic(
+  complications,
+  id = id,
+  atc = atc,
+  k = 3:5,
+  timing = first_trimester:third_trimester
+)
 summary(clust)
 
 }

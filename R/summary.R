@@ -52,7 +52,13 @@
 #' `atc_groups`, in each cluster.
 #'
 #' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3:5)
+#' clust <- medic(
+#'   complications,
+#'   id = id,
+#'   atc = atc,
+#'   k = 3:5,
+#'   timing = first_trimester:third_trimester
+#' )
 #' summary(clust)
 #'
 #' @export

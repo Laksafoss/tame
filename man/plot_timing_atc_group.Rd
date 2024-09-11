@@ -41,7 +41,13 @@ A ggplot object.
 This function plots the timing ATC group.
 }
 \examples{
-clust <- medic(complications, id = id, atc = atc, k = 3)
+clust <- medic(
+  complications,
+  id = id,
+  atc = atc,
+  k = 3:5,
+  timing = first_trimester:third_trimester
+)
 
 clust |> plot_timing_atc_group()
 clust |> timing_atc_group() |> plot_timing_atc_group()

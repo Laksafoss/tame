@@ -41,7 +41,13 @@ A ggplot object.
 This function plots the timing trajectory.
 }
 \examples{
-clust <- medic(complications, id = id, atc = atc, k = 3)
+clust <- medic(
+  complications,
+  id = id,
+  atc = atc,
+  k = 3:5,
+  timing = first_trimester:third_trimester
+)
 
 clust |> plot_timing_trajectory()
 clust |> timing_trajectory() |> plot_timing_trajectory()

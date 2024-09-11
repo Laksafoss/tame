@@ -345,7 +345,13 @@ plot_comedication_count.comedication_count <- function(
 #' @seealso \code{\link{plot_summary}}
 #'
 #' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3)
+#' clust <- medic(
+#'   complications,
+#'   id = id,
+#'   atc = atc,
+#'   k = 3:5,
+#'   timing = first_trimester:third_trimester
+#' )
 #'
 #' clust |> plot_timing_trajectory()
 #' clust |> timing_trajectory() |> plot_timing_trajectory()
@@ -476,7 +482,13 @@ plot_timing_trajectory.timing_trajectory <- function(
 #' @seealso \code{\link{plot_summary}}
 #'
 #' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3)
+#' clust <- medic(
+#'   complications,
+#'   id = id,
+#'   atc = atc,
+#'   k = 3:5,
+#'   timing = first_trimester:third_trimester
+#' )
 #'
 #' clust |> plot_timing_atc_group()
 #' clust |> timing_atc_group() |> plot_timing_atc_group()
@@ -612,14 +624,26 @@ plot_timing_atc_group.timing_atc_group <- function(
 #' @seealso \code{\link{plot_timing_atc_group}}
 #'
 #' @examples
-#' clust <- medic(complications, id = id, atc = atc, k = 3)
+#' clust <- medic(
+#'   complications,
+#'   id = id,
+#'   atc = atc,
+#'   k = 3,
+#'   timing = first_trimester:third_trimester
+#' )
 #'
 #' clust |> plot_summary()
 #' clust |> summary() |> plot_summary()
 #'
 #' # If the clustering object contains more than one clustering, it is necessary
 #' # to filter the clustering, as only one clustering can be plotted at a time.
-#' clust <- medic(complications, id = id, atc = atc, k = 3:5)
+#' clust <- medic(
+#'   complications,
+#'   id = id,
+#'   atc = atc,
+#'   k = 3:5,
+#'   timing = first_trimester:third_trimester
+#' )
 #' clust |> plot_summary(only = k == 4)
 #' clust |> summary(only = k == 4) |> plot_summary()
 #'
