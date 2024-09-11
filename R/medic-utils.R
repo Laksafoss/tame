@@ -761,12 +761,14 @@ hierarchical_clustering <- function(
     dplyr::distinct() %>%
     dplyr::left_join(pattern_clusters, by = joiner) %>%
     dplyr::select(".internal_character_id", dplyr::all_of(cluster_names)) %>%
-    dplyr::mutate_at(
-      dplyr::vars(dplyr::all_of(cluster_names)),
-      ~factor(
-        .,
-        levels = names(sort(rank(-table(.), ties.method = "first"))),
-        labels = as.roman(seq_along(length(unique(.))))
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::all_of(cluster_names),
+        ~ factor(
+          as.character(.),
+          levels = names(sort(rank(-table(.), ties.method = "first"))),
+          labels = as.roman(seq_len(dplyr::n_distinct(.)))
+        )
       )
     )
 
