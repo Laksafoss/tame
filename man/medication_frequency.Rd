@@ -63,6 +63,6 @@ within the cluster with this medication.
 \examples{
 clust <- medic(complications, id = id, atc = atc, k = 3:5)
 
-medication_frequency(clust)
+medication_frequency(clust, k == 5, clusters = I:III)
 
 }

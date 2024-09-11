@@ -59,6 +59,6 @@ clust <- medic(complications, id = id, atc = atc, k = 3:5)
 
 # make frequency tables
 cluster_frequency(clust, k == 5)
-cluster_frequency(clust)
+cluster_frequency(clust, k < 5, I:III)
 
 }

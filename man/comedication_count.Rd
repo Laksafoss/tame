@@ -86,6 +86,6 @@ Value below for more details on these percentages.
 \examples{
 clust <- medic(complications, id = id, atc = atc, k = 3:5)
 
-comedication_count(clust)
+comedication_count(clust, k == 5, clusters = I:III)
 
 }

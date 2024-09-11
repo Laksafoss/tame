@@ -74,6 +74,6 @@ clust <- medic(
   timing = first_trimester:third_trimester
 )
 
-timing_trajectory(clust)
+timing_trajectory(clust, k == 5, clusters = I:III)
 
 }

@@ -93,6 +93,6 @@ clust <- medic(
   timing = first_trimester:third_trimester
 )
 
-timing_atc_group(clust)
+timing_atc_group(clust, k == 5, clusters = I:III)
 
 }
