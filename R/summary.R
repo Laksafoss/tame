@@ -563,6 +563,10 @@ timing_trajectory <- function(
     output_clusters <- c("Population", as.character(levels(selected_clusters)))
   }
 
+  if (length(clust$variables$timing) == 0) {
+    message("No timing variables are defined.")
+    return(NULL)
+  }
 
   selected_data <- clust$data |>
     dplyr::select(
@@ -688,6 +692,11 @@ timing_atc_group <- function(
     output_clusters <- c("Population", selected_clusters)
   } else if (is.factor(selected_clusters)) {
     output_clusters <- c("Population", as.character(levels(selected_clusters)))
+  }
+
+if (length(clust$variables$timing) == 0) {
+    message("No timing variables are defined.")
+    return(NULL)
   }
 
   by_name <- "regex"
