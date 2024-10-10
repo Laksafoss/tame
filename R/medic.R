@@ -441,5 +441,6 @@ print.medic <- function(x, ...) {
 
 
 str.medic <- function(object, ...) {
-  str(object, max.level = 2, ...)
+  str_default <- utils::getFromNamespace("str.default", "utils")
+  str_default(object, max.level = 2, ...)
 }
