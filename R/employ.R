@@ -27,7 +27,7 @@
 #'
 #'   If `TRUE` or an integer larger than 2L parallelization is implemented via
 #'   [parLapply][parallel::parLapply] from the \strong{parallel} package. When
-#'   `parallel` is \code{TRUE} the number of [clusters][parallel::makeCluster]
+#'   `parallel` is `TRUE` the number of [clusters][parallel::makeCluster]
 #'   is set to [detectCores][parallel::detectCores] - 1, and when `parallel` is
 #'   an integer then the number of [clusters][parallel::makeCluster] is set to
 #'   `parallel`. For more details on the parallelization method see
@@ -35,7 +35,7 @@
 #' @param ... Additional arguments affecting the employment procedure.
 #'
 #' @return
-#' `employ` returns a `medic` object.
+#' `employ` returns a medic object.
 #'
 #' @examples
 #' part1 <- complications[1:100,]
@@ -375,15 +375,15 @@ employ <- function(
 
         chosen_linkage <- switch(
           method[["linkage"]],
-          ward     = function() stop("'ward' linkage not implmented yet."),
-          ward.D   = function() stop("'ward.D' linkage not implmented yet."),
-          ward.D2  = function() stop("'ward.D2' linkage not implmented yet."),
+          ward     = function(...) stop("'ward' linkage not implmented yet."),
+          ward.D   = function(...) stop("'ward.D' linkage not implmented yet."),
+          ward.D2  = function(...) stop("'ward.D2' linkage not implmented yet."),
           single   = min,
           complete = max,
           average  = mean,
-          mcquitty = function() stop("'mcquitty' linkage not implmented yet."),
+          mcquitty = function(...) stop("'mcquitty' linkage not implmented yet."),
           median   = stats::median,
-          centroid = function() stop("'centroid' linkage not implmented yet.")
+          centroid = function(...) stop("'centroid' linkage not implmented yet.")
         )
 
         new_clusters <- apply(

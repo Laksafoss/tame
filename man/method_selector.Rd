@@ -38,7 +38,7 @@ additional columns present in the the outcome are from the
 }
 \description{
 The \code{method_selector()} is a filtering function for extracting only the
-relevant \code{parameters} from a <\code{medic}> object.
+relevant \code{parameters} from a medic object.
 }
 \details{
 The \code{method_selector()} function is a filtering function used for extracting

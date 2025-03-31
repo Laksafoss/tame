@@ -533,6 +533,7 @@ comedication_count <- function(
 #' * _timing variables_ unique timing pattern in the cluster.
 #' * `Count` number of people with this unique timing pattern.
 #'
+#' 
 #' @examples
 #' clust <- medic(
 #'   complications,

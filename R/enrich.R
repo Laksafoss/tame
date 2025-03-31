@@ -2,7 +2,7 @@
 #'
 #' Enrich the parameter information in a clustering with user-defined data.
 #'
-#' @param object A `medic` object for enrichment.
+#' @param object A medic object for enrichment.
 #' @param additional_data A data frame with additional data that may be
 #'   (left-)joined onto the `parameters` in `object`.
 #' @param by A character vector of variables to join by. This variables is

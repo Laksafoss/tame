@@ -7,7 +7,7 @@
 enrich(object, additional_data = NULL, by = NULL)
 }
 \arguments{
-\item{object}{A \code{medic} object for enrichment.}
+\item{object}{A medic object for enrichment.}
 
 \item{additional_data}{A data frame with additional data that may be
 (left-)joined onto the \code{parameters} in \code{object}.}

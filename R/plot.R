@@ -10,12 +10,12 @@
 #'
 #' @return A ggplot object.
 #'
-#' @seealso \code{\link{cluster_frequency}}
-#' @seealso \code{\link{plot_medication_frequency}}
-#' @seealso \code{\link{plot_comedication_count}}
-#' @seealso \code{\link{plot_timing_trajectory}}
-#' @seealso \code{\link{plot_timing_atc_group}}
-#' @seealso \code{\link{plot_summary}}
+#' @seealso [`cluster_frequency`]
+#' @seealso [`plot_medication_frequency`]
+#' @seealso [`plot_comedication_count`]
+#' @seealso [`plot_timing_trajectory`]
+#' @seealso [`plot_timing_atc_group`]
+#' @seealso [`plot_summary`]
 #'
 #' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
@@ -93,12 +93,12 @@ plot_cluster_frequency.cluster_frequency <- function(
 #'
 #' @return A ggplot object.
 #'
-#' @seealso \code{\link{medication_frequency}}
-#' @seealso \code{\link{plot_cluster_frequency}}
-#' @seealso \code{\link{plot_comedication_count}}
-#' @seealso \code{\link{plot_timing_trajectory}}
-#' @seealso \code{\link{plot_timing_atc_group}}
-#' @seealso \code{\link{plot_summary}}
+#' @seealso [`medication_frequency`]
+#' @seealso [`plot_cluster_frequency`]
+#' @seealso [`plot_comedication_count`]
+#' @seealso [`plot_timing_trajectory`]
+#' @seealso [`plot_timing_atc_group`]
+#' @seealso [`plot_summary`]
 #'
 #' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
@@ -200,12 +200,12 @@ plot_medication_frequency.medication_frequency <- function(
 #'
 #' @return A ggplot object.
 #'
-#' @seealso \code{\link{comedication_count}}
-#' @seealso \code{\link{plot_cluster_frequency}}
-#' @seealso \code{\link{plot_medication_frequency}}
-#' @seealso \code{\link{plot_timing_trajectory}}
-#' @seealso \code{\link{plot_timing_atc_group}}
-#' @seealso \code{\link{plot_summary}}
+#' @seealso [`comedication_count`]
+#' @seealso [`plot_cluster_frequency`]
+#' @seealso [`plot_medication_frequency`]
+#' @seealso [`plot_timing_trajectory`]
+#' @seealso [`plot_timing_atc_group`]
+#' @seealso [`plot_summary`]
 #'
 #' @examples
 #' clust <- medic(complications, id = id, atc = atc, k = 3)
@@ -337,12 +337,12 @@ plot_comedication_count.comedication_count <- function(
 #'
 #' @return A ggplot object.
 #'
-#' @seealso \code{\link{timing_trajectory}}
-#' @seealso \code{\link{plot_cluster_frequency}}
-#' @seealso \code{\link{plot_medication_frequency}}
-#' @seealso \code{\link{plot_comedication_count}}
-#' @seealso \code{\link{plot_timing_atc_group}}
-#' @seealso \code{\link{plot_summary}}
+#' @seealso [`timing_trajectory`]
+#' @seealso [`plot_cluster_frequency`]
+#' @seealso [`plot_medication_frequency`]
+#' @seealso [`plot_comedication_count`]
+#' @seealso [`plot_timing_atc_group`]
+#' @seealso [`plot_summary`]
 #'
 #' @examples
 #' clust <- medic(
@@ -474,12 +474,12 @@ plot_timing_trajectory.timing_trajectory <- function(
 #'
 #' @return A ggplot object.
 #'
-#' @seealso \code{\link{timing_atc_group}}
-#' @seealso \code{\link{plot_cluster_frequency}}
-#' @seealso \code{\link{plot_medication_frequency}}
-#' @seealso \code{\link{plot_comedication_count}}
-#' @seealso \code{\link{plot_timing_trajectory}}
-#' @seealso \code{\link{plot_summary}}
+#' @seealso [`timing_atc_group`]
+#' @seealso [`plot_cluster_frequency`]
+#' @seealso [`plot_medication_frequency`]
+#' @seealso [`plot_comedication_count`]
+#' @seealso [`plot_timing_trajectory`]
+#' @seealso [`plot_summary`]
 #'
 #' @examples
 #' clust <- medic(
@@ -616,12 +616,12 @@ plot_timing_atc_group.timing_atc_group <- function(
 #'
 #' @return A ggplot object.
 #'
-#' @seealso \code{\link{summary}}
-#' @seealso \code{\link{plot_cluster_frequency}}
-#' @seealso \code{\link{plot_medication_frequency}}
-#' @seealso \code{\link{plot_comedication_count}}
-#' @seealso \code{\link{plot_timing_trajectory}}
-#' @seealso \code{\link{plot_timing_atc_group}}
+#' @seealso [`summary`]
+#' @seealso [`plot_cluster_frequency`]
+#' @seealso [`plot_medication_frequency`]
+#' @seealso [`plot_comedication_count`]
+#' @seealso [`plot_timing_trajectory`]
+#' @seealso [`plot_timing_atc_group`]
 #'
 #' @examples
 #' clust <- medic(

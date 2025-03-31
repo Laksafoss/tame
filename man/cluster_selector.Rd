@@ -23,7 +23,7 @@ The \code{cluster_selector()} function finds the name of the chosen clusters.
 }
 \details{
 The \code{cluster_selector()} finds the names of the chosen clusters present in
-the \code{clustering} <\code{medic}> object. This function is used in all of
+the \code{clustering} medic object. This function is used in all of
 the investigative functions called by \code{\link[=summary]{summary()}}.
 }
 \seealso{

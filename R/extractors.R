@@ -1,7 +1,7 @@
 #' Method Selector
 #'
 #' The `method_selector()` is a filtering function for extracting only the
-#' relevant `parameters` from a <`medic`> object.
+#' relevant `parameters` from a medic object.
 #'
 #' @inheritParams summary.medic
 #'
@@ -64,7 +64,7 @@ method_selector <- function(clustering, only, additional_data = NULL) {
 #'
 #' @details
 #' The `cluster_selector()` finds the names of the chosen clusters present in
-#' the \code{clustering} <`medic`> object. This function is used in all of
+#' the `clustering` medic object. This function is used in all of
 #' the investigative functions called by [`summary()`].
 #'
 #' @seealso [`method_selector()`] is another selector method used through out
