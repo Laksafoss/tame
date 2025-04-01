@@ -315,12 +315,15 @@ summary_crop.timing_atc_group <- function(
   object,
   sample_n_individual = 100L,
   weighted_sample = TRUE,
+  min_count = 0L,
   ...
 ) {
 
   # Do we need more simplification tools options here?
 
   res <- object
+
+if(0L < sample_n_individual) {
   res$individual <- res$individual |>
     dplyr::group_by(.data$Clustering, .data$Cluster, .data$`ATC Groups`) |>
     dplyr::slice_sample(
@@ -329,6 +332,21 @@ summary_crop.timing_atc_group <- function(
         .data$`Number of Medications with Timing Trajectory`
       }
     )
+}
+
+if (0L < min_count) {
+  res$average <- res$average |>
+    dplyr::mutate(
+      dplyr::across(
+        attr(res, "timing"),
+        ~dplyr::if_else(
+          `Number of Individuals in ATC group` < min_count,
+          NA_real_,
+          .
+        )
+      )
+    )
+}
 
   class(res) <- c("timing_atc_group", class(res))
   return(res)
