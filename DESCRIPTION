@@ -9,7 +9,7 @@ Description: Agglomerative hierarchical clustering with a bespoke distance
   Chemical Classification System, medication timing and 
   medication amount or dosage. Tools for summarizing, illustrating and 
   manipulating the cluster objects are also available.
-License: GPL (>= 3)
+License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
