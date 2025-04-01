@@ -10,6 +10,7 @@ construct_plot_data(
   plot_individual,
   labels,
   alpha_individual = 0.1,
+  label_y_value = 0,
   ...
 )
 }
@@ -25,6 +26,8 @@ should be plotted.}
 
 \item{alpha_individual}{A numeric value specifying the transparency of the
 individual trajectories.}
+
+\item{label_y_value}{A number between 0 and 1 that defines the height of the label text hight.}
 
 \item{...}{Additional arguments passed to the function.}
 }

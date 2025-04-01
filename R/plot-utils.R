@@ -111,6 +111,7 @@ flatten_trajctories <- function(object, individual) {
 #' @param labels A logical value specifying if labels should be plotted.
 #' @param alpha_individual A numeric value specifying the transparency of the
 #' individual trajectories.
+#' @param label_y_value A number between 0 and 1 that defines the height of the label text hight.
 #' @param ... Additional arguments passed to the function.
 #'
 #' @return
@@ -123,6 +124,7 @@ construct_plot_data <- function(
   plot_individual,
   labels,
   alpha_individual = 0.1,
+  label_y_value = 0,
   ...
 ) {
 
@@ -188,14 +190,19 @@ construct_plot_data <- function(
   if (labels) {
     timing_atc_group_labels <- object$timing_atc_group$average |>
       dplyr::mutate(
-        label = sprintf(
-          "%d (%.0f)",
-          .data$`Number of Medications`,
-          100 * .data$`Percentage of Medications`
+        label = dplyr::if_else(
+          stringr::str_detect(.data$`Number of Individuals in ATC Group`, "<"),
+          .data$`Number of Individuals in ATC Group`,
+          paste0(
+            .data$`Number of Individuals in ATC Group`,
+            " (",
+            round(100 * .data$`Percentage of Individuals in ATC Group`),
+            "%"
+          )
         ),
         row_facet = .data$`ATC Groups`,
         part = "label",
-        y = 0
+        y = label_y_value
       ) |>
       dplyr::select(-object$variables$timing)
 

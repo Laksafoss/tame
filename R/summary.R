@@ -742,13 +742,24 @@ if (length(clust$variables$timing) == 0) {
     dplyr::mutate(
       "ATC Groups" = factor(.data$`ATC Groups`, levels = all_atc_groups),
     ) |>
+    dplyr::mutate(
+      "Number of Individuals in Cluster" = dplyr::n_distinct(!!dplyr::sym(clust$variables$id)),
+      .by = c("Clustering", "Cluster")
+    ) |>
+    dplyr::mutate(
+      "Number of Individuals in ATC Group" = dplyr::n_distinct(!!dplyr::sym(clust$variables$id)),
+      .by = c("Clustering", "Cluster", "ATC Groups")
+    ) |>
     dplyr::summarise(
       "Number of Medications with Timing Trajectory" = dplyr::n(),
+      "Number of Individuals with Timing Trajectory" = dplyr::n_distinct(!!dplyr::sym(clust$variables$id)),
       .by = dplyr::all_of(
         c(
           "Clustering",
           "Cluster",
           "ATC Groups",
+          "Number of Individuals in Cluster",
+          "Number of Individuals in ATC Group",
           clust$variables$timing
         )
       )
@@ -757,13 +768,17 @@ if (length(clust$variables$timing) == 0) {
       "Clustering",
       "Cluster",
       "ATC Groups",
-      "Number of Medications with Timing Trajectory"
+      "Number of Medications with Timing Trajectory",
+      "Number of Individuals with Timing Trajectory",
+      "Number of Individuals in Cluster",
+      "Number of Individuals in ATC Group"
     ) |>
     dplyr::arrange(
       .data$Clustering,
       .data$Cluster,
       .data$`ATC Groups`,
-      dplyr::desc(.data$`Number of Medications with Timing Trajectory`)
+      dplyr::desc(.data$`Number of Medications with Timing Trajectory`),
+      dplyr::desc(.data$`Number of Individuals with Timing Trajectory`)
     )
 
   average <- individual |>
@@ -776,16 +791,30 @@ if (length(clust$variables$timing) == 0) {
         ~ sum(. * .data$`Number of Medications with Timing Trajectory`) /
           sum(.data$`Number of Medications with Timing Trajectory`)
       ),
-      .by = c("Clustering", "Cluster", "ATC Groups")
+      .by = c(
+        "Clustering", 
+        "Cluster", 
+        "ATC Groups",
+        "Number of Individuals in Cluster",
+        "Number of Individuals in ATC Group"
+      )
     ) |>
     dplyr::mutate(
       "Percentage of Medications" = .data$`Number of Medications` /
         sum(.data$`Number of Medications`),
-      .by = c("Clustering", "Cluster")
+      "Percentage of Individuals in ATC Group" = .data$`Number of Individuals in ATC Group` /
+      .data$`Number of Individuals in Cluster`,
+      .by = c(
+        "Clustering", 
+        "Cluster"
+      )
     ) |>
     dplyr::relocate(
       "Number of Medications",
+      "Number of Individuals in Cluster",
+      "Number of Individuals in ATC Group",
       "Percentage of Medications",
+      "Percentage of Individuals in ATC Group",
       "Number of Distinct Timing Trajectories",
       .after = "ATC Groups"
     )
