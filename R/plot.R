@@ -681,7 +681,7 @@ plot_summary.summary.medic <- function(
   plot_individual = FALSE,
   labels = FALSE,
   alpha_individual = 0.1,
-  label_y_value = 0,
+  label_y_value = 0.1,
   ...
 ) {
 
