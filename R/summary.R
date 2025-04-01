@@ -99,6 +99,21 @@ summary.medic <- function(
       )
     )
   }
+  if (length(clust$variables$timing) == 0) {
+    feasible_outputs <- outputs[!stringr::str_detect(outputs, "timing")]
+    if (length(feasible_outputs) < length(outputs)) {
+      if (!any(outputs == "all")) {
+        warning(
+          paste0(
+            "No timing variables are defined.\n",
+            "The following summaries have been removed:\n",
+            setdiff(outputs, feasible_outputs)
+          )
+        )
+      }
+      outputs <- feasible_outputs
+    }
+  }
 
   out <- sapply(
     valid_outputs[valid_outputs %in% outputs],
