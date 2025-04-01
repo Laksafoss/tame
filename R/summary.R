@@ -99,7 +99,7 @@ summary.medic <- function(
       )
     )
   }
-  if (length(clust$variables$timing) == 0) {
+  if (length(object$variables$timing) == 0) {
     feasible_outputs <- outputs[!stringr::str_detect(outputs, "timing")]
     if (length(feasible_outputs) < length(outputs)) {
       if (!any(outputs == "all")) {
