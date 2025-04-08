@@ -23,11 +23,17 @@ The \code{cluster_selector()} function finds the name of the chosen clusters.
 }
 \details{
 The \code{cluster_selector()} finds the names of the chosen clusters present in
-the \code{clustering} <\code{medic}> object. This function is used in all of
+the \code{clustering} medic object. This function is used in all of
 the investigative functions called by \code{\link[=summary]{summary()}}.
 }
 \seealso{
 \code{\link[=method_selector]{method_selector()}} is another selector method used through out
 the package.
+
+\code{\link[=enrich]{enrich()}} is a joining function used for enriching the clustering
+characteristics with user-defined data.
+
+\code{\link[=summary.medic]{summary.medic()}} is the main function for summarizing the
+clustering results.
 }
 \keyword{internal}

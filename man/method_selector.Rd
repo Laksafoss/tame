@@ -38,7 +38,7 @@ additional columns present in the the outcome are from the
 }
 \description{
 The \code{method_selector()} is a filtering function for extracting only the
-relevant \code{parameters} from a <\code{medic}> object.
+relevant \code{parameters} from a medic object.
 }
 \details{
 The \code{method_selector()} function is a filtering function used for extracting
@@ -48,5 +48,11 @@ the investigative functions called by \code{\link[=summary]{summary()}}.
 \seealso{
 \code{\link[=cluster_selector]{cluster_selector()}} is another selector method used through out
 the package.
+
+\code{\link[=enrich]{enrich()}} is a joining function used for enriching the clustering
+characteristics with user-defined data.
+
+\code{\link[=summary.medic]{summary.medic()}} is the main function for summarizing the
+clustering results.
 }
 \keyword{internal}

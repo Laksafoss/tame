@@ -1,7 +1,7 @@
 #' Medication clustering (based on ATC and timing)
 #'
-#' The \code{medic} method uses agglomerative hierarchical clustering with a 
-#' bespoke distance measure based on medication ATC codes similarities, 
+#' The \code{medic} method uses agglomerative hierarchical clustering with a
+#' bespoke distance measure based on medication ATC codes similarities,
 #' medication timing and medication amount or dosage.
 #'
 #' @param data A data frame containing all the variables for the clustering.
@@ -18,9 +18,9 @@
 #'   [`starts_with`][tidyselect::starts_with] or
 #'   [`num_range`][tidyselect::starts_with] may also be used to select timing
 #'   variables.
-#' @param base_clustering <[`tidy-select`][dplyr::dplyr_tidy_select]> An 
+#' @param base_clustering <[`tidy-select`][dplyr::dplyr_tidy_select]> An
 #'   unquoted expression naming the variable in `data` that gives an initial
-#'   clustering to start the `medic` from or `NULL`. 
+#'   clustering to start the `medic` from or `NULL`.
 #' @param linkage The agglomeration method to be used in the clustering. This
 #'   should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2",
 #'   "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median"
@@ -59,8 +59,8 @@
 #' clustering with a bespoke distance measure based on medication ATC codes and
 #' timing similarities to assign medication pattern clusters to people.
 #'
-#' Two versions of the distance measure are available: 
-#' 
+#' Two versions of the distance measure are available:
+#'
 #' The \emph{double sum}:
 #'
 #' \deqn{%
@@ -106,12 +106,12 @@
 #' }{%
 #'   D_\theta(x, y) = \sum_{i=1,...,5}1\{x and y match on level i, but not level i + 1\}\theta_i%
 #' }
-#' The ATC distance is tuned using the vector \code{theta}. 
-#' 
-#' Note that two ATC codes are said to match at level i when they are identical 
-#' at level i. E.g. the two codes N06AB01 and N06AA01 match on level 1, 2, and 3 
-#' as they are both "N" at level 1, "N06" at level 2, and "N06A" at level 3, 
-#' but at level 4 they differ ("N06AB" and "N06AA" are not the same). 
+#' The ATC distance is tuned using the vector \code{theta}.
+#'
+#' Note that two ATC codes are said to match at level i when they are identical
+#' at level i. E.g. the two codes N06AB01 and N06AA01 match on level 1, 2, and 3
+#' as they are both "N" at level 1, "N06" at level 2, and "N06A" at level 3,
+#' but at level 4 they differ ("N06AB" and "N06AA" are not the same).
 #'
 #' ## Timing distance
 #' The timing distance is a simple Minkowski distance:
@@ -120,7 +120,7 @@
 #' }{%
 #'   T(x,y) =(\sum_{t in T} |x_t - y_t|^p)^{1/p}.%
 #' }
-#' When `p` is 1, the default, the Manhattan distance is used. 
+#' When `p` is 1, the default, the Manhattan distance is used.
 #'
 #'
 #' @return
@@ -129,7 +129,7 @@
 #' \describe{
 #'   \item{data}{the inputted data frame \code{data} with the cluster
 #'      assignments appended at the end.}
-#'   \item{clustering}{a data frame with the person id as given by \code{id}, 
+#'   \item{clustering}{a data frame with the person id as given by \code{id},
 #'      the `.analysis_order` and the clusters found.}
 #'   \item{variables}{a list of the variables used in the clustering.}
 #'   \item{parameters}{a data frame with all the inputted clustering
@@ -138,7 +138,7 @@
 #'      data frame described right above.}
 #'   \item{key}{a list of keys used internally in the function to keep track of
 #'      simplified versions of the data.}
-#'   \item{distance_matrix}{the distance matrices for each method if 
+#'   \item{distance_matrix}{the distance matrices for each method if
 #'      `return_distance_matrix` is `TRUE` otherwise `NULL`.}
 #'   \item{call}{the matched call.}
 #' }
@@ -146,12 +146,12 @@
 #'
 #' @seealso
 #' [summary.medic] for summaries and plots.
-#' 
+#'
 #' [employ] for employing an existing clustering to new data.
-#' 
-#' [enrich] for enriching the meta data in the `medic` object with additional 
-#' data. 
-#' 
+#'
+#' [enrich] for enriching the meta data in the `medic` object with additional
+#' data.
+#'
 #' [bind] for binding together two comparable lists of clusterings.
 #'
 #'
@@ -202,24 +202,31 @@ medic <- function(
     "id" = names(dplyr::select(data, {{ id }})),
     "atc" = names(dplyr::select(data, {{ atc }})),
     "timing" = names(dplyr::select(data, {{ timing }})),
-    "base_clustering" = names(dplyr::select(data, {{ base_clustering }})))
+    "base_clustering" = names(dplyr::select(data, {{ base_clustering }}))
+  )
 
   # create character id key - saves us some pain when naming
-  if (is.numeric(set_seed)) { set.seed(set_seed) }
+  if (is.numeric(set_seed)) set.seed(set_seed)
   data <- data %>%
-    dplyr::mutate(.original_order = dplyr::row_number(),
-                  .analysis_order = sample(1:(dplyr::n()),
-                                           size = dplyr::n(),
-                                           replace = FALSE)) %>%
+    dplyr::mutate(
+      .original_order = dplyr::row_number(),
+      .analysis_order = sample(
+        seq_len(dplyr::n(...)),
+        size = dplyr::n(),
+        replace = FALSE
+      )
+    ) %>%
     dplyr::arrange(.data$.analysis_order) %>%
     dplyr::mutate(.internal_character_id = as.character({{ id }}))
 
   # make keys
-  keys <- key_constructor(data,
-                          {{ id }},
-                          {{ base_clustering }},  # preclustering should be on unique pattern !!!!
-                          {{ atc }},
-                          {{ timing }})
+  keys <- key_constructor(
+    data,
+    {{ id }},
+    {{ base_clustering }},  # preclustering should be on unique pattern !!!!
+    {{ atc }},
+    {{ timing }}
+  )
 
 
 
@@ -247,22 +254,28 @@ medic <- function(
   if (parallel) {
     #   ---   parallel clustering   --------------------------------------------
 
-    parallel::clusterExport(clust,
-                            varlist = c("keys",
-                                        "parameters",
-                                        "lookup_tables",
-                                        "k",
-                                        "context_lookup",
-                                        "distance_matrix_constructor",
-                                        "hierarchical_clustering"),
-                            envir = environment())
+    parallel::clusterExport(
+      clust,
+      varlist = c(
+        "keys",
+        "parameters",
+        "lookup_tables",
+        "k",
+        "context_lookup",
+        "distance_matrix_constructor",
+        "hierarchical_clustering"
+      ),
+      envir = environment()
+    )
 
 
     clusterings <- parallel::parLapply(
-      clust, 1:nrow(parameters), function(i) {
+      clust,
+      seq_along(nrow(parameters)),
+      function(i) {
 
         # current method
-        method <- parameters[i,]
+        method <- parameters[i, ]
 
         # method specific atc, timing & amount metric tables
         cur_tables <- context_lookup(method, lookup_tables)
@@ -271,51 +284,65 @@ medic <- function(
         distance_matrix <- distance_matrix_constructor(keys, method, cur_tables)
 
         # hierarchical clustering
-        clusted <- hierarchical_clustering(keys,
-                                           method,
-                                           k,
-                                           distance_matrix,
-                                           {{ base_clustering }})
+        clusted <- hierarchical_clustering(
+          keys,
+          method,
+          k,
+          distance_matrix,
+          {{ base_clustering }}
+        )
         cluster_assignment <- clusted$cluster_assignment
 
         # output
         if (return_distance_matrix) {
-          return(list(cluster_assignment = cluster_assignment,
-                      distance_matrix = distance_matrix))
+          return(
+            list(
+              cluster_assignment = cluster_assignment,
+              distance_matrix = distance_matrix
+            )
+          )
         } else {
           return(list(cluster_assignment = cluster_assignment))
         }
-      })
+      }
+    )
 
 
   } else {
     #   ---   serial clustering   ----------------------------------------------
 
-    clusterings <- lapply(1:nrow(parameters), function(i) {
+    clusterings <- lapply(
+      seq_along(nrow(parameters)),
+      function(i) {
 
-      # current method
-      method <- parameters[i,]
+        # current method
+        method <- parameters[i, ]
 
-      # method specific atc, timing & amount metric tables
-      cur_tables <- context_lookup(method, lookup_tables)
+        # method specific atc, timing & amount metric tables
+        cur_tables <- context_lookup(method, lookup_tables)
 
-      # create method specific distance matrix
-      distance_matrix <- distance_matrix_constructor(keys, method, cur_tables)
+        # create method specific distance matrix
+        distance_matrix <- distance_matrix_constructor(keys, method, cur_tables)
 
-      # hierarchical clustering
-      clusted <- hierarchical_clustering(keys, method, k, distance_matrix)
-      cluster_assignment <- clusted$cluster_assignment
-      distance_matrix <- clusted$distance_matrix
+        # hierarchical clustering
+        clusted <- hierarchical_clustering(keys, method, k, distance_matrix)
+        cluster_assignment <- clusted$cluster_assignment
+        distance_matrix <- clusted$distance_matrix
 
-      # output
-      # output
-      if (return_distance_matrix) {
-        return(list(cluster_assignment = cluster_assignment,
-                    distance_matrix = distance_matrix))
-      } else {
-        return(list(cluster_assignment = cluster_assignment))
+        # output
+        # output
+        if (return_distance_matrix) {
+          return(
+            list(
+              cluster_assignment = cluster_assignment,
+              distance_matrix = distance_matrix
+            )
+          )
+        } else {
+          return(list(cluster_assignment = cluster_assignment))
+        }
       }
-    })
+    )
   }
 
 
@@ -327,7 +354,9 @@ medic <- function(
   # clustering assignments
   cluster_assignment <- purrr::reduce(
     lapply(clusterings, function(d) d$cluster_assignment),
-    dplyr::left_join,  by = ".internal_character_id")
+    dplyr::left_join,
+    by = ".internal_character_id"
+  )
 
   # for nice output data
   cluster_data <- data %>%
@@ -353,7 +382,7 @@ medic <- function(
 
 
   #   ===   Return Results   ===================================================
-  
+
   return(
     structure(
       list(
@@ -365,7 +394,53 @@ medic <- function(
         distance_matrix = distance_matrix,
         call = match.call(expand.dots = FALSE)
       ),
-      "class" = c("medic", "list"))
+      "class" = c("medic", "list")
+    )
   )
 }
 
+
+
+#' @describeIn medic Print method for medic-objects
+#' @param x A `medic` object for printing.
+#' @exportS3Method
+print.medic <- function(x, ...) {
+  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"),
+      "\n\n", sep = "")
+
+  cat("ID variable:\n")
+  print(x$variables$id)
+  cat("\n")
+
+  if (length(x$variables$atc)) {
+    cat("ATC variable:\n")
+    print(x$variables$atc)
+    cat("\n")
+  } else {
+    cat("No ATC variable\n")
+  }
+
+  if (length(x$variables$timing)) {
+    cat("Timing variable(s):\n")
+    print(x$variables$timing)
+    cat("\n")
+  } else {
+    cat("No timing variable\n")
+  }
+
+  cat("Total number of clusterings created:\n")
+  print(nrow(x$parameters))
+  cat("\n")
+
+  cat("Clustering parameters:\n")
+  print(x$parameters, max = 10)
+  cat("\n")
+
+  return(invisible(x))
+}
+
+
+str.medic <- function(object, ...) {
+  str_default <- utils::getFromNamespace("str.default", "utils")
+  str_default(object, max.level = 2, ...)
+}

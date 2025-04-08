@@ -1,7 +1,7 @@
 #' Method Selector
 #'
 #' The `method_selector()` is a filtering function for extracting only the
-#' relevant `parameters` from a <`medic`> object.
+#' relevant `parameters` from a medic object.
 #'
 #' @inheritParams summary.medic
 #'
@@ -28,21 +28,11 @@
 #'
 #' @seealso [`cluster_selector()`] is another selector method used through out
 #'   the package.
+#' @seealso [`enrich()`] is a joining function used for enriching the clustering
+#'  characteristics with user-defined data.
+#' @seealso [`summary.medic()`] is the main function for summarizing the
+#'  clustering results.
 #'
-# @examples
-# clust <- medic(complications, id = id, atc = atc, k = 3:5)
-#
-# tame:::method_selector(clust, k < 5)
-#
-#
-# # cluster selection based on additional data
-#
-# user_classification <- data.frame(
-#    k = 1:10,
-#    size = rep(c("small", "large"), times = c(4, 6)))
-#
-# tame:::method_selector(clust, size == "small", user_classification)
-#
 #' @keywords internal
 method_selector <- function(clustering, only, additional_data = NULL) {
 
@@ -74,23 +64,16 @@ method_selector <- function(clustering, only, additional_data = NULL) {
 #'
 #' @details
 #' The `cluster_selector()` finds the names of the chosen clusters present in
-#' the \code{clustering} <`medic`> object. This function is used in all of
+#' the `clustering` medic object. This function is used in all of
 #' the investigative functions called by [`summary()`].
 #'
 #' @seealso [`method_selector()`] is another selector method used through out
 #'   the package.
+#' @seealso [`enrich()`] is a joining function used for enriching the clustering
+#' characteristics with user-defined data.
+#' @seealso [`summary.medic()`] is the main function for summarizing the
+#' clustering results.
 #'
-#'
-# @examples
-# clust <- medic(
-#    complications,
-#    id = id,
-#    atc = atc,
-#    k = 3:5
-# )
-#
-# tame:::cluster_selector(clust, clusters = I:III)
-#
 #' @keywords internal
 cluster_selector <- function(clustering, clusters = NULL) {
 

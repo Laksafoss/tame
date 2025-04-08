@@ -2,7 +2,7 @@
 #'
 #' Enrich the parameter information in a clustering with user-defined data.
 #'
-#' @param object A `medic` object for enrichment.
+#' @param object A medic object for enrichment.
 #' @param additional_data A data frame with additional data that may be
 #'   (left-)joined onto the `parameters` in `object`.
 #' @param by A character vector of variables to join by. This variables is
@@ -32,10 +32,11 @@
 #' The `enrich()` function is a joining function used for enriching the
 #' clustering characteristics with user-defined data. This function is used in
 #' all of the investigative functions with a `additional_data` statement such as
-#' [`frequencies()`] and [`amounts()`].
+#' [`summary()`], [`cluster_frequency()`] and [`medication_frequency()`].
 #'
 #' @return
 #' An object of class \emph{medic}.
+#'
 #'
 #' @examples
 #' clust <- medic(

@@ -54,7 +54,7 @@ an integer then the number of \link[parallel:makeCluster]{clusters} is set to
 \item{...}{Additional arguments affecting the employment procedure.}
 }
 \value{
-\code{employ} returns a \code{medic} object.
+\code{employ} returns a medic object.
 }
 \description{
 Employ a clustering to new data
