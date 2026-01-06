@@ -1,6 +1,7 @@
 Package: tame
-Title: Timing, Anatomical, Therapeutic and Chemical Based Medication Clustering
-Version: 0.1.0
+Title: Timing, Anatomical, Therapeutic and Chemical Based Medication
+        Clustering
+Version: 0.2.0
 Authors@R: 
     person("Anna", "Laksafoss", , "adls@ssi.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9898-2924"))
@@ -9,30 +10,21 @@ Description: Agglomerative hierarchical clustering with a bespoke distance
   Chemical Classification System, medication timing and 
   medication amount or dosage. Tools for summarizing, illustrating and 
   manipulating the cluster objects are also available.
-License: MIT + file LICENSE
+License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
-Imports: 
-    dplyr,
-    fuzzyjoin,
-    magrittr,
-    purrr,
-    Rfast,
-    rlang,
-    stats,
-    stringr,
-    tibble,
-    tidyr,
-    tidyselect,
-    Rcpp (>= 1.0.8),
-    ggplot2,
-    scales,
-    utils
+RoxygenNote: 7.3.2
+Imports: dplyr (>= 1.0.0), fuzzyjoin, magrittr, purrr (>= 1.0.0),
+        Rfast, rlang (>= 1.0.0), stats, stringr, tibble (>= 3.0.0),
+        tidyr (>= 1.2.0), tidyselect, Rcpp (>= 1.0.8), ggplot2 (>=
+        3.3.0), scales, utils
 Suggests: rmarkdown, knitr, testthat (>= 3.0.0)
 BugReports: https://github.com/Laksafoss/tame/issues
 Config/testthat/edition: 3
-Depends: 
-    R (>= 4.2)
+Depends: R (>= 4.2)
 LazyData: true
 LinkingTo: Rcpp
+NeedsCompilation: yes
+Packaged: 2025-04-02 14:02:58 UTC; B245807
+Author: Anna Laksafoss [aut, cre] (<https://orcid.org/0000-0002-9898-2924>)
+Maintainer: Anna Laksafoss <adls@ssi.dk>

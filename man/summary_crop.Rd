@@ -27,7 +27,13 @@ summary_crop(object, ...)
 
 \method{summary_crop}{timing_trajectory}(object, sample_n_individual = 100L, weighted_sample = TRUE, ...)
 
-\method{summary_crop}{timing_atc_group}(object, sample_n_individual = 100L, weighted_sample = TRUE, ...)
+\method{summary_crop}{timing_atc_group}(
+  object,
+  sample_n_individual = 100L,
+  weighted_sample = TRUE,
+  min_count = 0L,
+  ...
+)
 
 \method{summary_crop}{summary.medic}(object, which = "all", ...)
 }

@@ -16,6 +16,7 @@ plot_summary(object, ...)
   plot_individual = FALSE,
   labels = FALSE,
   alpha_individual = 0.1,
+  label_y_value = 0.1,
   ...
 )
 }
@@ -51,6 +52,8 @@ trajectories.}
 \item{labels}{Logical value indicating whether to include labels.}
 
 \item{alpha_individual}{The alpha value for the individual trajectories.}
+
+\item{label_y_value}{A number between 0 and 1 that defines the height of the label text hight.}
 }
 \value{
 A ggplot object.
@@ -59,6 +62,7 @@ A ggplot object.
 This function plots the summary of the clustering results.
 }
 \examples{
+\donttest{
 clust <- medic(
   complications,
   id = id,
@@ -81,7 +85,7 @@ clust <- medic(
 )
 clust |> plot_summary(only = k == 4)
 clust |> summary(only = k == 4) |> plot_summary()
-
+}
 }
 \seealso{
 \code{\link{summary}}

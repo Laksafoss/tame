@@ -612,6 +612,7 @@ plot_timing_atc_group.timing_atc_group <- function(
 #'  trajectories.
 #' @param labels Logical value indicating whether to include labels.
 #' @param alpha_individual The alpha value for the individual trajectories.
+#' @param label_y_value A number between 0 and 1 that defines the height of the label text hight.
 #' @param ... Additional arguments passed to the plotting functions.
 #'
 #' @return A ggplot object.
@@ -624,6 +625,7 @@ plot_timing_atc_group.timing_atc_group <- function(
 #' @seealso [`plot_timing_atc_group`]
 #'
 #' @examples
+#' \donttest{
 #' clust <- medic(
 #'   complications,
 #'   id = id,
@@ -634,7 +636,7 @@ plot_timing_atc_group.timing_atc_group <- function(
 #'
 #' clust |> plot_summary()
 #' clust |> summary() |> plot_summary()
-#'
+#' 
 #' # If the clustering object contains more than one clustering, it is necessary
 #' # to filter the clustering, as only one clustering can be plotted at a time.
 #' clust <- medic(
@@ -646,7 +648,7 @@ plot_timing_atc_group.timing_atc_group <- function(
 #' )
 #' clust |> plot_summary(only = k == 4)
 #' clust |> summary(only = k == 4) |> plot_summary()
-#'
+#' }
 #' @rdname plot_summary
 #' @export
 plot_summary <- function(object, ...) {
@@ -680,6 +682,7 @@ plot_summary.summary.medic <- function(
   plot_individual = FALSE,
   labels = FALSE,
   alpha_individual = 0.1,
+  label_y_value = 0.1,
   ...
 ) {
 
@@ -714,6 +717,7 @@ plot_summary.summary.medic <- function(
     plot_individual,
     labels,
     alpha_individual,
+    label_y_value = label_y_value,
     ...
   )
   color_scales <- construct_color_scales(plot_data, ...)
