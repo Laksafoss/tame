@@ -29,6 +29,12 @@ src/*.o
 src/*.so
 src/*.dll
 
+# Compiled objects
+*.o
+
+# Dynamic libraries
+*.dll
+
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
 
