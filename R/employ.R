@@ -109,31 +109,31 @@ employ <- function(
   selected_analyses <- method_selector(clust, {{ only }})
   selected_names <- selected_analyses$cluster_name
 
-  parameters <- clust$parameters %>%
+  parameters <- clust$parameters |>
     dplyr::filter(.data$cluster_name %in% selected_names)
 
-  old <- clust$data %>%
+  old <- clust$data |>
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       !!rlang::sym(clust$variables$atc),
       dplyr::all_of(clust$variables$timing),
       !!!rlang::syms(selected_names)
-    ) %>%
+    ) |>
     tidyr::nest(pattern = c(clust$variables$atc, clust$variables$timing))
 
-  old_distinct <- old %>%
-    dplyr::select(-!!rlang::sym(clust$variables$id)) %>%
+  old_distinct <- old |>
+    dplyr::select(-!!rlang::sym(clust$variables$id)) |>
     dplyr::distinct()
 
-  new <- new_data %>%
+  new <- new_data |>
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       !!rlang::sym(clust$variables$atc),
       dplyr::all_of(clust$variables$timing)
-    ) %>%
+    ) |>
     tidyr::nest(pattern = c(clust$variables$atc, clust$variables$timing))
 
-  matching <- new %>%
+  matching <- new |>
     dplyr::full_join(old_distinct, by = "pattern")
 
 
@@ -142,22 +142,22 @@ employ <- function(
 
   if (assignment_method == "exact_only") {
 
-    exact_clusters <- matching %>%
-      dplyr::select(-"pattern") %>%
+    exact_clusters <- matching |>
+      dplyr::select(-"pattern") |>
       dplyr::mutate(
         dplyr::across(dplyr::all_of(selected_names), list("new_exact" = ~.))
       )
 
-    old_clusters <- clust$clustering %>%
+    old_clusters <- clust$clustering |>
       dplyr::select(
         !!rlang::sym(clust$variables$id),
         ".analysis_order",
         !!!rlang::syms(selected_names)
-      ) %>%
-      dplyr::distinct() %>%
+      ) |>
+      dplyr::distinct() |>
       dplyr::mutate(
         dplyr::across(dplyr::all_of(selected_names), list("old" = ~.))
-      ) %>%
+      ) |>
       dplyr::arrange(
         match(
           !!rlang::sym(clust$variables$id),
@@ -165,21 +165,21 @@ employ <- function(
         )
       )
 
-    all_clusterings <- dplyr::bind_rows(exact_clusters, old_clusters) %>%
+    all_clusterings <- dplyr::bind_rows(exact_clusters, old_clusters) |>
       dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
 
-    final_clusters <- all_clusterings %>%
+    final_clusters <- all_clusterings |>
       dplyr::select(
         !!rlang::sym(clust$variables$id),
         !!!rlang::syms(selected_names)
       )
 
-    joined_data <- clust$data %>%
-      dplyr::select(-dplyr::all_of(selected_names)) %>%
-      dplyr::mutate(.origin = "old") %>%
-      dplyr::bind_rows(new_data) %>%
-      dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) %>%
-      dplyr::left_join(final_clusters, by = clust$variables$id) %>%
+    joined_data <- clust$data |>
+      dplyr::select(-dplyr::all_of(selected_names)) |>
+      dplyr::mutate(.origin = "old") |>
+      dplyr::bind_rows(new_data) |>
+      dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) |>
+      dplyr::left_join(final_clusters, by = clust$variables$id) |>
       dplyr::relocate(dplyr::all_of(clust$variables$id))
 
     return(
@@ -201,42 +201,42 @@ employ <- function(
   #   ===   Non-exact Matching   ===============================================
 
   #   ---  Split new into exact and missed   -----------------------------------
-  exact <- matching %>%
+  exact <- matching |>
     dplyr::filter(
       !is.na(!!rlang::sym(selected_names[1])),
       !is.na(!!rlang::sym(clust$variables$id))
-    ) %>%
+    ) |>
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       !!!rlang::syms(selected_names)
     )
 
-  missed <- matching %>%
+  missed <- matching |>
     dplyr::filter(
       is.na(!!rlang::sym(selected_names[1])),
       !is.na(!!rlang::sym(clust$variables$id))
-    ) %>%
+    ) |>
     dplyr::select(!!rlang::sym(clust$variables$id))
 
   #   ---  construct the new data set for pseudo-clustering   ------------------
-  missed_full_info <- new_data %>%
+  missed_full_info <- new_data |>
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       !!rlang::sym(clust$variables$atc),
       dplyr::all_of(clust$variables$timing)
-    ) %>%
-    dplyr::inner_join(missed, by = clust$variables$id) %>%
+    ) |>
+    dplyr::inner_join(missed, by = clust$variables$id) |>
     dplyr::mutate(.origin = "new")
 
-  missed_with_old <- clust$data %>%
+  missed_with_old <- clust$data |>
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       !!rlang::sym(clust$variables$atc),
       dplyr::all_of(clust$variables$timing),
       !!!rlang::syms(selected_names)
-    ) %>%
-    dplyr::mutate(.origin = "old") %>%
-    dplyr::bind_rows(missed_full_info) %>%
+    ) |>
+    dplyr::mutate(.origin = "old") |>
+    dplyr::bind_rows(missed_full_info) |>
     dplyr::mutate(
       .internal_character_id = paste0(
         .data$.origin, !!rlang::sym(clust$variables$id)
@@ -252,8 +252,8 @@ employ <- function(
     dplyr::all_of(clust$variables$timing)
   )
 
-  old_patterns <- keys$base_clustering %>% dplyr::filter(.data$.origin == "old")
-  new_patterns <- keys$base_clustering %>% dplyr::filter(.data$.origin == "new")
+  old_patterns <- keys$base_clustering |> dplyr::filter(.data$.origin == "old")
+  new_patterns <- keys$base_clustering |> dplyr::filter(.data$.origin == "new")
 
   lookup_tables <- lookup_constructor(keys, parameters)
 
@@ -308,8 +308,8 @@ employ <- function(
           keys,
           method,
           cur_tables,
-          old_patterns = old_patterns %>% dplyr::pull(.data$unique_pattern_key),
-          new_patterns = new_patterns %>% dplyr::pull(.data$unique_pattern_key)
+          old_patterns = old_patterns |> dplyr::pull(.data$unique_pattern_key),
+          new_patterns = new_patterns |> dplyr::pull(.data$unique_pattern_key)
         )
 
         chosen_linkage <- switch(
@@ -331,7 +331,7 @@ employ <- function(
           function(d) {
             clust_dist <- tapply(
               d,
-              old_patterns %>% dplyr::pull(method[["cluster_name"]]),
+              old_patterns |> dplyr::pull(method[["cluster_name"]]),
               FUN = chosen_linkage
             )
             closest <- which(clust_dist == min(clust_dist))
@@ -343,8 +343,8 @@ employ <- function(
           }
         )
 
-        new_clusters <- new_patterns %>%
-          dplyr::select("unique_pattern_key") %>%
+        new_clusters <- new_patterns |>
+          dplyr::select("unique_pattern_key") |>
           dplyr::mutate(!!method[["cluster_name"]] := new_clusters)
 
         return(new_clusters)
@@ -369,8 +369,8 @@ employ <- function(
           keys,
           method,
           cur_tables,
-          old_patterns = old_patterns %>% dplyr::pull(.data$unique_pattern_key),
-          new_patterns = new_patterns %>% dplyr::pull(.data$unique_pattern_key)
+          old_patterns = old_patterns |> dplyr::pull(.data$unique_pattern_key),
+          new_patterns = new_patterns |> dplyr::pull(.data$unique_pattern_key)
         )
 
         chosen_linkage <- switch(
@@ -392,7 +392,7 @@ employ <- function(
           function(d) {
             clust_dist <- tapply(
               d,
-              old_patterns %>% dplyr::pull(method[["cluster_name"]]),
+              old_patterns |> dplyr::pull(method[["cluster_name"]]),
               FUN = chosen_linkage
             )
             closest <- which(clust_dist == min(clust_dist))
@@ -404,8 +404,8 @@ employ <- function(
           }
         )
 
-        new_clusters <- new_patterns %>%
-          dplyr::select("unique_pattern_key") %>%
+        new_clusters <- new_patterns |>
+          dplyr::select("unique_pattern_key") |>
           dplyr::mutate(!!method[["cluster_name"]] := new_clusters)
 
         return(new_clusters)
@@ -413,18 +413,18 @@ employ <- function(
     )
   }
 
-  all_new_closest_clusterings <- clusterings %>%
+  all_new_closest_clusterings <- clusterings |>
     purrr::reduce(dplyr::left_join, by = "unique_pattern_key")
 
-  missed_clusters <- keys$key %>%
-    dplyr::filter(.data$.origin == "new") %>%
+  missed_clusters <- keys$key |>
+    dplyr::filter(.data$.origin == "new") |>
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       "unique_pattern_key"
-    ) %>%
-    dplyr::distinct() %>%
-    dplyr::left_join(all_new_closest_clusterings, by = "unique_pattern_key") %>%
-    dplyr::select(-"unique_pattern_key") %>%
+    ) |>
+    dplyr::distinct() |>
+    dplyr::left_join(all_new_closest_clusterings, by = "unique_pattern_key") |>
+    dplyr::select(-"unique_pattern_key") |>
     dplyr::mutate(
       dplyr::across(
         dplyr::all_of(selected_names),
@@ -432,21 +432,21 @@ employ <- function(
       )
     )
 
-  exact_clusters <- exact %>%
+  exact_clusters <- exact |>
     dplyr::mutate(
       dplyr::across(dplyr::all_of(selected_names), list("new_exact" = ~.))
     )
 
-  old_clusters <- clust$clustering %>%
+  old_clusters <- clust$clustering |>
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       ".analysis_order",
       !!!rlang::syms(selected_names)
-    ) %>%
-    dplyr::distinct() %>%
+    ) |>
+    dplyr::distinct() |>
     dplyr::mutate(
       dplyr::across(dplyr::all_of(selected_names), list("old" = ~.))
-    ) %>%
+    ) |>
     dplyr::arrange(
       match(
         !!rlang::sym(clust$variables$id),
@@ -455,7 +455,7 @@ employ <- function(
     )
 
 
-  all_new_clusterings <- dplyr::bind_rows(missed_clusters, exact_clusters) %>%
+  all_new_clusterings <- dplyr::bind_rows(missed_clusters, exact_clusters) |>
     dplyr::arrange(
       match(
         !!rlang::sym(clust$variables$id),
@@ -463,23 +463,23 @@ employ <- function(
       )
     )
 
-  all_clusterings <- dplyr::bind_rows(all_new_clusterings, old_clusters) %>%
+  all_clusterings <- dplyr::bind_rows(all_new_clusterings, old_clusters) |>
     dplyr::relocate(dplyr::all_of(clust$variables$id), ".analysis_order")
 
 
-  final_clusters <- all_clusterings %>%
+  final_clusters <- all_clusterings |>
     dplyr::select(
       !!rlang::sym(clust$variables$id),
       !!!rlang::syms(selected_names)
     )
 
 
-  joined_data <- clust$data %>%
-    dplyr::select(-dplyr::all_of(selected_names)) %>%
-    dplyr::mutate(.origin = "old") %>%
-    dplyr::bind_rows(new_data) %>%
-    dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) %>%
-    dplyr::left_join(final_clusters, by = clust$variables$id) %>%
+  joined_data <- clust$data |>
+    dplyr::select(-dplyr::all_of(selected_names)) |>
+    dplyr::mutate(.origin = "old") |>
+    dplyr::bind_rows(new_data) |>
+    dplyr::mutate(.origin = tidyr::replace_na(.data$.origin, "new")) |>
+    dplyr::left_join(final_clusters, by = clust$variables$id) |>
     dplyr::relocate(dplyr::all_of(clust$variables$id))
 
   names(keys)[which(names(keys) == "base_clustering")] <- "clustered_patterns"

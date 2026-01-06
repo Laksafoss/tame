@@ -42,9 +42,9 @@ method_selector <- function(clustering, only, additional_data = NULL) {
     return(clust$parameters)
   }
 
-  res <- clust$parameters %>%
-    dplyr::rowwise() %>%
-    dplyr::filter({{ only }}) %>%
+  res <- clust$parameters |>
+    dplyr::rowwise() |>
+    dplyr::filter({{ only }}) |>
     dplyr::ungroup()
 
   return(res)
@@ -78,26 +78,26 @@ method_selector <- function(clustering, only, additional_data = NULL) {
 cluster_selector <- function(clustering, clusters = NULL) {
 
   all_names <- clustering$parameters$cluster_name
-  all_clusters <- clustering$clustering %>%
-    dplyr::select(dplyr::all_of(all_names)) %>%
-    dplyr::distinct() %>%
+  all_clusters <- clustering$clustering |>
+    dplyr::select(dplyr::all_of(all_names)) |>
+    dplyr::distinct() |>
     tidyr::pivot_longer(dplyr::everything(),
                         names_to = "cluster_name",
-                        values_to = "cluster") %>%
+                        values_to = "cluster") |>
     dplyr::filter(!is.na(.data$cluster))
 
   # Defaulte NULL handling
   if (rlang::quo_is_null(rlang::enquo(clusters))) {
-    return(all_clusters %>% dplyr::pull(.data$cluster) %>% unique())
+    return(all_clusters |> dplyr::pull(.data$cluster) |> unique())
   }
 
   # General handling
-  chosen_clusters <- all_clusters %>%
-    dplyr::distinct() %>%
-    dplyr::arrange(as.numeric(as.roman(as.character(.data$cluster)))) %>%
-    dplyr::mutate(dummy = 1) %>%
-    tidyr::pivot_wider(names_from = "cluster", values_from = "dummy") %>%
-    dplyr::select({{ clusters }}) %>%
+  chosen_clusters <- all_clusters |>
+    dplyr::distinct() |>
+    dplyr::arrange(as.numeric(as.roman(as.character(.data$cluster)))) |>
+    dplyr::mutate(dummy = 1) |>
+    tidyr::pivot_wider(names_from = "cluster", values_from = "dummy") |>
+    dplyr::select({{ clusters }}) |>
     names()
 
   return(chosen_clusters)

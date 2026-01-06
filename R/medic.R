@@ -205,7 +205,7 @@ medic <- function(
 
   # create character id key - saves us some pain when naming
   if (is.numeric(set_seed)) set.seed(set_seed)
-  data <- data %>%
+  data <- data |>
     dplyr::mutate(
       .original_order = dplyr::row_number(),
       .analysis_order = sample(
@@ -213,8 +213,8 @@ medic <- function(
         size = dplyr::n(),
         replace = FALSE
       )
-    ) %>%
-    dplyr::arrange(.data$.analysis_order) %>%
+    ) |>
+    dplyr::arrange(.data$.analysis_order) |>
     dplyr::mutate(.internal_character_id = as.character({{ id }}))
 
   # make keys
@@ -357,24 +357,24 @@ medic <- function(
   )
 
   # for nice output data
-  cluster_data <- data %>%
-    dplyr::arrange(.data$.original_order) %>%
-    dplyr::select({{ id }}, ".analysis_order", ".internal_character_id") %>%
-    dplyr::distinct() %>%
-    dplyr::left_join(cluster_assignment, by = ".internal_character_id") %>%
+  cluster_data <- data |>
+    dplyr::arrange(.data$.original_order) |>
+    dplyr::select({{ id }}, ".analysis_order", ".internal_character_id") |>
+    dplyr::distinct() |>
+    dplyr::left_join(cluster_assignment, by = ".internal_character_id") |>
     dplyr::select(-".internal_character_id")
 
   # for nice output data
-  out_data <- data %>%
-    dplyr::arrange(.data$.original_order) %>%
-    dplyr::left_join(cluster_assignment, by = ".internal_character_id") %>%
+  out_data <- data |>
+    dplyr::arrange(.data$.original_order) |>
+    dplyr::left_join(cluster_assignment, by = ".internal_character_id") |>
     dplyr::select(-".internal_character_id", -".original_order")
 
   distance_matrix <- lapply(clusterings, function(d) d$distance_matrix)
 
-  expanded_options <- parameters %>%
-    dplyr::cross_join(data.frame(k = k)) %>%
-    dplyr::mutate(cluster_name = paste0(.data$clustering, "_k=", .data$k)) %>%
+  expanded_options <- parameters |>
+    dplyr::cross_join(data.frame(k = k)) |>
+    dplyr::mutate(cluster_name = paste0(.data$clustering, "_k=", .data$k)) |>
     dplyr::relocate("cluster_name")
 
 
@@ -384,7 +384,7 @@ medic <- function(
   return(
     structure(
       list(
-        data = out_data %>% dplyr::select(-".analysis_order"),
+        data = out_data |> dplyr::select(-".analysis_order"),
         clustering = cluster_data,
         variables = input_variables,
         parameters = expanded_options,

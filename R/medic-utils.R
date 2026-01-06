@@ -35,8 +35,8 @@ parameters_constructor <- function(
   ...
 ) {
 
-  na_cols <- data %>%
-    dplyr::select({{ id }}, {{ atc }}, {{ timing }}, {{ base_clustering }}) %>%
+  na_cols <- data |>
+    dplyr::select({{ id }}, {{ atc }}, {{ timing }}, {{ base_clustering }}) |>
     dplyr::summarise(dplyr::across(dplyr::everything(), ~ any(is.na(.))))
 
   if (any(na_cols)) {
@@ -66,13 +66,13 @@ parameters_constructor <- function(
   }
 
   if (! missing(base_clustering)) {
-    test <- data %>%
-      dplyr::group_by({{ id }}) %>%
+    test <- data |>
+      dplyr::group_by({{ id }}) |>
       dplyr::summarise(
         n = dplyr::n_distinct({{ base_clustering }}),
         .groups = "drop"
-      ) %>%
-      dplyr::summarise(test = any(.data$n > 1), .groups = "drop") %>%
+      ) |>
+      dplyr::summarise(test = any(.data$n > 1), .groups = "drop") |>
       dplyr::pull(.data$test)
     if (test) {
       stop(
@@ -98,11 +98,11 @@ parameters_constructor <- function(
           gamma = gamma,
           p = p,
           theta_list = if (is.list(theta)) theta else list(theta)
-        ) %>%
+        ) |>
           dplyr::mutate(
             theta = as.character(theta_list),
             clustering = paste0("cluster_", dplyr::row_number())
-          ) %>%
+          ) |>
           dplyr::relocate("clustering")
       },
       error = function(cond) {
@@ -132,7 +132,7 @@ parameters_constructor <- function(
 #' @noRd
 key_constructor <- function(data, id, base_clustering, atc, timing) {
 
-  key <- data %>%
+  key <- data |>
     dplyr::select(
       ".internal_character_id",
       {{ id }},
@@ -144,15 +144,15 @@ key_constructor <- function(data, id, base_clustering, atc, timing) {
 
   #   ===   Unique ATC codes   =================================================
 
-  if (data %>% dplyr::select({{ atc }}) %>% ncol() != 0) {
+  if (data |> dplyr::select({{ atc }}) |> ncol() != 0) {
 
-    unique_atc <- data %>%
-      dplyr::select({{ atc }}) %>%
-      dplyr::distinct() %>%
-      dplyr::mutate(unique_atc_key = dplyr::row_number()) %>%
+    unique_atc <- data |>
+      dplyr::select({{ atc }}) |>
+      dplyr::distinct() |>
+      dplyr::mutate(unique_atc_key = dplyr::row_number()) |>
       dplyr::relocate("unique_atc_key")
 
-    key <- key %>%
+    key <- key |>
       dplyr::left_join(unique_atc, by = names(unique_atc)[-1])
 
     out <- list(unique_atc = unique_atc)
@@ -166,15 +166,15 @@ key_constructor <- function(data, id, base_clustering, atc, timing) {
 
   #   ===   Unique Timing codes   ==============================================
 
-  if (data %>% dplyr::select({{ timing }}) %>% ncol() != 0) {
+  if (data |> dplyr::select({{ timing }}) |> ncol() != 0) {
 
-    unique_timing <- data %>%
-      dplyr::select({{ timing }}) %>%
-      dplyr::distinct() %>%
-      dplyr::mutate(unique_timing_key = dplyr::row_number()) %>%
+    unique_timing <- data |>
+      dplyr::select({{ timing }}) |>
+      dplyr::distinct() |>
+      dplyr::mutate(unique_timing_key = dplyr::row_number()) |>
       dplyr::relocate("unique_timing_key")
 
-    key <- key %>%
+    key <- key |>
       dplyr::left_join(unique_timing, by = names(unique_timing)[-1])
 
     out <- c(out, list(unique_timing = unique_timing))
@@ -183,13 +183,13 @@ key_constructor <- function(data, id, base_clustering, atc, timing) {
 
   #   ===   Unique Exposure   ==================================================
 
-  unique_exposure <- key %>%
-    dplyr::select(dplyr::any_of(c("unique_atc_key", "unique_timing_key"))) %>%
-    dplyr::distinct() %>%
-    dplyr::mutate(unique_exposure_key = dplyr::row_number()) %>%
+  unique_exposure <- key |>
+    dplyr::select(dplyr::any_of(c("unique_atc_key", "unique_timing_key"))) |>
+    dplyr::distinct() |>
+    dplyr::mutate(unique_exposure_key = dplyr::row_number()) |>
     dplyr::relocate("unique_exposure_key")
 
-  key <- key %>%
+  key <- key |>
     dplyr::left_join(unique_exposure, by = names(unique_exposure)[-1])
 
   out <- c(out, list(unique_exposure = unique_exposure))
@@ -198,25 +198,25 @@ key_constructor <- function(data, id, base_clustering, atc, timing) {
   #   ===  Unique patterns   ===================================================
 
 
-  nest_key <- key %>%
+  nest_key <- key |>
     tidyr::nest(pattern = unique(unlist(lapply(out, names))))
 
-  unique_patterns <- nest_key %>%
-    dplyr::select("pattern") %>%
-    dplyr::distinct() %>%
+  unique_patterns <- nest_key |>
+    dplyr::select("pattern") |>
+    dplyr::distinct() |>
     dplyr::mutate(unique_pattern_key = dplyr::row_number(),
-                  n_unique_exposures = sapply(.data$pattern, nrow)) %>%
+                  n_unique_exposures = sapply(.data$pattern, nrow)) |>
     dplyr::relocate("unique_pattern_key", "n_unique_exposures")
 
-  key <- nest_key %>%
-    dplyr::left_join(unique_patterns, by = "pattern") %>%
+  key <- nest_key |>
+    dplyr::left_join(unique_patterns, by = "pattern") |>
     tidyr::unnest("pattern")
 
   out <- c(out, list(unique_patterns = unique_patterns))
 
-  if (data %>% dplyr::select({{ base_clustering }}) %>% ncol() != 0) {
-    base_clu <- key %>%
-      dplyr::select({{ base_clustering }}, "unique_pattern_key") %>%
+  if (data |> dplyr::select({{ base_clustering }}) |> ncol() != 0) {
+    base_clu <- key |>
+      dplyr::select({{ base_clustering }}, "unique_pattern_key") |>
       dplyr::distinct()
     out <- c(out, list(base_clustering = base_clu))
   }
@@ -230,18 +230,18 @@ key_constructor <- function(data, id, base_clustering, atc, timing) {
 
   #   ===   Construct Reduced Keys   ===========================================
 
-  rms <- key %>%
+  rms <- key |>
     dplyr::select(
       ".internal_character_id",
       {{ id }},
       {{ base_clustering }},
       {{ atc }},
       {{ timing }}
-    ) %>%
+    ) |>
     names()
 
-  reduced_key <- key %>%
-    dplyr::select(-dplyr::any_of(rms)) %>%
+  reduced_key <- key |>
+    dplyr::select(-dplyr::any_of(rms)) |>
     dplyr::distinct()
 
   #   ===   Return Results   ===================================================
@@ -309,8 +309,8 @@ lookup_constructor <- function(keys, parameters) {
 #' @noRd
 atc_metric_lookup_constructor <- function(unique_atc) {
 
-  atc_codes <- unique_atc %>%
-    dplyr::select(-"unique_atc_key") %>%
+  atc_codes <- unique_atc |>
+    dplyr::select(-"unique_atc_key") |>
     dplyr::pull(1)
 
   atc_levels <- data.frame(
@@ -327,7 +327,7 @@ atc_metric_lookup_constructor <- function(unique_atc) {
     })
   })
 
-  atc_names <- unique_atc %>% dplyr::pull(.data$unique_atc_key)
+  atc_names <- unique_atc |> dplyr::pull(.data$unique_atc_key)
   dimnames(res) <- list(atc_names, atc_names)
 
   return(res + 1)
@@ -351,7 +351,7 @@ normalizing_lookup_constructor <- function(
   summation_methods = "double_sum"
 ) {
 
-  int_exposure_in_pattern <- unique_patterns %>%
+  int_exposure_in_pattern <- unique_patterns |>
     dplyr::pull(.data$n_unique_exposures, name = .data$unique_pattern_key)
 
   numeric_exposure_in_pattern <- as.numeric(int_exposure_in_pattern)
@@ -519,9 +519,9 @@ distance_matrix_constructor <- function(
 ) {
 
   if ((!is.null(old_patterns)) && (!is.null(new_patterns))) {
-    rows <- keys$reduced_key %>%
+    rows <- keys$reduced_key |>
       dplyr::filter(.data$unique_pattern_key %in% old_patterns)
-    cols <- keys$reduced_key %>%
+    cols <- keys$reduced_key |>
       dplyr::filter(.data$unique_pattern_key %in% new_patterns)
     calc <- "full"
 
@@ -734,17 +734,17 @@ hierarchical_clustering <- function(
 
   cluster_names <- paste0(method$clustering, "_k=", k)
 
-  pattern_clusters <- data.frame(stats::cutree(dendogram, k)) %>%
+  pattern_clusters <- data.frame(stats::cutree(dendogram, k)) |>
     dplyr::rename_at(dplyr::vars(tidyselect::everything()), ~cluster_names)
 
 
   if (is.null(members)) {
-    pattern_clusters <- pattern_clusters %>%
-      tibble::rownames_to_column(var = "unique_pattern_key") %>%
+    pattern_clusters <- pattern_clusters |>
+      tibble::rownames_to_column(var = "unique_pattern_key") |>
       dplyr::mutate(unique_pattern_key = as.numeric(.data$unique_pattern_key))
     joiner <- "unique_pattern_key"
   } else {
-    pattern_clusters <- pattern_clusters %>%
+    pattern_clusters <- pattern_clusters |>
       tibble::rownames_to_column(var = names(keys$base_clustering)[1])
     joiner <-  names(keys$base_clustering)[1]
   }
@@ -752,15 +752,15 @@ hierarchical_clustering <- function(
 
   #   ===   ORGANISING RESULTS   =============================================
 
-  cluster_assignment <- keys$key %>%
+  cluster_assignment <- keys$key |>
     dplyr::select(
       ".internal_character_id",
       "unique_pattern_key",
       dplyr::any_of(names(keys$base_clustering)[1])
-    ) %>%
-    dplyr::distinct() %>%
-    dplyr::left_join(pattern_clusters, by = joiner) %>%
-    dplyr::select(".internal_character_id", dplyr::all_of(cluster_names)) %>%
+    ) |>
+    dplyr::distinct() |>
+    dplyr::left_join(pattern_clusters, by = joiner) |>
+    dplyr::select(".internal_character_id", dplyr::all_of(cluster_names)) |>
     dplyr::mutate(
       dplyr::across(
         dplyr::all_of(cluster_names),
