@@ -62,6 +62,7 @@ A ggplot object.
 This function plots the summary of the clustering results.
 }
 \examples{
+\donttest{
 clust <- medic(
   complications,
   id = id,
@@ -84,7 +85,7 @@ clust <- medic(
 )
 clust |> plot_summary(only = k == 4)
 clust |> summary(only = k == 4) |> plot_summary()
-
+}
 }
 \seealso{
 \code{\link{summary}}

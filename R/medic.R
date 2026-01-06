@@ -152,8 +152,6 @@
 #' [enrich] for enriching the meta data in the `medic` object with additional
 #' data.
 #'
-#' [bind] for binding together two comparable lists of clusterings.
-#'
 #'
 #' @examples
 #' # A simple clustering based only on ATC

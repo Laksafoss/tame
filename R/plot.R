@@ -625,6 +625,7 @@ plot_timing_atc_group.timing_atc_group <- function(
 #' @seealso [`plot_timing_atc_group`]
 #'
 #' @examples
+#' \donttest{
 #' clust <- medic(
 #'   complications,
 #'   id = id,
@@ -635,7 +636,7 @@ plot_timing_atc_group.timing_atc_group <- function(
 #'
 #' clust |> plot_summary()
 #' clust |> summary() |> plot_summary()
-#'
+#' 
 #' # If the clustering object contains more than one clustering, it is necessary
 #' # to filter the clustering, as only one clustering can be plotted at a time.
 #' clust <- medic(
@@ -647,7 +648,7 @@ plot_timing_atc_group.timing_atc_group <- function(
 #' )
 #' clust |> plot_summary(only = k == 4)
 #' clust |> summary(only = k == 4) |> plot_summary()
-#'
+#' }
 #' @rdname plot_summary
 #' @export
 plot_summary <- function(object, ...) {

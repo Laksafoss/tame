@@ -220,6 +220,4 @@ clust <- medic(
 
 \link{enrich} for enriching the meta data in the \code{medic} object with additional
 data.
-
-\link{bind} for binding together two comparable lists of clusterings.
 }
