@@ -399,7 +399,7 @@ normalizing_lookup_constructor <- function(
 #' @param unique_timing data frame
 #' @param ps the unique 'p's chosen
 #' @noRd
-timing_metric_lookup_constructor <- function(unique_timing, ps) {
+timing_metric_lookup_constructor <- function(unique_timing, ps = 1L) {
   res <- lapply(
     ps,
     function(p) {
