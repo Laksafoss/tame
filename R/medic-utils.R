@@ -114,7 +114,9 @@ parameters_constructor <- function(
         )
         stop(cond)
       },
-      finally = {df}
+      finally = {
+        df
+      }
     )
   )
 }

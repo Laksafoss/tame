@@ -7,7 +7,6 @@
 #'
 #' @importFrom rlang .data
 #' @importFrom rlang :=
-
 #' @importFrom utils as.roman str
 #' @importFrom Rcpp evalCpp
 #' @useDynLib tame, .registration = TRUE

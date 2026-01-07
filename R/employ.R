@@ -375,15 +375,25 @@ employ <- function(
 
         chosen_linkage <- switch(
           method[["linkage"]],
-          ward     = function(...) stop("'ward' linkage not implmented yet."),
-          ward.D   = function(...) stop("'ward.D' linkage not implmented yet."),
-          ward.D2  = function(...) stop("'ward.D2' linkage not implmented yet."),
+          ward     = function(...) {
+            stop("'ward' linkage not implmented yet.")
+          },
+          ward.D   = function(...) {
+            stop("'ward.D' linkage not implmented yet.")
+          },
+          ward.D2  = function(...) {
+            stop("'ward.D2' linkage not implmented yet.")
+          },
           single   = min,
           complete = max,
           average  = mean,
-          mcquitty = function(...) stop("'mcquitty' linkage not implmented yet."),
+          mcquitty = function(...) {
+            stop("'mcquitty' linkage not implmented yet.")
+          },
           median   = stats::median,
-          centroid = function(...) stop("'centroid' linkage not implmented yet.")
+          centroid = function(...) {
+            stop("'centroid' linkage not implmented yet.")
+          }
         )
 
         new_clusters <- apply(
