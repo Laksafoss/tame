@@ -548,31 +548,19 @@ distance_matrix_constructor <- function(
 
     # atc metric by pattern
     if (all(method$theta != 0)) {
-      inner_terms_atc <- apply(
-        rows,
-        1,
-        function(r) {
-          cur_tables$atc_table[
-            r["unique_atc_key"],
-            cols$unique_atc_key
-          ]
-        }
-      ) + 1
+      inner_terms_atc <- cur_tables$atc_table[
+        cols$unique_atc_key,
+        rows$unique_atc_key
+      ] + 1
       inner_terms <- inner_terms * inner_terms_atc
     }
 
     # multiplied with timing metric by pattern
     if (method$gamma != 0) {
-      inner_terms_timing <- apply(
-        rows,
-        1,
-        function(r) {
-          cur_tables$timing_table[
-            r["unique_timing_key"],
-            cols$unique_timing_key
-          ]
-        }
-      ) + 1
+      inner_terms_timing <- cur_tables$timing_table[
+        cols$unique_timing_key,
+        rows$unique_timing_key
+      ] + 1
       inner_terms <- inner_terms * inner_terms_timing
     }
 
