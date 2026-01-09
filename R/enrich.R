@@ -63,7 +63,7 @@ enrich <- function(object, additional_data = NULL, by = NULL) {
       bys <- by
     }
     new <- object
-    new$parameters <- new$parameters %>%
+    new$parameters <- new$parameters |>
       dplyr::left_join(additional_data, by = bys)
     return(new)
   }

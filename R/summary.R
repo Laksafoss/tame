@@ -752,7 +752,7 @@ if (length(clust$variables$timing) == 0) {
       values_to = "Cluster"
     ) |>
     dplyr::filter(.data$Cluster %in% output_clusters) |>
-    fuzzyjoin::regex_inner_join(atc_groups, by = by_name) |>
+    regex_inner_join(atc_groups, by = by_name) |>
     dplyr::rename("ATC Groups" = "atc_groups") |>
     dplyr::mutate(
       "ATC Groups" = factor(.data$`ATC Groups`, levels = all_atc_groups),

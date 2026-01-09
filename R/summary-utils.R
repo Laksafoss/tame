@@ -90,3 +90,29 @@ default_atc_groups <- function(object, min_n = 2) {
   found_atc <- sort(unique(stringr::str_sub(observed_atc, 1, i)))
   return(data.frame(regex = paste0("^", found_atc), atc_groups = found_atc))
 }
+
+
+#' Quickfix regex many-to-many inner join
+#'
+#' fuzzyjoin was kicked out of CRAN, so I quickly made an extremely simple
+#' version of regex_inner_join, that would suit our needs here.
+#'
+#' @param x A data frame with valid ATC codes.
+#' @param y A data frame with regex codes and corresponding groups.
+#' @param by A named vector of length 1 where the name is the name of the
+#' ATC column in `x` and the value is the regex column in `y`.
+#'
+#' This function assumes that x has the full ATC codes and that y has the
+#' regex, and that by is only of length 1. And we're simply doing a cross-join
+#' caus i'm lazy like that.
+#'
+#' @return A data frame with added columns from y to x based on a regex match.
+regex_inner_join <- function(x, y, by) {
+  string_name <- names(by)[1]
+  regex_name <- by[[1]]
+
+  dplyr::cross_join(x, y) |>
+    dplyr::filter(
+      stringr::str_detect(!!dplyr::sym(string_name), !!dplyr::sym(regex_name))
+    )
+}
