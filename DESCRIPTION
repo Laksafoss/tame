@@ -13,7 +13,7 @@ Description: Agglomerative hierarchical clustering with a bespoke distance
 License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: dplyr (>= 1.0.0), purrr (>= 1.0.0),
         Rfast, rlang (>= 1.0.0), stats, stringr, tibble (>= 3.0.0),
         tidyr (>= 1.2.0), tidyselect, Rcpp (>= 1.0.8), ggplot2 (>=

@@ -53,7 +53,8 @@ trajectories.}
 
 \item{alpha_individual}{The alpha value for the individual trajectories.}
 
-\item{label_y_value}{A number between 0 and 1 that defines the height of the label text hight.}
+\item{label_y_value}{A number between 0 and 1 that defines the height of
+the label text hight.}
 }
 \value{
 A ggplot object.

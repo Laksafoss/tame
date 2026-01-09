@@ -327,7 +327,7 @@ employ <- function(
 
         new_clusters <- apply(
           distance_matrix,
-          2,
+          1, # We transposed the distance matrix, so this is now 1 -- used to be 2
           function(d) {
             clust_dist <- tapply(
               d,
@@ -398,7 +398,7 @@ employ <- function(
 
         new_clusters <- apply(
           distance_matrix,
-          2,
+          1, # We transposed the distance matrix, so this is now 1 -- used to be 2
           function(d) {
             clust_dist <- tapply(
               d,

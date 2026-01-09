@@ -86,4 +86,3 @@ test_that("medic with all valid inputs", {
     "medic"
   )
 })
-

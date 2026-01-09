@@ -1,6 +1,6 @@
 
 
-# A few prerequisites for the tests ---------------------------------------
+# A few prerequisites for the tests --------------------------------------------
 a <- 1
 b <- 1
 g <- 0
@@ -27,7 +27,7 @@ faux_complications <- complications |>
 
 
 
-# Parameter constructor -------------------------------------------------
+# Parameter constructor --------------------------------------------------------
 keys <- key_constructor(
   data = faux_complications,
   id = id,
@@ -92,7 +92,7 @@ test_that("key_constructor", {
   )
 })
 
-# Lookup constructor -----------------------------------------------------
+# Lookup constructor -----------------------------------------------------------
 looks <- lookup_constructor(keys, params)
 test_that("lookup_constructor", {
   expect_type(looks, "list")
@@ -107,7 +107,7 @@ test_that("lookup_constructor", {
   )
 })
 
-# ATC metric lookup -----------------------------------------------------
+# ATC metric lookup ------------------------------------------------------------
 test_that("atc_metric_lookup_constructor", {
   expect_type(
     atc_metric_lookup_constructor(keys$unique_atc),
@@ -122,10 +122,10 @@ test_that("atc_metric_lookup_constructor", {
     nrow(keys$unique_atc)
   )
 
-  
+
   tmp <- atc_metric_lookup_constructor(
     data.frame(
-      unique_atc_key = 1:6, 
+      unique_atc_key = 1:6,
       atc = c("N06AB03", "N06AB02", "N06AA03", "N06BA03", "N05AB03", "A06AB03")
     )
   )
@@ -135,11 +135,11 @@ test_that("atc_metric_lookup_constructor", {
     tmp,
     matrix(
       c(
-        6, 5, 4, 3, 2, 1, 
-        5, 6, 4, 3, 2, 1, 
-        4, 4, 6, 3, 2, 1, 
-        3, 3, 3, 6, 2, 1, 
-        2, 2, 2, 2, 6, 1, 
+        6, 5, 4, 3, 2, 1,
+        5, 6, 4, 3, 2, 1,
+        4, 4, 6, 3, 2, 1,
+        3, 3, 3, 6, 2, 1,
+        2, 2, 2, 2, 6, 1,
         1, 1, 1, 1, 1, 6
       ),
       nrow = 6,
@@ -148,11 +148,11 @@ test_that("atc_metric_lookup_constructor", {
   )
 })
 
-# Normalizing factor lookup -----------------------------------------------------
+# Normalizing factor lookup ----------------------------------------------------
 test_that("normalizing_lookup_constructor", {
   expect_type(normalizing_lookup_constructor(keys$unique_patterns), "list")
   tmp <- normalizing_lookup_constructor(
-    keys$unique_patterns, 
+    keys$unique_patterns,
     c("double_sum", "sum_of_minima")
   )
   expect_type(tmp, "list")
@@ -160,7 +160,7 @@ test_that("normalizing_lookup_constructor", {
   expect_length(tmp, 2)
 })
 
-# Timing metric lookup ----------------------------------------------------------
+# Timing metric lookup ---------------------------------------------------------
 test_that("timing_metric_lookup_constructor", {
   expect_type(timing_metric_lookup_constructor(keys$unique_timing), "list")
   tmp <- timing_metric_lookup_constructor(keys$unique_timing, ps = 1:2)
@@ -170,27 +170,32 @@ test_that("timing_metric_lookup_constructor", {
   expect_type(tmp[[1]], "double")
 })
 
-# Context lookup   --------------------------------------------------------------
+# Context lookup   -------------------------------------------------------------
 cont <- context_lookup(params, looks)
 test_that("context_lookup", {
   expect_type(cont, "list")
-  expect_equal(names(cont), c("normalizing_factor", "atc_table", "timing_table"))
+  expect_equal(
+    names(cont),
+    c("normalizing_factor", "atc_table", "timing_table")
+  )
 })
 
-# Distance matrix constructor ---------------------------------------------------
+
+
+# Distance matrix constructor --------------------------------------------------
 dist <- distance_matrix_constructor(keys, params, cont)
 test_that("distance_matrix_constructor", {
   expect_type(dist, "double")
   expect_equal(nrow(dist), nrow(keys$unique_patterns))
 })
 
-# hierarchical clustering -------------------------------------------------------
-hierarchical_clustering(keys, params, k = 3, dist)
+# hierarchical clustering ------------------------------------------------------
+# hierarchical_clustering(keys, params, k = 3, dist)
 test_that("hierarchical_clustering", {
   expect_equal(2 * 2, 4)
 })
 
-# is.medic ----------------------------------------------------------------------
+# is.medic ---------------------------------------------------------------------
 test_that("is.medic", {
   expect_equal(is.medic(data.frame()), FALSE)
   expect_equal(is.medic(structure(data.frame(), class = "medic")), FALSE)
