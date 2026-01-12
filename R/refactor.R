@@ -91,7 +91,7 @@ refactor <- function(object, ..., inheret_parameters = TRUE) {
       )
   }
 
-  clust$distance_matrix <- NULL # is this too much? should we keep the inherited ??
+  clust$distance_matrix <- NULL # too much, should we keep the inherited?
 
   return(clust)
 }

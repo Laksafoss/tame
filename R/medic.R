@@ -169,23 +169,24 @@
 #'
 #' @export
 medic <- function(
-    data,
-    k = 5,
-    id,
-    atc,
-    timing,
-    base_clustering,
-    linkage = "complete",
-    summation_method = "sum_of_minima",
-    alpha = 1,
-    beta = 1,
-    gamma = 1,
-    p = 1,
-    theta = (5:0) / 5,
-    parallel = FALSE,
-    return_distance_matrix = FALSE,
-    set_seed = FALSE,
-    ...) {
+  data,
+  k = 5,
+  id,
+  atc,
+  timing,
+  base_clustering,
+  linkage = "complete",
+  summation_method = "sum_of_minima",
+  alpha = 1,
+  beta = 1,
+  gamma = 1,
+  p = 1,
+  theta = (5:0) / 5,
+  parallel = FALSE,
+  return_distance_matrix = FALSE,
+  set_seed = FALSE,
+  ...
+) {
 
 
   #   ===   Preparations   =====================================================

@@ -111,7 +111,8 @@ flatten_trajctories <- function(object, individual) {
 #' @param labels A logical value specifying if labels should be plotted.
 #' @param alpha_individual A numeric value specifying the transparency of the
 #' individual trajectories.
-#' @param label_y_value A number between 0 and 1 that defines the height of the label text hight.
+#' @param label_y_value A number between 0 and 1 that defines the height of the
+#' label text hight.
 #' @param ... Additional arguments passed to the function.
 #'
 #' @return

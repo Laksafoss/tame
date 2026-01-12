@@ -548,7 +548,6 @@ comedication_count <- function(
 #' * _timing variables_ unique timing pattern in the cluster.
 #' * `Count` number of people with this unique timing pattern.
 #'
-#' 
 #' @examples
 #' clust <- medic(
 #'   complications,
@@ -710,7 +709,7 @@ timing_atc_group <- function(
     output_clusters <- c("Population", as.character(levels(selected_clusters)))
   }
 
-if (length(clust$variables$timing) == 0) {
+  if (length(clust$variables$timing) == 0) {
     message("No timing variables are defined.")
     return(NULL)
   }
@@ -758,16 +757,22 @@ if (length(clust$variables$timing) == 0) {
       "ATC Groups" = factor(.data$`ATC Groups`, levels = all_atc_groups),
     ) |>
     dplyr::mutate(
-      "Number of Individuals in Cluster" = dplyr::n_distinct(!!dplyr::sym(clust$variables$id)),
+      "Number of Individuals in Cluster" = dplyr::n_distinct(
+        !!dplyr::sym(clust$variables$id)
+      ),
       .by = c("Clustering", "Cluster")
     ) |>
     dplyr::mutate(
-      "Number of Individuals in ATC Group" = dplyr::n_distinct(!!dplyr::sym(clust$variables$id)),
+      "Number of Individuals in ATC Group" = dplyr::n_distinct(
+        !!dplyr::sym(clust$variables$id)
+      ),
       .by = c("Clustering", "Cluster", "ATC Groups")
     ) |>
     dplyr::summarise(
       "Number of Medications with Timing Trajectory" = dplyr::n(),
-      "Number of Individuals with Timing Trajectory" = dplyr::n_distinct(!!dplyr::sym(clust$variables$id)),
+      "Number of Individuals with Timing Trajectory" = dplyr::n_distinct(
+        !!dplyr::sym(clust$variables$id)
+      ),
       .by = dplyr::all_of(
         c(
           "Clustering",
@@ -817,10 +822,11 @@ if (length(clust$variables$timing) == 0) {
     dplyr::mutate(
       "Percentage of Medications" = .data$`Number of Medications` /
         sum(.data$`Number of Medications`),
-      "Percentage of Individuals in ATC Group" = .data$`Number of Individuals in ATC Group` /
-      .data$`Number of Individuals in Cluster`,
+      "Percentage of Individuals in ATC Group" =
+        .data$`Number of Individuals in ATC Group` /
+        .data$`Number of Individuals in Cluster`,
       .by = c(
-        "Clustering", 
+        "Clustering",
         "Cluster"
       )
     ) |>

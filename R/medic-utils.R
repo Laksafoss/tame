@@ -114,7 +114,9 @@ parameters_constructor <- function(
         )
         stop(cond)
       },
-      finally = {df}
+      finally = {
+        df
+      }
     )
   )
 }
@@ -397,7 +399,7 @@ normalizing_lookup_constructor <- function(
 #' @param unique_timing data frame
 #' @param ps the unique 'p's chosen
 #' @noRd
-timing_metric_lookup_constructor <- function(unique_timing, ps) {
+timing_metric_lookup_constructor <- function(unique_timing, ps = 1L) {
   res <- lapply(
     ps,
     function(p) {
@@ -520,15 +522,15 @@ distance_matrix_constructor <- function(
 
   if ((!is.null(old_patterns)) && (!is.null(new_patterns))) {
     rows <- keys$reduced_key |>
-      dplyr::filter(.data$unique_pattern_key %in% old_patterns)
-    cols <- keys$reduced_key |>
       dplyr::filter(.data$unique_pattern_key %in% new_patterns)
+    cols <- keys$reduced_key |>
+      dplyr::filter(.data$unique_pattern_key %in% old_patterns)
     calc <- "full"
 
     if (method["alpha"] != 0) {
-      normalizer <- cur_tables$normalizing_factor[
-        which(keys$unique_patterns$unique_pattern_key %in% old_patterns),
-        which(keys$unique_patterns$unique_pattern_key %in% new_patterns)
+      normalizer <- cur_tables$normalizing_factor[ # This is now row-col flipped -- does the cur_table need flipping?? normalizing factor is not symmetric!!!
+        which(keys$unique_patterns$unique_pattern_key %in% new_patterns),
+        which(keys$unique_patterns$unique_pattern_key %in% old_patterns)
       ]
     }
   } else {
@@ -546,31 +548,19 @@ distance_matrix_constructor <- function(
 
     # atc metric by pattern
     if (all(method$theta != 0)) {
-      inner_terms_atc <- apply(
-        rows,
-        1,
-        function(r) {
-          cur_tables$atc_table[
-            r["unique_atc_key"],
-            cols$unique_atc_key
-          ]
-        }
-      ) + 1
+      inner_terms_atc <- cur_tables$atc_table[
+        rows$unique_atc_key,
+        cols$unique_atc_key
+      ] + 1
       inner_terms <- inner_terms * inner_terms_atc
     }
 
     # multiplied with timing metric by pattern
     if (method$gamma != 0) {
-      inner_terms_timing <- apply(
-        rows,
-        1,
-        function(r) {
-          cur_tables$timing_table[
-            r["unique_timing_key"],
-            cols$unique_timing_key
-          ]
-        }
-      ) + 1
+      inner_terms_timing <- cur_tables$timing_table[
+        rows$unique_timing_key,
+        cols$unique_timing_key
+      ] + 1
       inner_terms <- inner_terms * inner_terms_timing
     }
 
@@ -585,61 +575,18 @@ distance_matrix_constructor <- function(
     inner_terms <- 1
   }
 
+  # apply summary method
+  if (method$summation_method %in% c("sum_of_minima", "double_sum")) {
+    func_name <- paste0("rcpp_", method$summation_method, "_", calc)
+    selected_func <- get(func_name, mode = "function")
 
-
-  # sum term method
-  if (method$summation_method == "sum_of_minima") {
-
-    if (calc == "triangle") {
-      min_sums <- rcpp_sum_of_minima_triangle(
-        length(unique(rows$unique_pattern_key)),
-        rows$unique_pattern_key,
-        inner_terms
-      )
-    } else if (calc == "full") {
-
-      min_sums <- rcpp_sum_of_minima_full(
-        length(unique(rows$unique_pattern_key)),
-        length(unique(cols$unique_pattern_key)),
-        rows$unique_pattern_key,
-        cols$unique_pattern_key,
-        Rfast::transpose(inner_terms)
-      )
-    }
-
-    # normalizing
-    if (method["alpha"] == 0) {
-      distance_matrix <- min_sums
-    } else {
-      distance_matrix <- normalizer * min_sums
-    }
-
-
-  } else if (method$summation_method == "double_sum") {
-
-    if (calc == "triangle") {
-      sum_terms <- rcpp_double_sum_triangle(
-        length(unique(rows$unique_pattern_key)),
-        rows$unique_pattern_key,
-        inner_terms
-      )
-    } else if (calc == "full") {
-      sum_terms <- rcpp_double_sum_full(
-        length(unique(rows$unique_pattern_key)),
-        length(unique(cols$unique_pattern_key)),
-        rows$unique_pattern_key,
-        cols$unique_pattern_key,
-        Rfast::transpose(inner_terms)
-      )
-    }
-
-    # normalizing
-    if (method["alpha"] == 0) {
-      distance_matrix <- sum_terms
-    } else {
-      distance_matrix <- normalizer * sum_terms
-    }
-
+    distance_matrix <- selected_func(
+      length(unique(rows$unique_pattern_key)),
+      length(unique(cols$unique_pattern_key)),
+      rows$unique_pattern_key,
+      cols$unique_pattern_key,
+      inner_terms
+    )
   } else {
     stop(
       paste0(
@@ -649,7 +596,12 @@ distance_matrix_constructor <- function(
     )
   }
 
-  return(distance_matrix)
+  # Normalizing
+  if (method["alpha"] == 0) {
+    return(distance_matrix)
+  } else {
+    return(normalizer * distance_matrix)
+  }
 }
 
 

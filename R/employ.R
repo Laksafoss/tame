@@ -327,7 +327,7 @@ employ <- function(
 
         new_clusters <- apply(
           distance_matrix,
-          2,
+          1, # We transposed the distance matrix, so this is now 1 -- used to be 2
           function(d) {
             clust_dist <- tapply(
               d,
@@ -375,20 +375,30 @@ employ <- function(
 
         chosen_linkage <- switch(
           method[["linkage"]],
-          ward     = function(...) stop("'ward' linkage not implmented yet."),
-          ward.D   = function(...) stop("'ward.D' linkage not implmented yet."),
-          ward.D2  = function(...) stop("'ward.D2' linkage not implmented yet."),
+          ward     = function(...) {
+            stop("'ward' linkage not implmented yet.")
+          },
+          ward.D   = function(...) {
+            stop("'ward.D' linkage not implmented yet.")
+          },
+          ward.D2  = function(...) {
+            stop("'ward.D2' linkage not implmented yet.")
+          },
           single   = min,
           complete = max,
           average  = mean,
-          mcquitty = function(...) stop("'mcquitty' linkage not implmented yet."),
+          mcquitty = function(...) {
+            stop("'mcquitty' linkage not implmented yet.")
+          },
           median   = stats::median,
-          centroid = function(...) stop("'centroid' linkage not implmented yet.")
+          centroid = function(...) {
+            stop("'centroid' linkage not implmented yet.")
+          }
         )
 
         new_clusters <- apply(
           distance_matrix,
-          2,
+          1, # We transposed the distance matrix, so this is now 1 -- used to be 2
           function(d) {
             clust_dist <- tapply(
               d,
